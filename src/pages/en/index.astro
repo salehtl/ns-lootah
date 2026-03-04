@@ -1,0 +1,54 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { t } from '../../i18n/translations';
+
+const lang = 'en' as const;
+const currentPath = '/en/';
+const strings = t(lang);
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: strings.site.name,
+  url: Astro.site?.origin ?? 'https://example.com',
+};
+---
+
+<BaseLayout
+  title={strings.home.metaTitle}
+  description={strings.home.metaDescription}
+  lang={lang}
+  currentPath={currentPath}
+  jsonLd={jsonLd}
+>
+  <section class="hero">
+    <div class="hero-inner">
+      <h1>{strings.home.heading}</h1>
+      <p>{strings.home.tagline}</p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .hero {
+    padding: var(--space-32) var(--content-padding);
+    text-align: center;
+  }
+
+  .hero-inner {
+    max-width: var(--max-width);
+    margin: 0 auto;
+  }
+
+  .hero h1 {
+    font-size: var(--text-display);
+    margin-bottom: var(--space-6);
+  }
+
+  .hero p {
+    font-size: var(--text-h3);
+    color: var(--color-mid-gray);
+    max-width: 40ch;
+    margin: 0 auto;
+  }
+</style>

@@ -1,0 +1,111 @@
+---
+import '../styles/global.css';
+---
+
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/meta-media/favicon.svg" />
+    <title>Page Not Found</title>
+    <meta name="robots" content="noindex" />
+  </head>
+  <body>
+    <div class="not-found">
+      <div class="not-found-inner">
+        <p class="not-found-code">404</p>
+        <h1 class="not-found-heading">Page not found</h1>
+        <p class="not-found-text">The page you are looking for does not exist or has been moved.</p>
+        <div class="not-found-links">
+          <a href="/en/" class="not-found-link">
+            <span>Return home (English)</span>
+            <span class="link-arrow" aria-hidden="true">&rarr;</span>
+          </a>
+          <a href="/ar/" class="not-found-link" lang="ar" dir="rtl">
+            <span>العودة للرئيسية (العربية)</span>
+            <span class="link-arrow" aria-hidden="true">&larr;</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+
+<style>
+  .not-found {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100dvh;
+    padding: var(--space-8) var(--content-padding);
+    text-align: center;
+  }
+
+  .not-found-inner {
+    max-width: 32rem;
+  }
+
+  .not-found-code {
+    font-family: var(--font-display);
+    font-size: clamp(4rem, 10vw, 8rem);
+    letter-spacing: var(--tracking-display);
+    color: var(--color-warm-gray);
+    line-height: 1;
+    margin-bottom: var(--space-4);
+  }
+
+  .not-found-heading {
+    font-size: var(--text-h1);
+    margin-bottom: var(--space-4);
+  }
+
+  .not-found-text {
+    font-size: var(--text-body);
+    color: var(--color-charcoal);
+    margin-bottom: var(--space-8);
+    line-height: 1.6;
+  }
+
+  .not-found-links {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    align-items: center;
+  }
+
+  .not-found-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--text-small);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-accent);
+    text-decoration: none;
+    transition: color 200ms ease;
+  }
+
+  .not-found-link[lang="ar"] {
+    text-transform: none;
+    letter-spacing: 0;
+    font-weight: 700;
+  }
+
+  .not-found-link:hover {
+    color: var(--color-accent-dark);
+  }
+
+  .link-arrow {
+    display: inline-block;
+    transition: transform 200ms ease;
+  }
+
+  .not-found-link:hover .link-arrow {
+    transform: translateX(4px);
+  }
+
+  .not-found-link[dir="rtl"]:hover .link-arrow {
+    transform: translateX(-4px);
+  }
+</style>

@@ -1,0 +1,52 @@
+---
+import type { Lang } from '../i18n/types';
+import { getDir } from '../i18n/utils';
+import SEOHead from '../components/SEOHead.astro';
+import SkipToContent from '../components/SkipToContent.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { t } from '../i18n/translations';
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description: string;
+  lang: Lang;
+  currentPath: string;
+  ogImage?: string;
+  jsonLd?: Record<string, unknown>;
+}
+
+const { title, description, lang, currentPath, ogImage, jsonLd } = Astro.props;
+const dir = getDir(lang);
+const strings = t(lang);
+---
+
+<!doctype html>
+<html lang={lang} dir={dir}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/meta-media/favicon.svg" />
+
+    <!-- Font preload -->
+    <link rel="preload" href="/fonts/inter-variable.woff2" as="font" type="font/woff2" crossorigin />
+
+    <SEOHead
+      title={title}
+      description={description}
+      lang={lang}
+      currentPath={currentPath}
+      ogImage={ogImage}
+      jsonLd={jsonLd}
+    />
+  </head>
+  <body>
+    <SkipToContent label={strings.a11y.skipToContent} />
+    <Header lang={lang} currentPath={currentPath} />
+    <main id="main-content">
+      <slot />
+    </main>
+    <Footer lang={lang} />
+  </body>
+</html>

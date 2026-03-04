@@ -1,0 +1,31 @@
+---
+import type { Lang } from '../i18n/types';
+import { t } from '../i18n/translations';
+import { getAlternateUrl } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+  currentPath: string;
+}
+
+const { lang, currentPath } = Astro.props;
+const strings = t(lang);
+const alternateUrl = getAlternateUrl(currentPath, lang);
+---
+
+<a href={alternateUrl} class="lang-switcher" lang={lang === 'en' ? 'ar' : 'en'}>
+  {strings.nav.langSwitch}
+</a>
+
+<style>
+  .lang-switcher {
+    font-size: var(--text-small);
+    color: var(--color-charcoal);
+    text-decoration: none;
+    transition: color 200ms ease;
+  }
+
+  .lang-switcher:hover {
+    color: var(--color-accent);
+  }
+</style>
