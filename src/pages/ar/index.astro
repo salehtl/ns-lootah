@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { t } from '../../i18n/translations';
+import { getLocalizedPath } from '../../i18n/utils';
 
 const lang = 'ar' as const;
 const currentPath = '/ar/';
@@ -10,7 +11,7 @@ const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
   name: strings.site.name,
-  url: Astro.site?.origin ?? 'https://example.com',
+  url: 'https://nslootah.com',
 };
 ---
 
@@ -21,34 +22,439 @@ const jsonLd = {
   currentPath={currentPath}
   jsonLd={jsonLd}
 >
+  <!-- Hero -->
   <section class="hero">
     <div class="hero-inner">
-      <h1>{strings.home.heading}</h1>
-      <p>{strings.home.tagline}</p>
+      <h1>{strings.home.heroHeading}</h1>
+      <p class="hero-tagline">{strings.home.heroTagline}</p>
+      <div class="hero-actions">
+        <a href={getLocalizedPath('/about', lang)} class="btn btn-primary">{strings.home.heroCta}</a>
+        <a href={getLocalizedPath('/contact', lang)} class="btn btn-outline">{strings.home.heroCtaSecondary}</a>
+      </div>
+    </div>
+    <div class="hero-overlay"></div>
+  </section>
+
+  <!-- Legacy -->
+  <section class="section">
+    <div class="container legacy-grid">
+      <div class="legacy-content">
+        <h2>{strings.home.legacyHeading}</h2>
+        <p class="lead">{strings.home.legacyText}</p>
+        <a href={getLocalizedPath('/about', lang)} class="link-arrow">
+          {strings.home.legacyCta}
+          <span aria-hidden="true">&larr;</span>
+        </a>
+      </div>
+      <div class="legacy-image">
+        <img src="/images/about-lootah.jpg" alt={strings.alt.aboutLootah} width="985" height="1024" loading="lazy" />
+      </div>
+    </div>
+  </section>
+
+  <!-- Divisions -->
+  <section class="section section-alt">
+    <div class="container">
+      <p class="section-eyebrow">{strings.home.divisionsSubheading}</p>
+      <h2>{strings.home.divisionsHeading}</h2>
+      <p class="section-desc">{strings.home.divisionsText}</p>
+
+      <div class="divisions-grid">
+        <div class="division-card">
+          <div class="division-card-image">
+            <img src="/images/trading-division.webp" alt={strings.alt.tradingDivision} width="800" height="533" loading="lazy" />
+          </div>
+          <div class="division-card-body">
+            <h3>{strings.home.tradingTitle}</h3>
+            <p>{strings.home.tradingSummary}</p>
+            <a href={getLocalizedPath('/nsl-trading', lang)} class="link-arrow">
+              {strings.home.learnMore}
+              <span aria-hidden="true">&larr;</span>
+            </a>
+          </div>
+        </div>
+        <div class="division-card">
+          <div class="division-card-image">
+            <img src="/images/workshop-division.webp" alt={strings.alt.workshopDivision} width="800" height="533" loading="lazy" />
+          </div>
+          <div class="division-card-body">
+            <h3>{strings.home.workshopTitle}</h3>
+            <p>{strings.home.workshopSummary}</p>
+            <a href={getLocalizedPath('/project-upgraded', lang)} class="link-arrow">
+              {strings.home.learnMore}
+              <span aria-hidden="true">&larr;</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta">
+    <div class="container cta-inner">
+      <h2>{strings.home.ctaHeading}</h2>
+      <p>{strings.home.ctaText}</p>
+      <a href={getLocalizedPath('/contact', lang)} class="btn btn-white">{strings.home.heroCtaSecondary}</a>
+    </div>
+  </section>
+
+  <!-- News -->
+  <section class="section">
+    <div class="container">
+      <p class="section-eyebrow">{strings.home.newsSubheading}</p>
+      <h2>{strings.home.newsHeading}</h2>
+
+      <a href={getLocalizedPath('/news/electric-car', lang)} class="news-card">
+        <img src="/images/electric-car-blog.jpg" alt={strings.alt.electricCarNews} width="600" height="537" loading="lazy" />
+        <div class="news-card-body">
+          <h3>{strings.news.article1Title}</h3>
+          <p>{strings.news.article1Summary}</p>
+          <span class="read-more">&larr; {strings.news.readMore}</span>
+        </div>
+      </a>
+
+      <a href={getLocalizedPath('/news', lang)} class="link-arrow">
+        {strings.home.newsCta}
+        <span aria-hidden="true">&larr;</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- Careers -->
+  <section class="careers-banner">
+    <div class="container careers-section">
+      <div class="careers-content">
+        <h2>{strings.home.careersHeading}</h2>
+        <p>{strings.home.careersText}</p>
+        <a href={getLocalizedPath('/careers', lang)} class="btn btn-primary">{strings.home.careersCta}</a>
+      </div>
+      <div class="careers-image">
+        <img src="/images/careers-hero.jpg" alt={strings.alt.careersHero} width="800" height="533" loading="lazy" />
+      </div>
     </div>
   </section>
 </BaseLayout>
 
 <style>
+  /* Hero */
   .hero {
+    position: relative;
     padding: var(--space-32) var(--content-padding);
+    background: url('/images/dubai-lootah1.jpg') center/cover no-repeat;
+    color: var(--color-white);
     text-align: center;
+  }
+
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background-color: rgba(10, 25, 47, 0.75);
+    z-index: 0;
   }
 
   .hero-inner {
     max-width: var(--max-width);
     margin: 0 auto;
+    position: relative;
+    z-index: 1;
   }
 
   .hero h1 {
+    color: var(--color-white);
     font-size: var(--text-display);
+    margin-bottom: var(--space-6);
+    white-space: pre-line;
+  }
+
+  .hero-tagline {
+    font-size: var(--text-h3);
+    color: rgba(255, 255, 255, 0.8);
+    max-width: 45ch;
+    margin: 0 auto var(--space-8);
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: var(--space-4);
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  /* Buttons */
+  .btn {
+    display: inline-block;
+    padding: var(--space-4) var(--space-8);
+    font-weight: 600;
+    font-size: var(--text-small);
+    text-decoration: none;
+    border-radius: 6px;
+    letter-spacing: 0.03em;
+    transition: background-color 200ms ease, box-shadow 200ms ease, color 200ms ease;
+  }
+
+  .btn-primary {
+    background-color: var(--color-white);
+    color: var(--color-navy);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12);
+  }
+
+  .btn-primary:hover {
+    background-color: var(--color-bg);
+    color: var(--color-navy);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.16);
+  }
+
+  .btn-outline {
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    color: var(--color-white);
+    background: transparent;
+  }
+
+  .btn-outline:hover {
+    border-color: var(--color-white);
+    color: var(--color-white);
+  }
+
+  .btn-white {
+    background-color: var(--color-white);
+    color: var(--color-navy);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12);
+  }
+
+  .btn-white:hover {
+    background-color: var(--color-bg);
+    color: var(--color-navy);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.16);
+  }
+
+  /* Sections */
+  .container {
+    max-width: var(--max-width);
+    margin: 0 auto;
+  }
+
+  .section {
+    padding: var(--space-24) var(--content-padding);
+  }
+
+  .section-alt {
+    background-color: var(--color-bg-alt);
+  }
+
+  .section h2 {
     margin-bottom: var(--space-6);
   }
 
-  .hero p {
+  .section-eyebrow {
+    font-size: var(--text-small);
+    font-weight: 600;
+    color: var(--color-gold-dark);
+    margin-bottom: var(--space-2);
+  }
+
+  .section-desc {
+    color: var(--color-charcoal);
+    margin-bottom: var(--space-12);
+  }
+
+  .lead {
     font-size: var(--text-h3);
-    color: var(--color-mid-gray);
-    max-width: 40ch;
-    margin: 0 auto;
+    color: var(--color-charcoal);
+    line-height: 1.6;
+    margin-bottom: var(--space-6);
+    max-width: 60ch;
+  }
+
+  .legacy-grid {
+    display: grid;
+    gap: var(--space-12);
+    align-items: center;
+  }
+
+  .legacy-image img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    object-fit: cover;
+  }
+
+  .link-arrow {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-weight: 600;
+    font-size: var(--text-small);
+    color: var(--color-navy);
+    text-decoration: none;
+    transition: gap 200ms ease;
+  }
+
+  .link-arrow:hover {
+    gap: var(--space-4);
+    color: var(--color-navy);
+  }
+
+  /* Divisions */
+  .divisions-grid {
+    display: grid;
+    gap: var(--space-8);
+    margin-bottom: var(--space-4);
+  }
+
+  .division-card {
+    background-color: var(--color-white);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .division-card-image img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    display: block;
+  }
+
+  .division-card-body {
+    padding: var(--space-8);
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+
+  .division-card-body h3 {
+    margin-bottom: var(--space-4);
+  }
+
+  .division-card-body p {
+    color: var(--color-charcoal);
+    margin-bottom: var(--space-6);
+    flex: 1;
+  }
+
+  /* CTA */
+  .cta {
+    padding: var(--space-24) var(--content-padding);
+    background-color: var(--color-navy);
+    color: var(--color-white);
+    text-align: center;
+  }
+
+  .cta h2 {
+    color: var(--color-white);
+    margin-bottom: var(--space-4);
+  }
+
+  .cta p {
+    color: rgba(255, 255, 255, 0.8);
+    max-width: 50ch;
+    margin: 0 auto var(--space-8);
+  }
+
+  /* News */
+  .news-card {
+    display: grid;
+    text-decoration: none;
+    color: inherit;
+    background-color: var(--color-bg-alt);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: var(--space-8);
+    transition: box-shadow 200ms ease;
+  }
+
+  .news-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  }
+
+  .news-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    display: block;
+  }
+
+  .news-card-body {
+    padding: var(--space-8);
+  }
+
+  .news-card-body h3 {
+    margin-bottom: var(--space-4);
+  }
+
+  .news-card-body p {
+    color: var(--color-charcoal);
+  }
+
+  .read-more {
+    display: inline-block;
+    margin-top: var(--space-4);
+    font-weight: 600;
+    font-size: var(--text-small);
+    color: var(--color-navy);
+  }
+
+  /* Careers */
+  .careers-banner {
+    padding: var(--space-24) var(--content-padding);
+    background-color: var(--color-bg-alt);
+  }
+
+  .careers-section {
+    display: grid;
+    gap: var(--space-12);
+    align-items: center;
+  }
+
+  .careers-content h2 {
+    margin-bottom: var(--space-6);
+  }
+
+  .careers-content p {
+    max-width: 50ch;
+    margin-bottom: var(--space-8);
+    color: var(--color-charcoal);
+  }
+
+  .careers-content .btn-primary {
+    background-color: var(--color-navy);
+    color: var(--color-white);
+  }
+
+  .careers-content .btn-primary:hover {
+    background-color: var(--color-navy-light);
+    color: var(--color-white);
+  }
+
+  .careers-image img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    object-fit: cover;
+  }
+
+  @media (min-width: 48rem) {
+    .legacy-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .divisions-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .news-card {
+      grid-template-columns: 250px 1fr;
+    }
+
+    .news-card img {
+      height: 100%;
+    }
+
+    .careers-section {
+      grid-template-columns: 1fr 1fr;
+    }
   }
 </style>

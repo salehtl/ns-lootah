@@ -1,0 +1,247 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { t } from '../../i18n/translations';
+
+const lang = 'ar' as const;
+const currentPath = '/ar/project-upgraded';
+const strings = t(lang);
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: strings.nav.home, item: 'https://nslootah.com/ar/' },
+    { '@type': 'ListItem', position: 2, name: strings.nav.projectUpgraded, item: 'https://nslootah.com/ar/project-upgraded' },
+  ],
+};
+---
+
+<BaseLayout
+  title={strings.projectUpgraded.metaTitle}
+  description={strings.projectUpgraded.metaDescription}
+  lang={lang}
+  currentPath={currentPath}
+  jsonLd={jsonLd}
+>
+  <section class="page-hero">
+    <div class="hero-inner">
+      <h1>{strings.projectUpgraded.heading}</h1>
+      <p class="intro">{strings.projectUpgraded.intro}</p>
+    </div>
+    <div class="hero-overlay"></div>
+  </section>
+
+  <section class="section">
+    <div class="container facility-grid">
+      <div>
+        <h2>{strings.projectUpgraded.facilityHeading}</h2>
+        <p>{strings.projectUpgraded.facilityText}</p>
+      </div>
+      <div class="facility-image">
+        <img src="/images/automotive-repair.jpg" alt={strings.alt.automotiveRepair} width="800" height="533" loading="lazy" />
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-alt">
+    <div class="container">
+      <h2>{strings.projectUpgraded.servicesHeading}</h2>
+      <ul class="service-grid">
+        {strings.projectUpgraded.services.map((item) => (
+          <li class="service-card">{item}</li>
+        ))}
+      </ul>
+      <div class="service-images">
+        <img src="/images/mechanical-repairs.jpg" alt={strings.alt.mechanicalRepairs} width="600" height="400" loading="lazy" />
+        <img src="/images/dynamometer-testing.jpg" alt={strings.alt.dynamometerTesting} width="600" height="400" loading="lazy" />
+        <img src="/images/bodyshop-sealant.jpg" alt={strings.alt.bodyshopSealant} width="740" height="370" loading="lazy" />
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <h2>{strings.projectUpgraded.fabricationHeading}</h2>
+      <div class="fab-grid">
+        {strings.projectUpgraded.fabrication.map((item) => (
+          <div class="fab-card">{item}</div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-alt">
+    <div class="container">
+      <h2>{strings.projectUpgraded.differentiatorHeading}</h2>
+      <ul class="diff-list">
+        {strings.projectUpgraded.differentiators.map((item) => (
+          <li>{item}</li>
+        ))}
+      </ul>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .page-hero {
+    position: relative;
+    padding: var(--space-24) var(--content-padding) var(--space-16);
+    background: url('/images/automotive-repair.jpg') center/cover no-repeat;
+    color: var(--color-white);
+  }
+
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background-color: rgba(10, 25, 47, 0.8);
+    z-index: 0;
+  }
+
+  .hero-inner {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero-inner h1 {
+    color: var(--color-white);
+    font-size: var(--text-display);
+    margin-bottom: var(--space-6);
+  }
+
+  .intro {
+    font-size: var(--text-h3);
+    color: rgba(255, 255, 255, 0.8);
+    max-width: 55ch;
+  }
+
+  .container {
+    max-width: var(--max-width);
+    margin: 0 auto;
+  }
+
+  .section {
+    padding: var(--space-24) var(--content-padding);
+  }
+
+  .section-alt {
+    background-color: var(--color-bg-alt);
+  }
+
+  .section h2 {
+    margin-bottom: var(--space-8);
+  }
+
+  .facility-grid {
+    display: grid;
+    gap: var(--space-12);
+    align-items: center;
+  }
+
+  .facility-image img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    object-fit: cover;
+  }
+
+  .service-images {
+    display: grid;
+    gap: var(--space-4);
+    margin-top: var(--space-8);
+  }
+
+  .service-images img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+
+  .service-grid {
+    list-style: none;
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  .service-card {
+    background-color: var(--color-white);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    padding: var(--space-6);
+    font-weight: 500;
+    border-right: 3px solid var(--color-gold);
+  }
+
+  html[dir="ltr"] .service-card {
+    border-right: none;
+    border-left: 3px solid var(--color-gold);
+  }
+
+  .fab-grid {
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  .fab-card {
+    background-color: var(--color-bg-alt);
+    border-radius: 8px;
+    padding: var(--space-6);
+    font-weight: 500;
+    text-align: center;
+  }
+
+  .diff-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+  }
+
+  .diff-list li {
+    position: relative;
+    padding-right: var(--space-8);
+    font-size: var(--text-h3);
+    color: var(--color-navy);
+    font-weight: 500;
+  }
+
+  .diff-list li::before {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 0.5em;
+    width: 12px;
+    height: 2px;
+    background-color: var(--color-gold);
+  }
+
+  html[dir="ltr"] .diff-list li {
+    padding-right: 0;
+    padding-left: var(--space-8);
+  }
+
+  html[dir="ltr"] .diff-list li::before {
+    right: auto;
+    left: 0;
+  }
+
+  @media (min-width: 48rem) {
+    .facility-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .service-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .service-images {
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+
+    .fab-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+</style>

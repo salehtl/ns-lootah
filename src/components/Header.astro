@@ -14,6 +14,10 @@ const strings = t(lang);
 
 const navLinks = [
   { label: strings.nav.about, href: getLocalizedPath('/about', lang) },
+  { label: strings.nav.nslTrading, href: getLocalizedPath('/nsl-trading', lang) },
+  { label: strings.nav.projectUpgraded, href: getLocalizedPath('/project-upgraded', lang) },
+  { label: strings.nav.news, href: getLocalizedPath('/news', lang) },
+  { label: strings.nav.careers, href: getLocalizedPath('/careers', lang) },
   { label: strings.nav.contact, href: getLocalizedPath('/contact', lang) },
 ];
 ---
@@ -21,7 +25,7 @@ const navLinks = [
 <header class="header">
   <div class="header-inner">
     <a href={getLocalizedPath('/', lang)} class="logo" aria-label={strings.site.name}>
-      {strings.site.name}
+      <img src="/images/logo.webp" alt={strings.alt.logo} width="300" height="66" />
     </a>
 
     <nav aria-label={lang === 'en' ? 'Main navigation' : 'التنقل الرئيسي'}>
@@ -79,7 +83,8 @@ const navLinks = [
     top: 0;
     z-index: 50;
     background-color: var(--color-white);
-    border-bottom: 1px solid var(--color-warm-gray);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--color-border);
   }
 
   .header-inner {
@@ -92,12 +97,14 @@ const navLinks = [
   }
 
   .logo {
-    font-family: var(--font-display);
-    font-size: var(--text-h3);
-    font-weight: 600;
-    color: var(--color-near-black);
+    display: flex;
+    align-items: center;
     text-decoration: none;
-    letter-spacing: var(--tracking-display);
+  }
+
+  .logo img {
+    height: 40px;
+    width: auto;
   }
 
   /* Desktop nav */
@@ -105,7 +112,7 @@ const navLinks = [
     display: none;
     list-style: none;
     align-items: center;
-    gap: var(--space-8);
+    gap: var(--space-6);
   }
 
   .nav-link {
@@ -125,7 +132,7 @@ const navLinks = [
 
   .nav-link:hover,
   .nav-link.active {
-    color: var(--color-accent);
+    color: var(--color-navy);
   }
 
   /* Mobile menu */
@@ -169,7 +176,7 @@ const navLinks = [
     right: 0;
     list-style: none;
     background-color: var(--color-white);
-    border-bottom: 1px solid var(--color-warm-gray);
+    border-bottom: 1px solid var(--color-border);
     padding: var(--space-6) var(--content-padding);
     display: flex;
     flex-direction: column;
@@ -178,7 +185,7 @@ const navLinks = [
 
   .lang-switch-mobile {
     padding-top: var(--space-4);
-    border-top: 1px solid var(--color-warm-gray);
+    border-top: 1px solid var(--color-border);
   }
 
   @media (min-width: 48rem) {

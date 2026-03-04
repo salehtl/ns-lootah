@@ -1,0 +1,164 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { t } from '../../../i18n/translations';
+import { getLocalizedPath } from '../../../i18n/utils';
+
+const lang = 'en' as const;
+const currentPath = '/en/news/electric-car';
+const strings = t(lang);
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: strings.nav.home, item: 'https://nslootah.com/en/' },
+    { '@type': 'ListItem', position: 2, name: strings.nav.news, item: 'https://nslootah.com/en/news' },
+    { '@type': 'ListItem', position: 3, name: strings.news.article1Title, item: 'https://nslootah.com/en/news/electric-car' },
+  ],
+};
+---
+
+<BaseLayout
+  title={strings.news.article1MetaTitle}
+  description={strings.news.article1MetaDescription}
+  lang={lang}
+  currentPath={currentPath}
+  jsonLd={jsonLd}
+>
+  <article class="article">
+    <header class="article-hero">
+      <div class="container">
+        <a href={getLocalizedPath('/news', lang)} class="back-link">
+          <span aria-hidden="true">&larr;</span>
+          {strings.news.backToNews}
+        </a>
+        <h1>{strings.news.article1Title}</h1>
+      </div>
+    </header>
+
+    <div class="article-image">
+      <img src="/images/electric-car.jpg" alt={strings.alt.electricCarNews} width="600" height="798" />
+    </div>
+
+    <div class="container article-body">
+      {strings.news.article1Body.map((paragraph) => (
+        <p>{paragraph}</p>
+      ))}
+
+      <blockquote>
+        <p>{strings.news.article1Quote1}</p>
+        <cite>{strings.news.article1Quote1Author}</cite>
+      </blockquote>
+
+      <blockquote>
+        <p>{strings.news.article1Quote2}</p>
+        <cite>{strings.news.article1Quote2Author}</cite>
+      </blockquote>
+
+      <a href={getLocalizedPath('/news', lang)} class="back-link back-link-bottom">
+        <span aria-hidden="true">&larr;</span>
+        {strings.news.backToNews}
+      </a>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .article-hero {
+    padding: var(--space-24) var(--content-padding) var(--space-16);
+    background-color: var(--color-navy);
+    color: var(--color-white);
+  }
+
+  .article-hero h1 {
+    color: var(--color-white);
+    font-size: var(--text-display);
+    max-width: 20ch;
+  }
+
+  .container {
+    max-width: var(--max-width);
+    margin: 0 auto;
+  }
+
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    font-size: var(--text-small);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: var(--space-6);
+    transition: color 200ms ease, gap 200ms ease;
+  }
+
+  .back-link:hover {
+    color: var(--color-white);
+    gap: var(--space-4);
+  }
+
+  .back-link-bottom {
+    color: var(--color-navy);
+    margin-top: var(--space-12);
+  }
+
+  .back-link-bottom:hover {
+    color: var(--color-navy);
+  }
+
+  .article-image {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 var(--content-padding);
+  }
+
+  .article-image img {
+    width: 100%;
+    max-height: 500px;
+    object-fit: cover;
+    border-radius: 0 0 8px 8px;
+  }
+
+  .article-body {
+    padding: var(--space-12) var(--content-padding) var(--space-24);
+  }
+
+  .article-body p {
+    color: var(--color-charcoal);
+    line-height: 1.8;
+    margin-bottom: var(--space-6);
+    max-width: 65ch;
+  }
+
+  blockquote {
+    border-left: 3px solid var(--color-gold);
+    padding-left: var(--space-6);
+    margin: var(--space-8) 0;
+  }
+
+  html[dir="rtl"] blockquote {
+    border-left: none;
+    border-right: 3px solid var(--color-gold);
+    padding-left: 0;
+    padding-right: var(--space-6);
+  }
+
+  blockquote p {
+    font-style: italic;
+    color: var(--color-navy);
+    font-size: var(--text-h3);
+    line-height: 1.6;
+  }
+
+  blockquote cite {
+    display: block;
+    margin-top: var(--space-4);
+    font-style: normal;
+    font-weight: 600;
+    font-size: var(--text-small);
+    color: var(--color-gold-dark);
+  }
+</style>

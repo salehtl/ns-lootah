@@ -1,0 +1,149 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { t } from '../../../i18n/translations';
+import { getLocalizedPath } from '../../../i18n/utils';
+
+const lang = 'en' as const;
+const currentPath = '/en/news';
+const strings = t(lang);
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: strings.nav.home, item: 'https://nslootah.com/en/' },
+    { '@type': 'ListItem', position: 2, name: strings.nav.news, item: 'https://nslootah.com/en/news' },
+  ],
+};
+---
+
+<BaseLayout
+  title={strings.news.metaTitle}
+  description={strings.news.metaDescription}
+  lang={lang}
+  currentPath={currentPath}
+  jsonLd={jsonLd}
+>
+  <section class="page-hero">
+    <div class="container">
+      <h1>{strings.news.heading}</h1>
+      <p class="subheading">{strings.news.subheading}</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <p class="section-intro">{strings.news.text}</p>
+
+      <div class="articles">
+        <a href={getLocalizedPath('/news/electric-car', lang)} class="article-card">
+          <article>
+            <img src="/images/electric-car-blog.jpg" alt={strings.alt.electricCarNews} width="600" height="537" loading="lazy" />
+            <div class="article-body">
+              <h2>{strings.news.article1Title}</h2>
+              <p>{strings.news.article1Summary}</p>
+              <span class="read-more">{strings.news.readMore} &rarr;</span>
+            </div>
+          </article>
+        </a>
+      </div>
+
+      <p class="coming-soon">{strings.news.comingSoon}</p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .page-hero {
+    padding: var(--space-24) var(--content-padding) var(--space-16);
+    background-color: var(--color-navy);
+    color: var(--color-white);
+  }
+
+  .page-hero h1 {
+    color: var(--color-white);
+    font-size: var(--text-display);
+    margin-bottom: var(--space-4);
+  }
+
+  .subheading {
+    font-size: var(--text-h3);
+    color: rgba(255, 255, 255, 0.8);
+  }
+
+  .container {
+    max-width: var(--max-width);
+    margin: 0 auto;
+  }
+
+  .section {
+    padding: var(--space-24) var(--content-padding);
+  }
+
+  .section-intro {
+    color: var(--color-charcoal);
+    margin-bottom: var(--space-12);
+  }
+
+  .articles {
+    display: grid;
+    gap: var(--space-8);
+  }
+
+  .article-card {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    background-color: var(--color-white);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: box-shadow 200ms ease;
+  }
+
+  .article-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  }
+
+  .article-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    display: block;
+  }
+
+  .article-body {
+    padding: var(--space-8);
+  }
+
+  .article-body h2 {
+    font-size: var(--text-h3);
+    margin-bottom: var(--space-4);
+  }
+
+  .article-body p {
+    color: var(--color-charcoal);
+  }
+
+  .read-more {
+    display: inline-block;
+    margin-top: var(--space-4);
+    font-weight: 600;
+    font-size: var(--text-small);
+    color: var(--color-navy);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .coming-soon {
+    margin-top: var(--space-12);
+    color: var(--color-mid-gray);
+    font-style: italic;
+  }
+
+  @media (min-width: 48rem) {
+    .articles {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+</style>

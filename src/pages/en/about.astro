@@ -1,0 +1,213 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { t } from '../../i18n/translations';
+
+const lang = 'en' as const;
+const currentPath = '/en/about';
+const strings = t(lang);
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: strings.nav.home, item: 'https://nslootah.com/en/' },
+    { '@type': 'ListItem', position: 2, name: strings.nav.about, item: 'https://nslootah.com/en/about' },
+  ],
+};
+---
+
+<BaseLayout
+  title={strings.about.metaTitle}
+  description={strings.about.metaDescription}
+  lang={lang}
+  currentPath={currentPath}
+  jsonLd={jsonLd}
+>
+  <section class="page-hero">
+    <div class="container">
+      <h1>{strings.about.heading}</h1>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container legacy-grid">
+      <div>
+        <h2>{strings.about.legacyHeading}</h2>
+        <p class="lead">{strings.about.legacyText}</p>
+      </div>
+      <div class="legacy-images">
+        <img src="/images/legacy-meeting.webp" alt={strings.alt.legacyMeeting} width="1024" height="682" loading="lazy" />
+        <img src="/images/about-section.webp" alt={strings.alt.aboutSection} width="600" height="400" loading="lazy" />
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-alt">
+    <div class="container vision-mission">
+      <div class="vm-card">
+        <h2>{strings.about.visionHeading}</h2>
+        <p>{strings.about.visionText}</p>
+      </div>
+      <div class="vm-card">
+        <h2>{strings.about.missionHeading}</h2>
+        <p>{strings.about.missionText}</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <h2>{strings.about.leadershipHeading}</h2>
+      <div class="leader-card">
+        <div class="leader-photo">
+          <img src="/images/director-bonlootah.webp" alt={strings.alt.directorPhoto} width="300" height="400" loading="lazy" />
+        </div>
+        <div class="leader-info">
+          <h3>{strings.about.leaderName}</h3>
+          <p class="leader-title">{strings.about.leaderTitle}</p>
+          <p>{strings.about.leaderBio}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-alt">
+    <div class="container commitment">
+      <h2>{strings.about.commitmentHeading}</h2>
+      <p>{strings.about.commitmentText}</p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .page-hero {
+    padding: var(--space-24) var(--content-padding) var(--space-16);
+    background-color: var(--color-navy);
+    color: var(--color-white);
+  }
+
+  .page-hero h1 {
+    color: var(--color-white);
+    font-size: var(--text-display);
+  }
+
+  .container {
+    max-width: var(--max-width);
+    margin: 0 auto;
+  }
+
+  .section {
+    padding: var(--space-24) var(--content-padding);
+  }
+
+  .section-alt {
+    background-color: var(--color-bg-alt);
+  }
+
+  .section h2 {
+    margin-bottom: var(--space-8);
+  }
+
+  .lead {
+    font-size: var(--text-h3);
+    line-height: 1.6;
+    color: var(--color-charcoal);
+    max-width: 65ch;
+  }
+
+  .vision-mission {
+    display: grid;
+    gap: var(--space-8);
+  }
+
+  .vm-card {
+    background-color: var(--color-white);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    padding: var(--space-8);
+    border-top: 3px solid var(--color-gold);
+  }
+
+  .vm-card p {
+    color: var(--color-charcoal);
+    line-height: 1.7;
+  }
+
+  .legacy-grid {
+    display: grid;
+    gap: var(--space-12);
+    align-items: center;
+  }
+
+  .legacy-images {
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  .legacy-images img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    object-fit: cover;
+  }
+
+  .leader-card {
+    background-color: var(--color-bg-alt);
+    border-radius: 8px;
+    padding: var(--space-8);
+    display: grid;
+    gap: var(--space-8);
+    align-items: start;
+  }
+
+  .leader-photo img {
+    width: 100%;
+    max-width: 250px;
+    height: auto;
+    border-radius: 8px;
+    object-fit: cover;
+  }
+
+  .leader-info h3 {
+    font-size: var(--text-h2);
+    margin-bottom: var(--space-2);
+  }
+
+  .leader-title {
+    color: var(--color-gold-dark);
+    font-weight: 600;
+    margin-bottom: var(--space-6);
+  }
+
+  .leader-info p:last-child {
+    color: var(--color-charcoal);
+    line-height: 1.7;
+    max-width: 65ch;
+  }
+
+  .commitment {
+    text-align: center;
+  }
+
+  .commitment p {
+    max-width: 55ch;
+    margin: 0 auto;
+    font-size: var(--text-h3);
+    color: var(--color-charcoal);
+    line-height: 1.6;
+  }
+
+  @media (min-width: 48rem) {
+    .legacy-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .vision-mission {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .leader-card {
+      grid-template-columns: auto 1fr;
+    }
+  }
+</style>

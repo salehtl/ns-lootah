@@ -29,12 +29,12 @@ Bilingual (English/Arabic) website built with Astro 5 and Bun. Fully static, zer
 
 ### CSS Architecture
 
-`src/styles/global.css` defines CSS custom properties (colors, type scale, spacing on 4px base, layout). Components use scoped `<style>` blocks referencing these variables. RTL overrides use `html[dir="rtl"]` selectors. Font: Inter variable (self-hosted at `public/fonts/`).
+`src/styles/global.css` defines CSS custom properties (colors, type scale, spacing on 4px base, layout). Components use scoped `<style>` blocks referencing these variables. RTL overrides use `html[dir="rtl"]` selectors. Fonts: Archivo variable (English, self-hosted), IBM Plex Sans Arabic (Arabic, self-hosted) at `public/fonts/`.
 
 ## Localization
 
 - Two languages with equal weight — all content 1:1 translated
-- URL structure: `example.com/en/about`, `example.com/ar/about`
+- URL structure: `nslootah.com/en/about`, `nslootah.com/ar/about`
 - Root `/` redirects based on `Accept-Language` (Cloudflare function), with meta-refresh fallback to `/en/`
 - RTL pages require `dir="rtl"` and `lang="ar"` on `<html>`
 - Every page includes `hreflang` tags pointing to its counterpart and `x-default`
@@ -43,7 +43,7 @@ Bilingual (English/Arabic) website built with Astro 5 and Bun. Fully static, zer
 
 - Scoped styles only — no global style leaks between components
 - Light theme only — no dark mode
-- Neutral color foundation + single accent color (`--color-accent`), used sparingly
+- Navy primary (`--color-navy`) + gold accent (`--color-gold`), gold used sparingly (never on buttons)
 - 1200px max content width, centered. 4px spacing scale. Mobile-first
 - Self-hosted fonts, `font-display: swap`, preload above-the-fold weights
 - All transitions respect `prefers-reduced-motion`

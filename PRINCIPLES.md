@@ -6,7 +6,7 @@ Guiding principles for this website. Every design decision, technical choice, an
 
 ## 1. Purpose
 
-<!-- Define what this site is and who it serves. -->
+Corporate website for NS Lootah Group, a diversified business group spanning trading, automotive, energy, and project services. Serves both B2B clients and end consumers — establishing credibility, showcasing capabilities, and generating inquiries.
 
 ---
 
@@ -67,12 +67,40 @@ Target: **Lighthouse 100** across all categories.
 
 ## 6. Aesthetics
 
-- Minimal, generous whitespace. Content and typography convey authority.
-- Neutral color foundation + one accent color, used sparingly.
-- 4.5:1 contrast for body text, 3:1 for large text (WCAG AA).
-- Mobile-first. 1200px max content width. 4px spacing scale.
-- Subtle motion only. All transitions respect `prefers-reduced-motion`.
+Modern corporate: clean, trustworthy, forward-looking. Sharp lines, clear hierarchy, approachable authority.
+
+### Color Palette
+- **Primary**: Deep classic navy (`#1B2A4A`) — headings, footer background, buttons, key UI elements.
+- **Accent**: Warm gold (`#C8963E`) — highlights, icons, decorative touches. Used sparingly, never on buttons.
+- **Background**: Cool off-white (`#F4F6F8`) primary, light cool gray (`#E8ECF0`) for alternating sections.
+- **Text**: Near-black (`#1A1D23`) for body, navy for headings.
+- **Neutrals**: Cool gray scale for borders, muted text, and dividers.
+
+### Typography
+- **English headings**: Archivo (geometric sans-serif) — self-hosted, variable weight.
+- **English body**: Archivo — same family for cohesion.
+- **Arabic**: IBM Plex Sans Arabic — geometric, complements Archivo's structure.
+- Tight heading tracking (`-0.02em`), relaxed body line-height (`1.6`).
+
+### Layout
+- Grid-structured, card-based sections. Orderly and scannable.
+- Section rhythm: alternating white and light cool gray backgrounds.
+- 1200px max content width. 4px spacing scale. Mobile-first.
+- Light header, dark navy footer.
+
+### Buttons & Interactive Elements
+- Primary buttons: solid navy fill with subtle shadow. No gold on buttons.
+- Hover: slight lightening or shadow lift.
+- Focus: 2px navy outline with offset.
+
+### Motion
+- Subtle only. Gentle fade-ins on scroll, smooth hover transitions.
+- All transitions respect `prefers-reduced-motion`.
 - No parallax, no carousels. Interactions < 300ms, entrances < 600ms.
+
+### Contrast
+- 4.5:1 for body text, 3:1 for large text (WCAG AA).
+- Color never the sole means of conveying information.
 
 ---
 

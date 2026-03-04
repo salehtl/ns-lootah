@@ -20,7 +20,7 @@ const {
   jsonLd,
 } = Astro.props;
 
-const siteUrl = Astro.site?.origin ?? 'https://example.com';
+const siteUrl = Astro.site?.origin ?? 'https://nslootah.com';
 const canonicalUrl = `${siteUrl}${currentPath}`;
 const alternateLang = lang === 'en' ? 'ar' : 'en';
 const alternateUrl = `${siteUrl}${getAlternateUrl(currentPath, lang)}`;

@@ -1,0 +1,299 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { t } from '../../i18n/translations';
+
+const lang = 'ar' as const;
+const currentPath = '/ar/nsl-trading';
+const strings = t(lang);
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: strings.nav.home, item: 'https://nslootah.com/ar/' },
+    { '@type': 'ListItem', position: 2, name: strings.nav.nslTrading, item: 'https://nslootah.com/ar/nsl-trading' },
+  ],
+};
+---
+
+<BaseLayout
+  title={strings.nslTrading.metaTitle}
+  description={strings.nslTrading.metaDescription}
+  lang={lang}
+  currentPath={currentPath}
+  jsonLd={jsonLd}
+>
+  <section class="page-hero">
+    <div class="container">
+      <h1>{strings.nslTrading.heading}</h1>
+      <p class="intro">{strings.nslTrading.intro}</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container overview-grid">
+      <div>
+        <h2>{strings.nslTrading.overviewHeading}</h2>
+        <p>{strings.nslTrading.overviewText}</p>
+      </div>
+      <div class="overview-image">
+        <img src="/images/power-station-hero.jpg" alt={strings.alt.powerStationHero} width="800" height="533" loading="lazy" />
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-alt">
+    <div class="container">
+      <h2>{strings.nslTrading.productsHeading}</h2>
+      <div class="two-col">
+        <div class="card">
+          <h3>{strings.nslTrading.powerSystemsTitle}</h3>
+          <ul>
+            {strings.nslTrading.powerSystems.map((item) => <li>{item}</li>)}
+          </ul>
+        </div>
+        <div class="card">
+          <h3>{strings.nslTrading.outdoorTitle}</h3>
+          <ul>
+            {strings.nslTrading.outdoor.map((item) => <li>{item}</li>)}
+          </ul>
+          <p class="note">{strings.nslTrading.distributorNote}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <h2>{strings.nslTrading.techHeading}</h2>
+      <div class="three-col">
+        <div class="card tech-card">
+          <img src="/images/maxi-charge.jpg" alt={strings.alt.maxiCharge} width="768" height="437" loading="lazy" />
+          <div class="card-body">
+            <h3>{strings.nslTrading.techMaxiCharge}</h3>
+            <p>{strings.nslTrading.techMaxiChargeText}</p>
+          </div>
+        </div>
+        <div class="card tech-card">
+          <img src="/images/smart-drive.webp" alt={strings.alt.smartDrive} width="768" height="437" loading="lazy" />
+          <div class="card-body">
+            <h3>{strings.nslTrading.techSmartDrive}</h3>
+            <p>{strings.nslTrading.techSmartDriveText}</p>
+          </div>
+        </div>
+        <div class="card tech-card">
+          <img src="/images/battery-management.webp" alt={strings.alt.batteryManagement} width="768" height="437" loading="lazy" />
+          <div class="card-body">
+            <h3>{strings.nslTrading.techBms}</h3>
+            <p>{strings.nslTrading.techBmsText}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-alt">
+    <div class="container">
+      <h2>{strings.nslTrading.marketsHeading}</h2>
+      <img src="/images/nsl-applications.webp" alt={strings.alt.nslApplications} width="1024" height="378" loading="lazy" class="markets-image" />
+      <ul class="markets-grid">
+        {strings.nslTrading.markets.map((item) => <li>{item}</li>)}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="product-gallery">
+        <img src="/images/product-gallery-1.jpeg" alt={strings.alt.productGallery1} width="400" height="500" loading="lazy" />
+        <img src="/images/product-gallery-2.jpeg" alt={strings.alt.productGallery2} width="400" height="500" loading="lazy" />
+        <img src="/images/product-gallery-3.jpeg" alt={strings.alt.productGallery3} width="400" height="500" loading="lazy" />
+        <img src="/images/product-gallery-4.jpeg" alt={strings.alt.productGallery4} width="400" height="500" loading="lazy" />
+        <img src="/images/product-gallery-5.jpeg" alt={strings.alt.productGallery5} width="400" height="500" loading="lazy" />
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .page-hero {
+    padding: var(--space-24) var(--content-padding) var(--space-16);
+    background-color: var(--color-navy);
+    color: var(--color-white);
+  }
+
+  .page-hero h1 {
+    color: var(--color-white);
+    font-size: var(--text-display);
+    margin-bottom: var(--space-6);
+  }
+
+  .intro {
+    font-size: var(--text-h3);
+    color: rgba(255, 255, 255, 0.8);
+    max-width: 55ch;
+  }
+
+  .container {
+    max-width: var(--max-width);
+    margin: 0 auto;
+  }
+
+  .section {
+    padding: var(--space-24) var(--content-padding);
+  }
+
+  .section-alt {
+    background-color: var(--color-bg-alt);
+  }
+
+  .section h2 {
+    margin-bottom: var(--space-8);
+  }
+
+  .overview-grid {
+    display: grid;
+    gap: var(--space-12);
+    align-items: center;
+  }
+
+  .overview-image img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    object-fit: cover;
+  }
+
+  .two-col {
+    display: grid;
+    gap: var(--space-8);
+  }
+
+  .three-col {
+    display: grid;
+    gap: var(--space-8);
+  }
+
+  .card {
+    background-color: var(--color-white);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    padding: var(--space-8);
+  }
+
+  .tech-card {
+    padding: 0;
+    overflow: hidden;
+  }
+
+  .tech-card img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    display: block;
+  }
+
+  .card-body {
+    padding: var(--space-6);
+  }
+
+  .card h3 {
+    margin-bottom: var(--space-4);
+  }
+
+  .card ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .card li {
+    position: relative;
+    padding-right: var(--space-4);
+  }
+
+  .card li::before {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 0.7em;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: var(--color-gold);
+  }
+
+  html[dir="ltr"] .card li {
+    padding-right: 0;
+    padding-left: var(--space-4);
+  }
+
+  html[dir="ltr"] .card li::before {
+    right: auto;
+    left: 0;
+  }
+
+  .note {
+    margin-top: var(--space-4);
+    font-size: var(--text-small);
+    color: var(--color-gold-dark);
+    font-weight: 600;
+  }
+
+  .markets-grid {
+    list-style: none;
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  .markets-grid li {
+    background-color: var(--color-white);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    padding: var(--space-4) var(--space-6);
+    font-weight: 500;
+  }
+
+  .markets-image {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: var(--space-8);
+  }
+
+  .product-gallery {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-4);
+  }
+
+  .product-gallery img {
+    width: 100%;
+    height: 280px;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+
+  @media (min-width: 48rem) {
+    .overview-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .two-col {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .three-col {
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+
+    .markets-grid {
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+
+    .product-gallery {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+</style>

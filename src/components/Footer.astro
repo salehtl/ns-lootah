@@ -12,26 +12,45 @@ const { lang } = Astro.props;
 const strings = t(lang);
 const currentYear = new Date().getFullYear();
 
-const navLinks = [
+const quickLinks = [
+  { label: strings.nav.home, href: getLocalizedPath('/', lang) },
   { label: strings.nav.about, href: getLocalizedPath('/about', lang) },
-  { label: strings.nav.contact, href: getLocalizedPath('/contact', lang) },
+  { label: strings.nav.nslTrading, href: getLocalizedPath('/nsl-trading', lang) },
+  { label: strings.nav.projectUpgraded, href: getLocalizedPath('/project-upgraded', lang) },
+  { label: strings.nav.news, href: getLocalizedPath('/news', lang) },
+  { label: strings.nav.careers, href: getLocalizedPath('/careers', lang) },
 ];
 ---
 
 <footer class="footer">
   <div class="footer-inner">
     <div class="footer-top">
-      <a href={getLocalizedPath('/', lang)} class="footer-logo" aria-label={strings.site.name}>
-        {strings.site.name}
-      </a>
+      <div class="footer-about">
+        <a href={getLocalizedPath('/', lang)} class="footer-logo" aria-label={strings.site.name}>
+          <img src="/images/logo-footer.webp" alt={strings.alt.logo} width="300" height="66" />
+        </a>
+        <p class="footer-about-text">{strings.footer.aboutText}</p>
+      </div>
 
-      <nav class="footer-nav" aria-label={lang === 'en' ? 'Footer navigation' : 'تنقل التذييل'}>
-        <ul>
-          {navLinks.map((link) => (
-            <li><a href={link.href}>{link.label}</a></li>
-          ))}
-        </ul>
-      </nav>
+      <div class="footer-links">
+        <h3 class="footer-heading">{strings.footer.quickLinks}</h3>
+        <nav aria-label={lang === 'en' ? 'Footer navigation' : 'تنقل التذييل'}>
+          <ul>
+            {quickLinks.map((link) => (
+              <li><a href={link.href}>{link.label}</a></li>
+            ))}
+          </ul>
+        </nav>
+      </div>
+
+      <div class="footer-contact">
+        <h3 class="footer-heading">{strings.footer.contactUs}</h3>
+        <address class="footer-address">
+          <p>{strings.site.address}</p>
+          <p><a href={`tel:${strings.site.phone.replace(/\s/g, '')}`}>{strings.site.phone}</a></p>
+          <p><a href={`mailto:${strings.site.email}`}>{strings.site.email}</a></p>
+        </address>
+      </div>
     </div>
 
     <div class="footer-divider"></div>
@@ -49,8 +68,7 @@ const navLinks = [
 
 <style>
   .footer {
-    border-top: 1px solid var(--color-warm-gray);
-    background-color: var(--color-white);
+    background-color: var(--color-navy);
     margin-top: var(--space-32);
   }
 
@@ -61,40 +79,84 @@ const navLinks = [
   }
 
   .footer-top {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-8);
+    display: grid;
+    gap: var(--space-12);
   }
 
   .footer-logo {
-    font-family: var(--font-display);
-    font-weight: 600;
-    color: var(--color-charcoal);
+    display: inline-block;
     text-decoration: none;
-    opacity: 0.7;
   }
 
-  .footer-nav ul {
+  .footer-logo img {
+    height: 44px;
+    width: auto;
+  }
+
+  .footer-about-text {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: var(--text-small);
+    margin-top: var(--space-4);
+    line-height: 1.7;
+  }
+
+  .footer-heading {
+    font-size: var(--text-small);
+    font-weight: 600;
+    color: var(--color-white);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: var(--space-4);
+  }
+
+  html[dir="rtl"] .footer-heading {
+    text-transform: none;
+    letter-spacing: 0;
+  }
+
+  .footer-links ul {
     list-style: none;
     display: flex;
     flex-direction: column;
-    gap: var(--space-4);
+    gap: var(--space-2);
   }
 
-  .footer-nav a {
+  .footer-links a {
     font-size: var(--text-small);
-    color: var(--color-charcoal);
+    color: rgba(255, 255, 255, 0.7);
     text-decoration: none;
     transition: color 200ms ease;
   }
 
-  .footer-nav a:hover {
-    color: var(--color-accent);
+  .footer-links a:hover {
+    color: var(--color-gold);
+  }
+
+  .footer-address {
+    font-style: normal;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .footer-address p {
+    font-size: var(--text-small);
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  .footer-address a {
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    transition: color 200ms ease;
+  }
+
+  .footer-address a:hover {
+    color: var(--color-gold);
   }
 
   .footer-divider {
     height: 1px;
-    background-color: var(--color-warm-gray);
+    background-color: rgba(255, 255, 255, 0.15);
     margin: var(--space-8) 0;
   }
 
@@ -108,19 +170,20 @@ const navLinks = [
 
   .footer-legal {
     font-size: var(--text-caption);
-    color: var(--color-mid-gray);
+    color: rgba(255, 255, 255, 0.5);
+  }
+
+  .footer-lang :global(.lang-switcher) {
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  .footer-lang :global(.lang-switcher:hover) {
+    color: var(--color-gold);
   }
 
   @media (min-width: 48rem) {
     .footer-top {
-      flex-direction: row;
-      justify-content: space-between;
-      align-items: start;
-    }
-
-    .footer-nav ul {
-      flex-direction: row;
-      gap: var(--space-6);
+      grid-template-columns: 2fr 1fr 1fr;
     }
   }
 </style>
