@@ -34,41 +34,19 @@ const jsonLd = {
     <div class="container">
       <p class="section-intro">{strings.contact.text}</p>
 
-      <div class="contact-grid">
-        <div class="contact-info">
-          <div class="info-block">
-            <h2>{strings.contact.addressLabel}</h2>
-            <p>{strings.site.address}</p>
-          </div>
-          <div class="info-block">
-            <h2>{strings.contact.phoneLabel}</h2>
-            <p><a href={`tel:${strings.site.phone.replace(/\s/g, '')}`}>{strings.site.phone}</a></p>
-          </div>
-          <div class="info-block">
-            <h2>{strings.contact.emailLabel}</h2>
-            <p><a href={`mailto:${strings.site.email}`}>{strings.site.email}</a></p>
-          </div>
+      <div class="contact-info">
+        <div class="info-block">
+          <h2>{strings.contact.addressLabel}</h2>
+          <p>{strings.site.address}</p>
         </div>
-
-        <form class="contact-form" action="#" method="POST">
-          <div class="form-field">
-            <label for="name">{strings.contact.formName}</label>
-            <input type="text" id="name" name="name" required />
-          </div>
-          <div class="form-field">
-            <label for="email">{strings.contact.formEmail}</label>
-            <input type="email" id="email" name="email" required />
-          </div>
-          <div class="form-field">
-            <label for="subject">{strings.contact.formSubject}</label>
-            <input type="text" id="subject" name="subject" required />
-          </div>
-          <div class="form-field">
-            <label for="message">{strings.contact.formMessage}</label>
-            <textarea id="message" name="message" rows="5"></textarea>
-          </div>
-          <button type="submit" class="btn">{strings.contact.formSend}</button>
-        </form>
+        <div class="info-block">
+          <h2>{strings.contact.phoneLabel}</h2>
+          <p><a href={`https://wa.me/${strings.site.phone.replace(/[^0-9]/g, '')}`}>{strings.site.phone}</a></p>
+        </div>
+        <div class="info-block">
+          <h2>{strings.contact.emailLabel}</h2>
+          <p><a href={`mailto:${strings.site.email}`}>{strings.site.email}</a></p>
+        </div>
       </div>
     </div>
   </section>
@@ -77,7 +55,7 @@ const jsonLd = {
 <style>
   .page-hero {
     padding: var(--space-24) var(--content-padding) var(--space-16);
-    background-color: var(--color-navy);
+    background-color: var(--color-near-black);
     color: var(--color-white);
   }
 
@@ -107,11 +85,6 @@ const jsonLd = {
     max-width: 55ch;
   }
 
-  .contact-grid {
-    display: grid;
-    gap: var(--space-16);
-  }
-
   .contact-info {
     display: flex;
     flex-direction: column;
@@ -132,82 +105,11 @@ const jsonLd = {
   }
 
   .info-block a {
-    color: var(--color-navy);
+    color: var(--color-near-black);
     text-decoration: none;
   }
 
   .info-block a:hover {
-    color: var(--color-gold-dark);
-  }
-
-  .contact-form {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-6);
-  }
-
-  .form-field {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-2);
-  }
-
-  .form-field label {
-    font-size: var(--text-small);
-    font-weight: 600;
-    color: var(--color-charcoal);
-  }
-
-  .form-field input,
-  .form-field textarea {
-    padding: var(--space-4);
-    border: 1px solid var(--color-border);
-    border-radius: 6px;
-    font-size: var(--text-body);
-    background-color: var(--color-white);
-    transition: border-color 200ms ease;
-  }
-
-  .form-field input:focus,
-  .form-field textarea:focus {
-    border-color: var(--color-navy);
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(27, 42, 74, 0.1);
-  }
-
-  .form-field textarea {
-    resize: vertical;
-  }
-
-  .btn {
-    display: inline-block;
-    padding: var(--space-4) var(--space-8);
-    background-color: var(--color-navy);
-    color: var(--color-white);
-    font-weight: 600;
-    font-size: var(--text-small);
-    text-decoration: none;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    letter-spacing: 0.03em;
-    transition: background-color 200ms ease, box-shadow 200ms ease;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12);
-    align-self: flex-start;
-  }
-
-  .btn:hover {
-    background-color: var(--color-navy-light);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.16);
-  }
-
-  html[dir="rtl"] .btn {
-    align-self: flex-end;
-  }
-
-  @media (min-width: 48rem) {
-    .contact-grid {
-      grid-template-columns: 1fr 1fr;
-    }
+    color: var(--color-gold);
   }
 </style>

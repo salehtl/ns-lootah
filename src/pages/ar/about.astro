@@ -1,6 +1,10 @@
 ---
+import { Image } from 'astro:assets';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { t } from '../../i18n/translations';
+import legacyMeeting from '../../assets/images/legacy-meeting.webp';
+import aboutSection from '../../assets/images/about-section.webp';
+import directorBonlootah from '../../assets/images/director-bonlootah.webp';
 
 const lang = 'ar' as const;
 const currentPath = '/ar/about';
@@ -36,8 +40,8 @@ const jsonLd = {
         <p class="lead">{strings.about.legacyText}</p>
       </div>
       <div class="legacy-images">
-        <img src="/images/legacy-meeting.webp" alt={strings.alt.legacyMeeting} width="1024" height="682" loading="lazy" />
-        <img src="/images/about-section.webp" alt={strings.alt.aboutSection} width="600" height="400" loading="lazy" />
+        <Image src={legacyMeeting} alt={strings.alt.legacyMeeting} width={1024} height={682} loading="lazy" />
+        <Image src={aboutSection} alt={strings.alt.aboutSection} width={600} height={400} loading="lazy" />
       </div>
     </div>
   </section>
@@ -60,7 +64,7 @@ const jsonLd = {
       <h2>{strings.about.leadershipHeading}</h2>
       <div class="leader-card">
         <div class="leader-photo">
-          <img src="/images/director-bonlootah.webp" alt={strings.alt.directorPhoto} width="300" height="400" loading="lazy" />
+          <Image src={directorBonlootah} alt={strings.alt.directorPhoto} width={300} height={400} loading="lazy" />
         </div>
         <div class="leader-info">
           <h3>{strings.about.leaderName}</h3>
@@ -82,7 +86,7 @@ const jsonLd = {
 <style>
   .page-hero {
     padding: var(--space-24) var(--content-padding) var(--space-16);
-    background-color: var(--color-navy);
+    background-color: var(--color-near-black);
     color: var(--color-white);
   }
 
@@ -122,8 +126,8 @@ const jsonLd = {
 
   .vm-card {
     background-color: var(--color-white);
-    border: 1px solid var(--color-border);
-    border-radius: 8px;
+    box-shadow: var(--shadow-card);
+    border-radius: var(--radius-md);
     padding: var(--space-8);
     border-top: 3px solid var(--color-gold);
   }

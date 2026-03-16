@@ -29,7 +29,14 @@ Bilingual (English/Arabic) website built with Astro 5 and Bun. Fully static, zer
 
 ### CSS Architecture
 
-`src/styles/global.css` defines CSS custom properties (colors, type scale, spacing on 4px base, layout). Components use scoped `<style>` blocks referencing these variables. RTL overrides use `html[dir="rtl"]` selectors. Fonts: Archivo variable (English, self-hosted), IBM Plex Sans Arabic (Arabic, self-hosted) at `public/fonts/`.
+`src/styles/global.css` defines CSS custom properties (colors, type scale, spacing on 4px base, layout). Components use scoped `<style>` blocks referencing these variables. RTL overrides use `html[dir="rtl"]` selectors. Fonts: Merriweather (English headings, serif), Raleway (English body, sans-serif), Noto Naskh Arabic (Arabic headings, serif), IBM Plex Sans Arabic (Arabic body) — all self-hosted at `public/fonts/`.
+
+### Images
+
+- Content images live in `src/assets/images/` and use Astro's `<Image>` component (`import { Image } from 'astro:assets'`) for automatic optimization (WebP conversion, resizing)
+- CSS background images (hero sections) must stay in `public/images/` — Astro cannot process `url()` references
+- Logos stay as raw `<img>` in `public/images/` (small files, no optimization needed)
+- Every `<Image>` must have: descriptive `alt` (via i18n), numeric `width`/`height`, `loading="lazy"` for below-fold images
 
 ## Localization
 
@@ -43,10 +50,13 @@ Bilingual (English/Arabic) website built with Astro 5 and Bun. Fully static, zer
 
 - Scoped styles only — no global style leaks between components
 - Light theme only — no dark mode
-- Navy primary (`--color-navy`) + gold accent (`--color-gold`), gold used sparingly (never on buttons)
-- 1200px max content width, centered. 4px spacing scale. Mobile-first
+- Champagne gold accent (`--color-gold: #cfb777`) + dark gold (`--color-gold-dark: #8b7442`) for buttons/interactive. Warm beige backgrounds.
+- Header and footer: full black (`#000000`) backgrounds with white/light text
+- Section alternating backgrounds: `--color-bg-alt: #F0EBE6` (warm neutral beige)
+- 1280px max content width, centered. 4px spacing scale. Mobile-first
 - Self-hosted fonts, `font-display: swap`, preload above-the-fold weights
 - All transitions respect `prefers-reduced-motion`
+- Transitions use `0.3s ease` (not 200ms)
 
 ## Performance Targets
 

@@ -64,7 +64,7 @@ const jsonLd = {
   .hero-overlay {
     position: absolute;
     inset: 0;
-    background-color: rgba(10, 25, 47, 0.75);
+    background-color: rgba(40, 40, 40, 0.6);
     z-index: 0;
   }
 
@@ -116,7 +116,7 @@ const jsonLd = {
     padding-left: var(--space-8);
     font-size: var(--text-h3);
     font-weight: 500;
-    color: var(--color-navy);
+    color: var(--color-near-black);
   }
 
   .benefits li::before {
@@ -153,20 +153,18 @@ const jsonLd = {
   .btn {
     display: inline-block;
     padding: var(--space-4) var(--space-8);
-    background-color: var(--color-navy);
+    background-color: var(--color-gold-dark);
     color: var(--color-white);
+    font-family: var(--font-display);
     font-weight: 600;
-    font-size: var(--text-small);
+    font-size: var(--text-button);
     text-decoration: none;
-    border-radius: 6px;
-    letter-spacing: 0.03em;
-    transition: background-color 200ms ease, box-shadow 200ms ease;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12);
+    border-radius: var(--radius-md);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
   }
 
   .btn:hover {
-    background-color: var(--color-navy-light);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.16);
+    box-shadow: var(--shadow-button-hover);
     color: var(--color-white);
   }
 </style>

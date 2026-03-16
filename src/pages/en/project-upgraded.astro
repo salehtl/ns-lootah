@@ -1,6 +1,12 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { Image } from 'astro:assets';
 import { t } from '../../i18n/translations';
+
+import automotiveRepair from '../../assets/images/automotive-repair.jpg';
+import mechanicalRepairs from '../../assets/images/mechanical-repairs.jpg';
+import dynamometerTesting from '../../assets/images/dynamometer-testing.jpg';
+import bodyshopSealant from '../../assets/images/bodyshop-sealant.jpg';
 
 const lang = 'en' as const;
 const currentPath = '/en/project-upgraded';
@@ -38,7 +44,7 @@ const jsonLd = {
         <p>{strings.projectUpgraded.facilityText}</p>
       </div>
       <div class="facility-image">
-        <img src="/images/automotive-repair.jpg" alt={strings.alt.automotiveRepair} width="800" height="533" loading="lazy" />
+        <Image src={automotiveRepair} alt={strings.alt.automotiveRepair} width={800} height={533} loading="lazy" />
       </div>
     </div>
   </section>
@@ -52,9 +58,9 @@ const jsonLd = {
         ))}
       </ul>
       <div class="service-images">
-        <img src="/images/mechanical-repairs.jpg" alt={strings.alt.mechanicalRepairs} width="600" height="400" loading="lazy" />
-        <img src="/images/dynamometer-testing.jpg" alt={strings.alt.dynamometerTesting} width="600" height="400" loading="lazy" />
-        <img src="/images/bodyshop-sealant.jpg" alt={strings.alt.bodyshopSealant} width="740" height="370" loading="lazy" />
+        <Image src={mechanicalRepairs} alt={strings.alt.mechanicalRepairs} width={600} height={400} loading="lazy" />
+        <Image src={dynamometerTesting} alt={strings.alt.dynamometerTesting} width={600} height={400} loading="lazy" />
+        <Image src={bodyshopSealant} alt={strings.alt.bodyshopSealant} width={740} height={370} loading="lazy" />
       </div>
     </div>
   </section>
@@ -93,7 +99,7 @@ const jsonLd = {
   .hero-overlay {
     position: absolute;
     inset: 0;
-    background-color: rgba(10, 25, 47, 0.8);
+    background-color: rgba(40, 40, 40, 0.65);
     z-index: 0;
   }
 
@@ -167,8 +173,8 @@ const jsonLd = {
 
   .service-card {
     background-color: var(--color-white);
-    border: 1px solid var(--color-border);
-    border-radius: 8px;
+    box-shadow: var(--shadow-card);
+    border-radius: var(--radius-md);
     padding: var(--space-6);
     font-weight: 500;
     border-left: 3px solid var(--color-gold);
@@ -186,7 +192,7 @@ const jsonLd = {
 
   .fab-card {
     background-color: var(--color-bg-alt);
-    border-radius: 8px;
+    border-radius: var(--radius-md);
     padding: var(--space-6);
     font-weight: 500;
     text-align: center;
@@ -203,7 +209,7 @@ const jsonLd = {
     position: relative;
     padding-left: var(--space-8);
     font-size: var(--text-h3);
-    color: var(--color-navy);
+    color: var(--color-near-black);
     font-weight: 500;
   }
 

@@ -1,7 +1,9 @@
 ---
+import { Image } from 'astro:assets';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import { t } from '../../../i18n/translations';
 import { getLocalizedPath } from '../../../i18n/utils';
+import electricCarBlog from '../../../assets/images/electric-car-blog.jpg';
 
 const lang = 'en' as const;
 const currentPath = '/en/news';
@@ -38,7 +40,7 @@ const jsonLd = {
       <div class="articles">
         <a href={getLocalizedPath('/news/electric-car', lang)} class="article-card">
           <article>
-            <img src="/images/electric-car-blog.jpg" alt={strings.alt.electricCarNews} width="600" height="537" loading="lazy" />
+            <Image src={electricCarBlog} alt={strings.alt.electricCarNews} width={600} height={537} loading="lazy" />
             <div class="article-body">
               <h2>{strings.news.article1Title}</h2>
               <p>{strings.news.article1Summary}</p>
@@ -56,7 +58,7 @@ const jsonLd = {
 <style>
   .page-hero {
     padding: var(--space-24) var(--content-padding) var(--space-16);
-    background-color: var(--color-navy);
+    background-color: var(--color-near-black);
     color: var(--color-white);
   }
 
@@ -95,14 +97,14 @@ const jsonLd = {
     text-decoration: none;
     color: inherit;
     background-color: var(--color-white);
-    border: 1px solid var(--color-border);
-    border-radius: 8px;
+    box-shadow: var(--shadow-card);
+    border-radius: var(--radius-md);
     overflow: hidden;
-    transition: box-shadow 200ms ease;
+    transition: box-shadow 0.3s ease;
   }
 
   .article-card:hover {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    box-shadow: var(--shadow-button-hover);
   }
 
   .article-card img {
@@ -130,9 +132,7 @@ const jsonLd = {
     margin-top: var(--space-4);
     font-weight: 600;
     font-size: var(--text-small);
-    color: var(--color-navy);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
+    color: var(--color-gold-dark);
   }
 
   .coming-soon {

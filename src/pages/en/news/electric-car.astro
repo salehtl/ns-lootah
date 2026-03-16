@@ -1,7 +1,9 @@
 ---
+import { Image } from 'astro:assets';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import { t } from '../../../i18n/translations';
 import { getLocalizedPath } from '../../../i18n/utils';
+import electricCar from '../../../assets/images/electric-car.jpg';
 
 const lang = 'en' as const;
 const currentPath = '/en/news/electric-car';
@@ -37,7 +39,7 @@ const jsonLd = {
     </header>
 
     <div class="article-image">
-      <img src="/images/electric-car.jpg" alt={strings.alt.electricCarNews} width="600" height="798" />
+      <Image src={electricCar} alt={strings.alt.electricCarNews} width={600} height={798} />
     </div>
 
     <div class="container article-body">
@@ -66,7 +68,7 @@ const jsonLd = {
 <style>
   .article-hero {
     padding: var(--space-24) var(--content-padding) var(--space-16);
-    background-color: var(--color-navy);
+    background-color: var(--color-near-black);
     color: var(--color-white);
   }
 
@@ -92,7 +94,7 @@ const jsonLd = {
     text-transform: uppercase;
     letter-spacing: 0.05em;
     margin-bottom: var(--space-6);
-    transition: color 200ms ease, gap 200ms ease;
+    transition: color 0.3s ease, gap 0.3s ease;
   }
 
   .back-link:hover {
@@ -101,12 +103,12 @@ const jsonLd = {
   }
 
   .back-link-bottom {
-    color: var(--color-navy);
+    color: var(--color-gold-dark);
     margin-top: var(--space-12);
   }
 
   .back-link-bottom:hover {
-    color: var(--color-navy);
+    color: var(--color-gold);
   }
 
   .article-image {
@@ -148,7 +150,7 @@ const jsonLd = {
 
   blockquote p {
     font-style: italic;
-    color: var(--color-navy);
+    color: var(--color-near-black);
     font-size: var(--text-h3);
     line-height: 1.6;
   }

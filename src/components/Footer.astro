@@ -3,6 +3,8 @@ import type { Lang } from '../i18n/types';
 import { t } from '../i18n/translations';
 import { getLocalizedPath } from '../i18n/utils';
 import LanguageSwitcher from './LanguageSwitcher.astro';
+import { Image } from 'astro:assets';
+import footerGraphic from '../assets/images/footer-graphic.webp';
 
 interface Props {
   lang: Lang;
@@ -27,7 +29,7 @@ const quickLinks = [
     <div class="footer-top">
       <div class="footer-about">
         <a href={getLocalizedPath('/', lang)} class="footer-logo" aria-label={strings.site.name}>
-          <img src="/images/logo-footer.webp" alt={strings.alt.logo} width="300" height="66" />
+          <Image src={footerGraphic} alt={strings.alt.logo} width={300} height={66} />
         </a>
         <p class="footer-about-text">{strings.footer.aboutText}</p>
       </div>
@@ -68,7 +70,7 @@ const quickLinks = [
 
 <style>
   .footer {
-    background-color: var(--color-navy);
+    background-color: #000000;
     margin-top: var(--space-32);
   }
 
@@ -89,7 +91,7 @@ const quickLinks = [
   }
 
   .footer-logo img {
-    height: 44px;
+    height: 100px;
     width: auto;
   }
 
@@ -104,14 +106,7 @@ const quickLinks = [
     font-size: var(--text-small);
     font-weight: 600;
     color: var(--color-white);
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
     margin-bottom: var(--space-4);
-  }
-
-  html[dir="rtl"] .footer-heading {
-    text-transform: none;
-    letter-spacing: 0;
   }
 
   .footer-links ul {
@@ -125,7 +120,7 @@ const quickLinks = [
     font-size: var(--text-small);
     color: rgba(255, 255, 255, 0.7);
     text-decoration: none;
-    transition: color 200ms ease;
+    transition: color 0.3s ease;
   }
 
   .footer-links a:hover {
@@ -147,7 +142,7 @@ const quickLinks = [
   .footer-address a {
     color: rgba(255, 255, 255, 0.7);
     text-decoration: none;
-    transition: color 200ms ease;
+    transition: color 0.3s ease;
   }
 
   .footer-address a:hover {

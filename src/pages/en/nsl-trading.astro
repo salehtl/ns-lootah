@@ -1,6 +1,18 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { Image } from 'astro:assets';
 import { t } from '../../i18n/translations';
+
+import powerStationHero from '../../assets/images/power-station-hero.jpg';
+import maxiCharge from '../../assets/images/maxi-charge.jpg';
+import smartDrive from '../../assets/images/smart-drive.webp';
+import batteryManagement from '../../assets/images/battery-management.webp';
+import nslApplications from '../../assets/images/nsl-applications.webp';
+import productGallery1 from '../../assets/images/product-gallery-1.jpeg';
+import productGallery2 from '../../assets/images/product-gallery-2.jpeg';
+import productGallery3 from '../../assets/images/product-gallery-3.jpeg';
+import productGallery4 from '../../assets/images/product-gallery-4.jpeg';
+import productGallery5 from '../../assets/images/product-gallery-5.jpeg';
 
 const lang = 'en' as const;
 const currentPath = '/en/nsl-trading';
@@ -37,7 +49,7 @@ const jsonLd = {
         <p>{strings.nslTrading.overviewText}</p>
       </div>
       <div class="overview-image">
-        <img src="/images/power-station-hero.jpg" alt={strings.alt.powerStationHero} width="800" height="533" loading="lazy" />
+        <Image src={powerStationHero} alt={strings.alt.powerStationHero} width={800} height={533} loading="lazy" />
       </div>
     </div>
   </section>
@@ -68,21 +80,21 @@ const jsonLd = {
       <h2>{strings.nslTrading.techHeading}</h2>
       <div class="three-col">
         <div class="card tech-card">
-          <img src="/images/maxi-charge.jpg" alt={strings.alt.maxiCharge} width="768" height="437" loading="lazy" />
+          <Image src={maxiCharge} alt={strings.alt.maxiCharge} width={768} height={437} loading="lazy" />
           <div class="card-body">
             <h3>{strings.nslTrading.techMaxiCharge}</h3>
             <p>{strings.nslTrading.techMaxiChargeText}</p>
           </div>
         </div>
         <div class="card tech-card">
-          <img src="/images/smart-drive.webp" alt={strings.alt.smartDrive} width="768" height="437" loading="lazy" />
+          <Image src={smartDrive} alt={strings.alt.smartDrive} width={768} height={437} loading="lazy" />
           <div class="card-body">
             <h3>{strings.nslTrading.techSmartDrive}</h3>
             <p>{strings.nslTrading.techSmartDriveText}</p>
           </div>
         </div>
         <div class="card tech-card">
-          <img src="/images/battery-management.webp" alt={strings.alt.batteryManagement} width="768" height="437" loading="lazy" />
+          <Image src={batteryManagement} alt={strings.alt.batteryManagement} width={768} height={437} loading="lazy" />
           <div class="card-body">
             <h3>{strings.nslTrading.techBms}</h3>
             <p>{strings.nslTrading.techBmsText}</p>
@@ -95,7 +107,7 @@ const jsonLd = {
   <section class="section section-alt">
     <div class="container">
       <h2>{strings.nslTrading.marketsHeading}</h2>
-      <img src="/images/nsl-applications.webp" alt={strings.alt.nslApplications} width="1024" height="378" loading="lazy" class="markets-image" />
+      <Image src={nslApplications} alt={strings.alt.nslApplications} width={1024} height={378} loading="lazy" class="markets-image" />
       <ul class="markets-grid">
         {strings.nslTrading.markets.map((item) => <li>{item}</li>)}
       </ul>
@@ -105,11 +117,11 @@ const jsonLd = {
   <section class="section">
     <div class="container">
       <div class="product-gallery">
-        <img src="/images/product-gallery-1.jpeg" alt={strings.alt.productGallery1} width="400" height="500" loading="lazy" />
-        <img src="/images/product-gallery-2.jpeg" alt={strings.alt.productGallery2} width="400" height="500" loading="lazy" />
-        <img src="/images/product-gallery-3.jpeg" alt={strings.alt.productGallery3} width="400" height="500" loading="lazy" />
-        <img src="/images/product-gallery-4.jpeg" alt={strings.alt.productGallery4} width="400" height="500" loading="lazy" />
-        <img src="/images/product-gallery-5.jpeg" alt={strings.alt.productGallery5} width="400" height="500" loading="lazy" />
+        <Image src={productGallery1} alt={strings.alt.productGallery1} width={400} height={500} loading="lazy" />
+        <Image src={productGallery2} alt={strings.alt.productGallery2} width={400} height={500} loading="lazy" />
+        <Image src={productGallery3} alt={strings.alt.productGallery3} width={400} height={500} loading="lazy" />
+        <Image src={productGallery4} alt={strings.alt.productGallery4} width={400} height={500} loading="lazy" />
+        <Image src={productGallery5} alt={strings.alt.productGallery5} width={400} height={500} loading="lazy" />
       </div>
     </div>
   </section>
@@ -118,7 +130,7 @@ const jsonLd = {
 <style>
   .page-hero {
     padding: var(--space-24) var(--content-padding) var(--space-16);
-    background-color: var(--color-navy);
+    background-color: var(--color-near-black);
     color: var(--color-white);
   }
 
@@ -176,8 +188,8 @@ const jsonLd = {
 
   .card {
     background-color: var(--color-white);
-    border: 1px solid var(--color-border);
-    border-radius: 8px;
+    box-shadow: var(--shadow-card);
+    border-radius: var(--radius-md);
     padding: var(--space-8);
   }
 
@@ -253,8 +265,8 @@ const jsonLd = {
 
   .markets-grid li {
     background-color: var(--color-white);
-    border: 1px solid var(--color-border);
-    border-radius: 8px;
+    box-shadow: var(--shadow-card);
+    border-radius: var(--radius-md);
     padding: var(--space-4) var(--space-6);
     font-weight: 500;
   }

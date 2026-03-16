@@ -1,7 +1,13 @@
 ---
+import { Image } from 'astro:assets';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { t } from '../../i18n/translations';
 import { getLocalizedPath } from '../../i18n/utils';
+import aboutLootah from '../../assets/images/about-lootah.jpg';
+import tradingDivision from '../../assets/images/trading-division.webp';
+import workshopDivision from '../../assets/images/workshop-division.webp';
+import electricCarBlog from '../../assets/images/electric-car-blog.jpg';
+import careersHero from '../../assets/images/careers-hero.jpg';
 
 const lang = 'ar' as const;
 const currentPath = '/ar/';
@@ -47,7 +53,7 @@ const jsonLd = {
         </a>
       </div>
       <div class="legacy-image">
-        <img src="/images/about-lootah.jpg" alt={strings.alt.aboutLootah} width="985" height="1024" loading="lazy" />
+        <Image src={aboutLootah} alt={strings.alt.aboutLootah} width={985} height={1024} loading="lazy" />
       </div>
     </div>
   </section>
@@ -62,7 +68,7 @@ const jsonLd = {
       <div class="divisions-grid">
         <div class="division-card">
           <div class="division-card-image">
-            <img src="/images/trading-division.webp" alt={strings.alt.tradingDivision} width="800" height="533" loading="lazy" />
+            <Image src={tradingDivision} alt={strings.alt.tradingDivision} width={800} height={533} loading="lazy" />
           </div>
           <div class="division-card-body">
             <h3>{strings.home.tradingTitle}</h3>
@@ -75,7 +81,7 @@ const jsonLd = {
         </div>
         <div class="division-card">
           <div class="division-card-image">
-            <img src="/images/workshop-division.webp" alt={strings.alt.workshopDivision} width="800" height="533" loading="lazy" />
+            <Image src={workshopDivision} alt={strings.alt.workshopDivision} width={800} height={533} loading="lazy" />
           </div>
           <div class="division-card-body">
             <h3>{strings.home.workshopTitle}</h3>
@@ -106,7 +112,7 @@ const jsonLd = {
       <h2>{strings.home.newsHeading}</h2>
 
       <a href={getLocalizedPath('/news/electric-car', lang)} class="news-card">
-        <img src="/images/electric-car-blog.jpg" alt={strings.alt.electricCarNews} width="600" height="537" loading="lazy" />
+        <Image src={electricCarBlog} alt={strings.alt.electricCarNews} width={600} height={537} loading="lazy" />
         <div class="news-card-body">
           <h3>{strings.news.article1Title}</h3>
           <p>{strings.news.article1Summary}</p>
@@ -130,7 +136,7 @@ const jsonLd = {
         <a href={getLocalizedPath('/careers', lang)} class="btn btn-primary">{strings.home.careersCta}</a>
       </div>
       <div class="careers-image">
-        <img src="/images/careers-hero.jpg" alt={strings.alt.careersHero} width="800" height="533" loading="lazy" />
+        <Image src={careersHero} alt={strings.alt.careersHero} width={800} height={533} loading="lazy" />
       </div>
     </div>
   </section>
@@ -149,7 +155,7 @@ const jsonLd = {
   .hero-overlay {
     position: absolute;
     inset: 0;
-    background-color: rgba(10, 25, 47, 0.75);
+    background-color: rgba(40, 40, 40, 0.6);
     z-index: 0;
   }
 
@@ -165,6 +171,7 @@ const jsonLd = {
     font-size: var(--text-display);
     margin-bottom: var(--space-6);
     white-space: pre-line;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
   }
 
   .hero-tagline {
@@ -185,47 +192,44 @@ const jsonLd = {
   .btn {
     display: inline-block;
     padding: var(--space-4) var(--space-8);
+    font-family: var(--font-display);
     font-weight: 600;
-    font-size: var(--text-small);
+    font-size: var(--text-button);
     text-decoration: none;
-    border-radius: 6px;
-    letter-spacing: 0.03em;
-    transition: background-color 200ms ease, box-shadow 200ms ease, color 200ms ease;
+    border-radius: var(--radius-md);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease, color 0.3s ease;
   }
 
   .btn-primary {
-    background-color: var(--color-white);
-    color: var(--color-navy);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12);
+    background-color: var(--color-gold-dark);
+    color: var(--color-white);
   }
 
   .btn-primary:hover {
-    background-color: var(--color-bg);
-    color: var(--color-navy);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.16);
+    color: var(--color-white);
+    box-shadow: var(--shadow-button-hover);
   }
 
   .btn-outline {
-    border: 2px solid rgba(255, 255, 255, 0.4);
+    border: 2px solid var(--color-gold);
     color: var(--color-white);
     background: transparent;
   }
 
   .btn-outline:hover {
-    border-color: var(--color-white);
+    background-color: var(--color-gold-dark);
+    border-color: var(--color-gold-dark);
     color: var(--color-white);
   }
 
   .btn-white {
     background-color: var(--color-white);
-    color: var(--color-navy);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12);
+    color: var(--color-gold-dark);
   }
 
   .btn-white:hover {
-    background-color: var(--color-bg);
-    color: var(--color-navy);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.16);
+    color: var(--color-gold-dark);
+    box-shadow: var(--shadow-button-hover);
   }
 
   /* Sections */
@@ -252,6 +256,8 @@ const jsonLd = {
     color: var(--color-gold-dark);
     margin-bottom: var(--space-2);
   }
+
+  /* Already no uppercase/letter-spacing in AR */
 
   .section-desc {
     color: var(--color-charcoal);
@@ -285,14 +291,14 @@ const jsonLd = {
     gap: var(--space-2);
     font-weight: 600;
     font-size: var(--text-small);
-    color: var(--color-navy);
+    color: var(--color-gold-dark);
     text-decoration: none;
-    transition: gap 200ms ease;
+    transition: gap 0.3s ease;
   }
 
   .link-arrow:hover {
     gap: var(--space-4);
-    color: var(--color-navy);
+    color: var(--color-gold);
   }
 
   /* Divisions */
@@ -304,8 +310,8 @@ const jsonLd = {
 
   .division-card {
     background-color: var(--color-white);
-    border: 1px solid var(--color-border);
-    border-radius: 8px;
+    box-shadow: var(--shadow-card);
+    border-radius: var(--radius-md);
     overflow: hidden;
     display: flex;
     flex-direction: column;
@@ -338,7 +344,7 @@ const jsonLd = {
   /* CTA */
   .cta {
     padding: var(--space-24) var(--content-padding);
-    background-color: var(--color-navy);
+    background-color: var(--color-near-black);
     color: var(--color-white);
     text-align: center;
   }
@@ -359,15 +365,16 @@ const jsonLd = {
     display: grid;
     text-decoration: none;
     color: inherit;
-    background-color: var(--color-bg-alt);
-    border-radius: 8px;
+    background-color: var(--color-white);
+    border-radius: var(--radius-md);
     overflow: hidden;
     margin-bottom: var(--space-8);
-    transition: box-shadow 200ms ease;
+    box-shadow: var(--shadow-card);
+    transition: box-shadow 0.3s ease;
   }
 
   .news-card:hover {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    box-shadow: var(--shadow-button-hover);
   }
 
   .news-card img {
@@ -394,7 +401,7 @@ const jsonLd = {
     margin-top: var(--space-4);
     font-weight: 600;
     font-size: var(--text-small);
-    color: var(--color-navy);
+    color: var(--color-gold-dark);
   }
 
   /* Careers */
@@ -420,13 +427,13 @@ const jsonLd = {
   }
 
   .careers-content .btn-primary {
-    background-color: var(--color-navy);
+    background-color: var(--color-gold-dark);
     color: var(--color-white);
   }
 
   .careers-content .btn-primary:hover {
-    background-color: var(--color-navy-light);
     color: var(--color-white);
+    box-shadow: var(--shadow-button-hover);
   }
 
   .careers-image img {

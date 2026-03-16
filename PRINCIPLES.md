@@ -67,36 +67,42 @@ Target: **Lighthouse 100** across all categories.
 
 ## 6. Aesthetics
 
-Modern corporate: clean, trustworthy, forward-looking. Sharp lines, clear hierarchy, approachable authority.
+Luxe minimalism: warm, refined, heritage-meets-modernity. Generous whitespace, subtle shadows, serif/sans-serif pairing.
 
 ### Color Palette
-- **Primary**: Deep classic navy (`#1B2A4A`) — headings, footer background, buttons, key UI elements.
-- **Accent**: Warm gold (`#C8963E`) — highlights, icons, decorative touches. Used sparingly, never on buttons.
-- **Background**: Cool off-white (`#F4F6F8`) primary, light cool gray (`#E8ECF0`) for alternating sections.
-- **Text**: Near-black (`#1A1D23`) for body, navy for headings.
-- **Neutrals**: Cool gray scale for borders, muted text, and dividers.
+- **Accent**: Champagne gold (`#cfb777`) — decorative accents, hover highlights, active states on dark backgrounds.
+- **Interactive**: Dark gold/brown (`#8b7442`) — buttons, interactive link accents (passes WCAG AA on white).
+- **Background**: Warm off-white (`#F6F2EF`) primary, rose-beige (`#f7dede`) for alternating sections and footer.
+- **Content areas**: White (`#FFFFFF`).
+- **Text**: Charcoal (`#333333`) for body, near-black (`#282828`) for headings.
+- **Muted text**: Mid-gray (`#646464`) for captions, footer text.
 
 ### Typography
-- **English headings**: Archivo (geometric sans-serif) — self-hosted, variable weight.
-- **English body**: Archivo — same family for cohesion.
-- **Arabic**: IBM Plex Sans Arabic — geometric, complements Archivo's structure.
-- Tight heading tracking (`-0.02em`), relaxed body line-height (`1.6`).
+- **English headings**: Merriweather (serif) — self-hosted, regular (400) and bold (700).
+- **English body**: Raleway (sans-serif) — self-hosted, multiple weights.
+- **Arabic headings**: Noto Naskh Arabic (serif) — complements Merriweather's editorial feel.
+- **Arabic body**: IBM Plex Sans Arabic — pairs with Raleway's clean geometry.
+- H1: bold (700), H2/H3: regular (400). Body line-height 1.8.
 
 ### Layout
-- Grid-structured, card-based sections. Orderly and scannable.
-- Section rhythm: alternating white and light cool gray backgrounds.
-- 1200px max content width. 4px spacing scale. Mobile-first.
-- Light header, dark navy footer.
+- Generous whitespace, card-based sections with subtle shadows.
+- Section rhythm: alternating white and warm beige backgrounds.
+- 1280px standard / 1510px wide / 842px narrow containers. 4px spacing scale. Mobile-first.
+- Light header with warm beige border. Light warm footer.
 
 ### Buttons & Interactive Elements
-- Primary buttons: solid navy fill with subtle shadow. No gold on buttons.
-- Hover: slight lightening or shadow lift.
-- Focus: 2px navy outline with offset.
+- Primary buttons: dark gold (`#8b7442`) fill, white text, minimal border-radius (4px).
+- Hover: elevated shadow (`0px 15px 25px -7px rgba(0,0,0,0.1)`).
+- Focus: 2px gold outline with offset.
+
+### Shadows & Borders
+- Cards: subtle shadow (`0px 15px 15px -10px rgba(0,0,0,0.05)`), no visible borders.
+- Minimal border-radius (4px for UI elements, 8px for images).
 
 ### Motion
-- Subtle only. Gentle fade-ins on scroll, smooth hover transitions.
+- Subtle only. Gentle fade-ins on scroll, smooth hover transitions (0.3s ease).
 - All transitions respect `prefers-reduced-motion`.
-- No parallax, no carousels. Interactions < 300ms, entrances < 600ms.
+- No parallax, no carousels.
 
 ### Contrast
 - 4.5:1 for body text, 3:1 for large text (WCAG AA).
