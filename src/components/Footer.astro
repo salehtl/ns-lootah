@@ -21,6 +21,7 @@ const quickLinks = [
   { label: strings.nav.projectUpgraded, href: getLocalizedPath('/project-upgraded', lang) },
   { label: strings.nav.news, href: getLocalizedPath('/news', lang) },
   { label: strings.nav.careers, href: getLocalizedPath('/careers', lang) },
+  { label: strings.nav.realFresh, href: getLocalizedPath('/real-fresh', lang) },
 ];
 ---
 
@@ -39,7 +40,7 @@ const quickLinks = [
         <nav aria-label={lang === 'en' ? 'Footer navigation' : 'تنقل التذييل'}>
           <ul>
             {quickLinks.map((link) => (
-              <li><a href={link.href}>{link.label}</a></li>
+              <li><a href={link.href} {...(link.href.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}>{link.label}</a></li>
             ))}
           </ul>
         </nav>
