@@ -41,42 +41,20 @@ const jsonLd = {
     <div class="container">
       <h2>{strings.souoMoto.modelsHeading}</h2>
       <div class="two-col">
-        <div class="card model-card">
+        <div class="card">
           <h3>{strings.souoMoto.model1Name}</h3>
           <p>{strings.souoMoto.model1Desc}</p>
-          <p class="price"><span class="price-label">{strings.souoMoto.priceLabel}</span> {strings.souoMoto.price}</p>
         </div>
-        <div class="card model-card">
+        <div class="card">
           <h3>{strings.souoMoto.model2Name}</h3>
           <p>{strings.souoMoto.model2Desc}</p>
-          <p class="price"><span class="price-label">{strings.souoMoto.priceLabel}</span> {strings.souoMoto.price}</p>
         </div>
       </div>
     </div>
   </section>
 
   <section class="section">
-    <div class="container">
-      <h2>{strings.souoMoto.specsHeading}</h2>
-      <ul class="specs-list">
-        {strings.souoMoto.specs.map((item) => <li>{item}</li>)}
-      </ul>
-    </div>
-  </section>
-
-  <section class="section section-alt">
-    <div class="container">
-      <h2>{strings.souoMoto.featuresHeading}</h2>
-      <ul class="features-grid">
-        {strings.souoMoto.features.map((item) => <li>{item}</li>)}
-      </ul>
-    </div>
-  </section>
-
-  <section class="section">
     <div class="container cta-section">
-      <h2>{strings.souoMoto.availabilityHeading}</h2>
-      <p>{strings.souoMoto.availabilityText}</p>
       <a href={strings.souoMoto.websiteUrl} target="_blank" rel="noopener noreferrer" class="cta-button">{strings.souoMoto.websiteCta}</a>
     </div>
   </section>
@@ -146,80 +124,8 @@ const jsonLd = {
     line-height: 1.7;
   }
 
-  .price {
-    margin-top: var(--space-6);
-    font-size: var(--text-h3);
-    font-weight: 700;
-    color: var(--color-gold-dark);
-  }
-
-  .price-label {
-    font-size: var(--text-small);
-    font-weight: 400;
-    color: var(--color-charcoal);
-    display: block;
-  }
-
-  .specs-list {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-3);
-  }
-
-  .specs-list li {
-    position: relative;
-    color: var(--color-charcoal);
-    line-height: 1.6;
-    font-size: var(--text-h3);
-    padding-right: var(--space-6);
-  }
-
-  .specs-list li::before {
-    content: '';
-    position: absolute;
-    right: 0;
-    top: 0.65em;
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background-color: var(--color-gold);
-  }
-
-  html[dir="ltr"] .specs-list li {
-    padding-right: 0;
-    padding-left: var(--space-6);
-  }
-
-  html[dir="ltr"] .specs-list li::before {
-    right: auto;
-    left: 0;
-  }
-
-  .features-grid {
-    list-style: none;
-    display: grid;
-    gap: var(--space-4);
-  }
-
-  .features-grid li {
-    background-color: var(--color-white);
-    box-shadow: var(--shadow-card);
-    border-radius: var(--radius-md);
-    padding: var(--space-4) var(--space-6);
-    font-weight: 500;
-  }
-
   .cta-section {
     text-align: center;
-  }
-
-  .cta-section p {
-    max-width: 55ch;
-    margin: 0 auto var(--space-8);
-    font-size: var(--text-h3);
-    color: var(--color-charcoal);
-    line-height: 1.6;
   }
 
   .cta-button {
@@ -246,10 +152,6 @@ const jsonLd = {
 
   @media (min-width: 48rem) {
     .two-col {
-      grid-template-columns: 1fr 1fr;
-    }
-
-    .features-grid {
       grid-template-columns: 1fr 1fr;
     }
   }
