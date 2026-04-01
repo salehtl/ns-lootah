@@ -1,0 +1,260 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { t } from '../../i18n/translations';
+
+const lang = 'en' as const;
+const currentPath = '/en/souo-moto';
+const strings = t(lang);
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: strings.nav.home, item: 'https://nslootah.com/en/' },
+    { '@type': 'ListItem', position: 2, name: strings.nav.souoMoto, item: 'https://nslootah.com/en/souo-moto' },
+  ],
+};
+---
+
+<BaseLayout
+  title={strings.souoMoto.metaTitle}
+  description={strings.souoMoto.metaDescription}
+  lang={lang}
+  currentPath={currentPath}
+  jsonLd={jsonLd}
+>
+  <section class="page-hero">
+    <div class="container">
+      <h1>{strings.souoMoto.heading}</h1>
+      <p class="intro">{strings.souoMoto.intro}</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <h2>{strings.souoMoto.overviewHeading}</h2>
+      <p class="lead">{strings.souoMoto.overviewText}</p>
+    </div>
+  </section>
+
+  <section class="section section-alt">
+    <div class="container">
+      <h2>{strings.souoMoto.modelsHeading}</h2>
+      <div class="two-col">
+        <div class="card model-card">
+          <h3>{strings.souoMoto.model1Name}</h3>
+          <p>{strings.souoMoto.model1Desc}</p>
+          <p class="price"><span class="price-label">{strings.souoMoto.priceLabel}</span> {strings.souoMoto.price}</p>
+        </div>
+        <div class="card model-card">
+          <h3>{strings.souoMoto.model2Name}</h3>
+          <p>{strings.souoMoto.model2Desc}</p>
+          <p class="price"><span class="price-label">{strings.souoMoto.priceLabel}</span> {strings.souoMoto.price}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <h2>{strings.souoMoto.specsHeading}</h2>
+      <ul class="specs-list">
+        {strings.souoMoto.specs.map((item) => <li>{item}</li>)}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section section-alt">
+    <div class="container">
+      <h2>{strings.souoMoto.featuresHeading}</h2>
+      <ul class="features-grid">
+        {strings.souoMoto.features.map((item) => <li>{item}</li>)}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container cta-section">
+      <h2>{strings.souoMoto.availabilityHeading}</h2>
+      <p>{strings.souoMoto.availabilityText}</p>
+      <a href={strings.souoMoto.websiteUrl} target="_blank" rel="noopener noreferrer" class="cta-button">{strings.souoMoto.websiteCta}</a>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .page-hero {
+    padding: var(--space-24) var(--content-padding) var(--space-16);
+    background-color: var(--color-near-black);
+    color: var(--color-white);
+  }
+
+  .page-hero h1 {
+    color: var(--color-white);
+    font-size: var(--text-display);
+    margin-bottom: var(--space-6);
+  }
+
+  .intro {
+    font-size: var(--text-h3);
+    color: rgba(255, 255, 255, 0.8);
+    max-width: 55ch;
+  }
+
+  .container {
+    max-width: var(--max-width);
+    margin: 0 auto;
+  }
+
+  .section {
+    padding: var(--space-24) var(--content-padding);
+  }
+
+  .section-alt {
+    background-color: var(--color-bg-alt);
+  }
+
+  .section h2 {
+    margin-bottom: var(--space-8);
+  }
+
+  .lead {
+    font-size: var(--text-h3);
+    line-height: 1.6;
+    color: var(--color-charcoal);
+    max-width: 65ch;
+  }
+
+  .two-col {
+    display: grid;
+    gap: var(--space-8);
+  }
+
+  .card {
+    background-color: var(--color-white);
+    box-shadow: var(--shadow-card);
+    border-radius: var(--radius-md);
+    padding: var(--space-8);
+  }
+
+  .section-alt .card {
+    background-color: var(--color-white);
+  }
+
+  .card h3 {
+    margin-bottom: var(--space-4);
+  }
+
+  .card p {
+    color: var(--color-charcoal);
+    line-height: 1.7;
+  }
+
+  .price {
+    margin-top: var(--space-6);
+    font-size: var(--text-h3);
+    font-weight: 700;
+    color: var(--color-gold-dark);
+  }
+
+  .price-label {
+    font-size: var(--text-small);
+    font-weight: 400;
+    color: var(--color-charcoal);
+    display: block;
+  }
+
+  .specs-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .specs-list li {
+    padding-left: var(--space-6);
+    position: relative;
+    color: var(--color-charcoal);
+    line-height: 1.6;
+    font-size: var(--text-h3);
+  }
+
+  .specs-list li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.65em;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: var(--color-gold);
+  }
+
+  html[dir="rtl"] .specs-list li {
+    padding-left: 0;
+    padding-right: var(--space-6);
+  }
+
+  html[dir="rtl"] .specs-list li::before {
+    left: auto;
+    right: 0;
+  }
+
+  .features-grid {
+    list-style: none;
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  .features-grid li {
+    background-color: var(--color-white);
+    box-shadow: var(--shadow-card);
+    border-radius: var(--radius-md);
+    padding: var(--space-4) var(--space-6);
+    font-weight: 500;
+  }
+
+  .cta-section {
+    text-align: center;
+  }
+
+  .cta-section p {
+    max-width: 55ch;
+    margin: 0 auto var(--space-8);
+    font-size: var(--text-h3);
+    color: var(--color-charcoal);
+    line-height: 1.6;
+  }
+
+  .cta-button {
+    display: inline-block;
+    padding: var(--space-3) var(--space-8);
+    background-color: var(--color-gold);
+    color: var(--color-near-black);
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: var(--radius-md);
+    transition: background-color 0.3s ease;
+  }
+
+  .cta-button:hover {
+    background-color: var(--color-gold-dark);
+    color: var(--color-white);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cta-button {
+      transition: none;
+    }
+  }
+
+  @media (min-width: 48rem) {
+    .two-col {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .features-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+</style>
