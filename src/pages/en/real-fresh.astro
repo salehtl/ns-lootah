@@ -87,7 +87,10 @@ const jsonLd = {
         <p><a href={`tel:${strings.realFresh.phone.replace(/\s/g, '')}`}>{strings.realFresh.phone}</a></p>
         <p><a href={`mailto:${strings.realFresh.email}`}>{strings.realFresh.email}</a></p>
       </address>
-      <a href={strings.realFresh.websiteUrl} target="_blank" rel="noopener noreferrer" class="cta-button">{strings.realFresh.websiteCta}</a>
+      <a href={strings.realFresh.websiteUrl} target="_blank" rel="noopener noreferrer" class="cta-button">
+        <span class="cta-label">{strings.realFresh.websiteCta}</span>
+        <span class="cta-arrow" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg></span>
+      </a>
     </div>
   </section>
 </BaseLayout>
@@ -277,24 +280,81 @@ const jsonLd = {
   }
 
   .cta-button {
-    display: inline-block;
-    padding: var(--space-3) var(--space-8);
-    background-color: var(--color-gold);
-    color: var(--color-near-black);
-    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-4) var(--space-8);
+    background-color: transparent;
+    color: var(--color-gold-dark);
+    font-weight: 700;
+    font-size: var(--text-button);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
     text-decoration: none;
-    border-radius: var(--radius-md);
-    transition: background-color 0.3s ease;
+    border: 2px solid var(--color-gold);
+    border-radius: 0;
+    position: relative;
+    overflow: hidden;
+    transition: color 0.3s ease, border-color 0.3s ease;
+  }
+
+  .cta-button::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-color: var(--color-gold);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s ease;
+    z-index: 0;
+  }
+
+  html[dir="rtl"] .cta-button::before {
+    transform-origin: right;
+  }
+
+  .cta-button:hover::before {
+    transform: scaleX(1);
   }
 
   .cta-button:hover {
-    background-color: var(--color-gold-dark);
-    color: var(--color-white);
+    color: var(--color-near-black);
+    border-color: var(--color-gold);
+  }
+
+  .cta-label,
+  .cta-arrow {
+    position: relative;
+    z-index: 1;
+  }
+
+  .cta-arrow {
+    display: inline-flex;
+    transition: transform 0.3s ease;
+  }
+
+  .cta-button:hover .cta-arrow {
+    transform: translate(3px, -3px);
+  }
+
+  html[dir="rtl"] .cta-arrow {
+    transform: scaleX(-1);
+  }
+
+  html[dir="rtl"] .cta-button:hover .cta-arrow {
+    transform: scaleX(-1) translate(3px, -3px);
+  }
+
+  .cta-button:focus-visible {
+    outline: 2px solid var(--color-gold-dark);
+    outline-offset: 3px;
   }
 
   @media (prefers-reduced-motion: reduce) {
     .contact-info a,
-    .cta-button {
+    .cta-button,
+    .cta-button::before,
+    .cta-arrow {
       transition: none;
     }
   }
