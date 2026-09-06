@@ -303,7 +303,9 @@ a:hover {
 
 @supports (animation-timeline: view()) {
   .fade-in {
-    animation: fadeUp ease both;
+    animation-name: fadeUp;
+    animation-timing-function: ease;
+    animation-fill-mode: both;
     animation-timeline: view();
     animation-range: entry 0% entry 30%;
   }
