@@ -22,7 +22,7 @@ const navLinks = [
 ];
 ---
 
-<header class="header">
+<header class="header" transition:name="site-header" transition:animate="none">
   <div class="header-inner">
     <a href={getLocalizedPath('/', lang)} class="logo" aria-label={strings.site.name}>
       <img src="/images/logo.webp" alt={strings.alt.logo} width="300" height="66" />
