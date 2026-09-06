@@ -31,7 +31,7 @@ const quickLinks = [
     <div class="footer-top">
       <div class="footer-about">
         <a href={getLocalizedPath('/', lang)} class="footer-logo" aria-label={strings.site.name}>
-          <Image src={footerGraphic} alt={strings.alt.logo} width={300} height={66} />
+          <Image src={footerGraphic} alt={strings.alt.logo} width={200} height={253} densities={[1, 2]} />
         </a>
         <p class="footer-about-text">{strings.footer.aboutText}</p>
       </div>
@@ -93,8 +93,10 @@ const quickLinks = [
   }
 
   .footer-logo img {
-    height: 100px;
-    width: auto;
+    display: block;
+    width: 200px;
+    max-width: 100%;
+    height: auto;
   }
 
   .footer-about-text {
