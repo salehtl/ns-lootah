@@ -31,6 +31,7 @@ const jsonLd = {
 >
   <section class="page-hero">
     <div class="hero-inner">
+      <div class="hero-logo"><img src="/images/logos/project-upgraded.svg" alt={strings.alt.projectUpgradedLogo} width="660" height="167" /></div>
       <h1>{strings.projectUpgraded.heading}</h1>
       <p class="intro">{strings.projectUpgraded.intro}</p>
     </div>
@@ -89,6 +90,20 @@ const jsonLd = {
 </BaseLayout>
 
 <style>
+  .hero-logo {
+    display: inline-block;
+    background-color: var(--color-white);
+    padding: var(--space-3) var(--space-5);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--space-8);
+  }
+
+  .hero-logo img {
+    display: block;
+    height: 64px;
+    width: auto;
+  }
+
   .page-hero {
     position: relative;
     padding: var(--space-24) var(--content-padding) var(--space-16);

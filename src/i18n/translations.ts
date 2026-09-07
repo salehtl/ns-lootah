@@ -260,6 +260,9 @@ const translations = {
     },
     alt: {
       logo: 'NS Lootah Group logo',
+      nslTradingLogo: 'NSL General Trading logo',
+      projectUpgradedLogo: 'Project Upgraded logo',
+      realFreshLogo: 'Real Fresh logo',
       heroBackground: 'Dubai skyline at sunset',
       legacyMeeting: 'NS Lootah Group business meeting',
       aboutLootah: 'About NS Lootah Group heritage',
@@ -555,6 +558,9 @@ const translations = {
     },
     alt: {
       logo: 'شعار مجموعة إن إس لوتاه',
+      nslTradingLogo: 'شعار إن إس إل للتجارة العامة',
+      projectUpgradedLogo: 'شعار بروجكت أبجريدد',
+      realFreshLogo: 'شعار ريل فريش',
       heroBackground: 'أفق دبي عند الغروب',
       legacyMeeting: 'اجتماع عمل مجموعة إن إس لوتاه',
       aboutLootah: 'عن إرث مجموعة إن إس لوتاه',

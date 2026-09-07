@@ -25,6 +25,7 @@ const jsonLd = {
 >
   <section class="page-hero">
     <div class="container">
+      <div class="hero-logo"><img src="/images/logos/real-fresh.svg" alt={strings.alt.realFreshLogo} width="579" height="278" /></div>
       <h1>{strings.realFresh.heading}</h1>
       <p class="intro">{strings.realFresh.intro}</p>
     </div>
@@ -96,6 +97,20 @@ const jsonLd = {
 </BaseLayout>
 
 <style>
+  .hero-logo {
+    display: inline-block;
+    background-color: var(--color-white);
+    padding: var(--space-3) var(--space-5);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--space-8);
+  }
+
+  .hero-logo img {
+    display: block;
+    height: 64px;
+    width: auto;
+  }
+
   .page-hero {
     padding: var(--space-24) var(--content-padding) var(--space-16);
     background-color: var(--color-near-black);

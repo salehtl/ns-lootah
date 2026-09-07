@@ -37,6 +37,7 @@ const jsonLd = {
 >
   <section class="page-hero">
     <div class="container">
+      <div class="hero-logo"><img src="/images/logos/nsl-general-trading.svg" alt={strings.alt.nslTradingLogo} width="771" height="275" /></div>
       <h1>{strings.nslTrading.heading}</h1>
       <p class="intro">{strings.nslTrading.intro}</p>
     </div>
@@ -128,6 +129,20 @@ const jsonLd = {
 </BaseLayout>
 
 <style>
+  .hero-logo {
+    display: inline-block;
+    background-color: var(--color-white);
+    padding: var(--space-3) var(--space-5);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--space-8);
+  }
+
+  .hero-logo img {
+    display: block;
+    height: 64px;
+    width: auto;
+  }
+
   .page-hero {
     padding: var(--space-24) var(--content-padding) var(--space-16);
     background-color: var(--color-near-black);
