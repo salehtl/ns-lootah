@@ -219,7 +219,7 @@ const translations = {
       phone: '+971 4 358 1088',
       email: 'info@realfreshuae.com',
       websiteCta: 'Visit Website',
-      websiteUrl: 'https://www.realfreshuae.com/',
+      websiteUrl: 'https://realfreshuae.com/',
     },
     souoMoto: {
       metaTitle: 'SOUO Moto — NS Lootah Group',
@@ -514,7 +514,7 @@ const translations = {
       phone: '+971 4 358 1088',
       email: 'info@realfreshuae.com',
       websiteCta: 'زيارة الموقع',
-      websiteUrl: 'https://www.realfreshuae.com/',
+      websiteUrl: 'https://realfreshuae.com/',
     },
     souoMoto: {
       metaTitle: 'سوو موتو — مجموعة إن إس لوتاه',

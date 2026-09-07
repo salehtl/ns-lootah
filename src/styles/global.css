@@ -18,8 +18,8 @@
   --color-gold-light: #e0d5b8;
 
   /* Typography */
-  --font-display: 'Merriweather', Georgia, 'Times New Roman', serif;
-  --font-body: 'Raleway', system-ui, -apple-system, sans-serif;
+  --font-display: 'Lora', Georgia, 'Times New Roman', serif;
+  --font-body: 'Lora', Georgia, 'Times New Roman', serif;
   --font-rtl: 'Noto Naskh Arabic', 'IBM Plex Sans Arabic', system-ui, serif;
   --font-rtl-body: 'IBM Plex Sans Arabic', system-ui, -apple-system, sans-serif;
 
@@ -67,50 +67,18 @@
 
 /* --- Font Faces --- */
 @font-face {
-  font-family: 'Merriweather';
-  src: url('/fonts/merriweather-regular.woff2') format('woff2');
-  font-weight: 400;
+  font-family: 'Lora';
+  src: url('/fonts/lora-variable.woff2') format('woff2');
+  font-weight: 400 700;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'Merriweather';
-  src: url('/fonts/merriweather-bold.woff2') format('woff2');
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Raleway';
-  src: url('/fonts/raleway-regular.woff2') format('woff2');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Raleway';
-  src: url('/fonts/raleway-500.woff2') format('woff2');
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Raleway';
-  src: url('/fonts/raleway-600.woff2') format('woff2');
-  font-weight: 600;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Raleway';
-  src: url('/fonts/raleway-bold.woff2') format('woff2');
-  font-weight: 700;
-  font-style: normal;
+  font-family: 'Lora';
+  src: url('/fonts/lora-italic-variable.woff2') format('woff2');
+  font-weight: 400 700;
+  font-style: italic;
   font-display: swap;
 }
 

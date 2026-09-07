@@ -3,8 +3,6 @@ import type { Lang } from '../i18n/types';
 import { t } from '../i18n/translations';
 import { getLocalizedPath } from '../i18n/utils';
 import LanguageSwitcher from './LanguageSwitcher.astro';
-import { Image } from 'astro:assets';
-import footerGraphic from '../assets/images/footer-graphic.webp';
 
 interface Props {
   lang: Lang;
@@ -31,7 +29,7 @@ const quickLinks = [
     <div class="footer-top">
       <div class="footer-about">
         <a href={getLocalizedPath('/', lang)} class="footer-logo" aria-label={strings.site.name}>
-          <Image src={footerGraphic} alt={strings.alt.logo} width={200} height={253} densities={[1, 2]} />
+          <img src="/images/logos/ns-lootah-group-bronze.svg" alt={strings.alt.logo} width="200" height="254" loading="lazy" />
         </a>
         <p class="footer-about-text">{strings.footer.aboutText}</p>
       </div>
@@ -94,7 +92,7 @@ const quickLinks = [
 
   .footer-logo img {
     display: block;
-    width: 200px;
+    width: 160px;
     max-width: 100%;
     height: auto;
   }

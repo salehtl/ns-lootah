@@ -29,7 +29,7 @@ Bilingual (English/Arabic) website built with Astro 5 and Bun. Fully static, zer
 
 ### CSS Architecture
 
-`src/styles/global.css` defines CSS custom properties (colors, type scale, spacing on 4px base, layout). Components use scoped `<style>` blocks referencing these variables. RTL overrides use `html[dir="rtl"]` selectors. Fonts: Merriweather (English headings, serif), Raleway (English body, sans-serif), Noto Naskh Arabic (Arabic headings, serif), IBM Plex Sans Arabic (Arabic body) — all self-hosted at `public/fonts/`.
+`src/styles/global.css` defines CSS custom properties (colors, type scale, spacing on 4px base, layout). Components use scoped `<style>` blocks referencing these variables. RTL overrides use `html[dir="rtl"]` selectors. Fonts: Lora variable (English headings and body, serif, weights 400–700 plus italic), Noto Naskh Arabic (Arabic headings, serif), IBM Plex Sans Arabic (Arabic body) — all self-hosted at `public/fonts/`.
 
 ### Images
 

@@ -78,10 +78,10 @@ Luxe minimalism: warm, refined, heritage-meets-modernity. Generous whitespace, s
 - **Muted text**: Mid-gray (`#646464`) for captions, footer text.
 
 ### Typography
-- **English headings**: Merriweather (serif) — self-hosted, regular (400) and bold (700).
-- **English body**: Raleway (sans-serif) — self-hosted, multiple weights.
-- **Arabic headings**: Noto Naskh Arabic (serif) — complements Merriweather's editorial feel.
-- **Arabic body**: IBM Plex Sans Arabic — pairs with Raleway's clean geometry.
+- **English headings**: Lora (serif) — self-hosted variable font, weights 400–700.
+- **English body**: Lora (serif) — same variable file; italic served from a second variable file.
+- **Arabic headings**: Noto Naskh Arabic (serif) — complements Lora's editorial feel.
+- **Arabic body**: IBM Plex Sans Arabic — clean sans counterpart for long-form Arabic text.
 - H1: bold (700), H2/H3: regular (400). Body line-height 1.8.
 
 ### Layout
