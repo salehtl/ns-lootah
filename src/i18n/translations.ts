@@ -3,7 +3,7 @@ const translations = {
     site: {
       name: 'NS Lootah Group',
       phone: '+971 5633 33 783',
-      email: 'info@nslootah.com',
+      email: 'contact@nslootah.com',
       address: 'Al Ttay, Al Khawaneej, Dubai - UAE',
     },
     nav: {
@@ -301,7 +301,7 @@ const translations = {
     site: {
       name: 'مجموعة إن إس لوتاه',
       phone: '+971 5633 33 783',
-      email: 'info@nslootah.com',
+      email: 'contact@nslootah.com',
       address: 'الطي، الخوانيج، دبي - الإمارات',
     },
     nav: {
