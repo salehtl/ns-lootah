@@ -1,0 +1,223 @@
+---
+/**
+ * Contact: the Group office, enquiry routes (pre-addressed emails — no form
+ * without a backend), and the six companies with any direct lines.
+ */
+import type { Lang } from '../../i18n/types';
+import { t } from '../../i18n/translations';
+import { getLocalizedPath } from '../../i18n/utils';
+import { contact } from '../../data/pages/contact';
+import PageHero from '../PageHero.astro';
+import SectionHeading from '../SectionHeading.astro';
+import CtaLink from '../CtaLink.astro';
+import CompanyIndex from '../about/CompanyIndex.astro';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const strings = t(lang);
+const copy = contact[lang];
+const site = strings.site;
+
+const topicHref = (kind: 'mail' | 'page', target: string) =>
+  kind === 'mail' ? `mailto:${site.email}?subject=${encodeURIComponent(target)}` : getLocalizedPath(target, lang);
+---
+
+<PageHero
+  variant="wash"
+  image={copy.hero.photo}
+  eyebrow={copy.hero.eyebrow}
+  title={copy.hero.title}
+  lede={copy.hero.lede}
+  crumbs={[{ label: strings.nav.home, href: getLocalizedPath('/', lang) }, { label: strings.nav.contact }]}
+  crumbsLabel={lang === 'ar' ? 'مسار التنقل' : 'Breadcrumb'}
+/>
+
+<!-- Group office -->
+<section class="office" aria-labelledby="contact-office">
+  <div class="wrap office-grid">
+    <div class="reveal">
+      <SectionHeading id="contact-office" eyebrow={copy.office.eyebrow} title={copy.office.title} lede={copy.office.lede} />
+    </div>
+    <dl class="channels">
+      <div class="channel reveal">
+        <dt>{copy.office.labels.address}</dt>
+        <dd>
+          <address>{site.address}</address>
+          <a class="channel-sub" href={copy.office.mapsUrl} target="_blank" rel="noopener noreferrer">{copy.office.maps}</a>
+        </dd>
+      </div>
+      <div class="channel reveal">
+        <dt>{copy.office.labels.phone}</dt>
+        <dd>
+          <a class="channel-main" href={site.phoneHref}><bdi dir="ltr">{site.phone}</bdi></a>
+          <a class="channel-sub" href={copy.office.whatsappUrl} target="_blank" rel="noopener noreferrer">{copy.office.whatsapp}</a>
+        </dd>
+      </div>
+      <div class="channel reveal">
+        <dt>{copy.office.labels.email}</dt>
+        <dd>
+          <a class="channel-main" href={`mailto:${site.email}`}>{site.email}</a>
+        </dd>
+      </div>
+    </dl>
+  </div>
+</section>
+
+<!-- Enquiry routes -->
+<section class="topics" aria-labelledby="contact-topics">
+  <div class="wrap">
+    <div class="reveal">
+      <SectionHeading id="contact-topics" eyebrow={copy.topics.eyebrow} title={copy.topics.title} />
+    </div>
+    <div class="topic-grid">
+      {copy.topics.items.map((item) => (
+        <article class="topic reveal">
+          <h3>{item.title}</h3>
+          <p>{item.text}</p>
+          <CtaLink href={topicHref(item.kind, item.target)} variant="text">{item.cta}</CtaLink>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- Companies -->
+<section class="companies" aria-labelledby="contact-companies">
+  <div class="wrap">
+    <div class="companies-head reveal">
+      <SectionHeading id="contact-companies" eyebrow={copy.companies.eyebrow} title={copy.companies.title} lede={copy.companies.lede} />
+    </div>
+    <CompanyIndex lang={lang} direct={copy.direct} directLabel={copy.companies.directLabel} />
+  </div>
+</section>
+
+<style>
+  section {
+    padding-block: var(--section-space);
+  }
+
+  /* --- Office --- */
+  .office-grid {
+    display: grid;
+    gap: 3rem;
+  }
+
+  .channels {
+    border-top: 1px solid var(--color-rule-strong);
+  }
+
+  .channel {
+    display: grid;
+    gap: 0.5rem;
+    padding-block: 1.5rem;
+    border-bottom: 1px solid var(--color-rule);
+  }
+
+  .channel dt {
+    font-size: var(--text-label);
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+  }
+
+  :global(html[dir='rtl']) .channel dt {
+    font-size: var(--text-small);
+    font-weight: 700;
+    text-transform: none;
+  }
+
+  .channel dd {
+    display: grid;
+    justify-items: start;
+    gap: 0.6rem;
+  }
+
+  .channel address,
+  .channel-main {
+    font-family: var(--font-display);
+    font-style: normal;
+    font-size: clamp(1.375rem, 2.6vw, 2.125rem);
+    line-height: 1.25;
+    color: var(--color-ink);
+    transition: color 0.3s ease;
+  }
+
+  :global(html[dir='rtl']) .channel address {
+    line-height: 1.6;
+  }
+
+  .channel-main:hover {
+    color: var(--color-gold-ink);
+  }
+
+  .channel-sub {
+    font-size: var(--text-small);
+    color: var(--color-ink);
+    text-decoration: underline;
+    text-decoration-color: var(--color-gold);
+    text-underline-offset: 0.3em;
+    text-decoration-thickness: 1px;
+    transition: color 0.3s ease;
+  }
+
+  .channel-sub:hover {
+    color: var(--color-gold-ink);
+  }
+
+  @media (min-width: 64rem) {
+    .office-grid {
+      grid-template-columns: 5fr 6fr;
+      gap: 6rem;
+      align-items: start;
+    }
+  }
+
+  /* --- Topics --- */
+  .topics {
+    border-top: 1px solid var(--color-rule);
+    background: var(--color-page-alt);
+  }
+
+  .topic-grid {
+    display: grid;
+    gap: 0 2.5rem;
+    margin-top: clamp(2.5rem, 5vw, 4rem);
+  }
+
+  .topic {
+    display: grid;
+    justify-items: start;
+    align-content: start;
+    gap: 1rem;
+    padding-block: 1.75rem 2.25rem;
+    border-top: 1px solid var(--color-rule-strong);
+  }
+
+  .topic h3 {
+    font-size: clamp(1.5rem, 2.4vw, 2rem);
+    line-height: 1.15;
+  }
+
+  .topic p {
+    color: var(--color-muted);
+  }
+
+  @media (min-width: 64rem) {
+    .topic-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  /* --- Companies --- */
+  .companies {
+    border-top: 1px solid var(--color-rule);
+  }
+
+  .companies-head {
+    margin-bottom: clamp(2.5rem, 5vw, 4rem);
+  }
+</style>

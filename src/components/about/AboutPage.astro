@@ -1,0 +1,654 @@
+---
+/**
+ * About the Group: overview, legacy, milestones, leadership, direction,
+ * values and the portfolio — the company profile's story, in page form.
+ */
+import type { Lang } from '../../i18n/types';
+import { t } from '../../i18n/translations';
+import { getLocalizedPath } from '../../i18n/utils';
+import { group } from '../../data/group';
+import { about } from '../../data/pages/about';
+import PageHero from '../PageHero.astro';
+import SectionHeading from '../SectionHeading.astro';
+import Photo from '../Photo.astro';
+import CtaLink from '../CtaLink.astro';
+import ContactBand from '../ContactBand.astro';
+import CompanyIndex from './CompanyIndex.astro';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const strings = t(lang);
+const g = group[lang];
+const copy = about[lang];
+const [featured, ...values] = g.values.items;
+---
+
+<PageHero
+  variant="wash"
+  image={g.imagery.glassRoof}
+  eyebrow={copy.hero.eyebrow}
+  title={copy.hero.title}
+  lede={copy.hero.lede}
+  crumbs={[{ label: strings.nav.home, href: getLocalizedPath('/', lang) }, { label: strings.nav.about }]}
+  crumbsLabel={lang === 'ar' ? 'مسار التنقل' : 'Breadcrumb'}
+/>
+
+<!-- Overview -->
+<section class="overview" aria-labelledby="about-overview">
+  <div class="wrap overview-grid">
+    <div class="reveal">
+      <SectionHeading id="about-overview" eyebrow={copy.overview.eyebrow} title={copy.overview.title} />
+    </div>
+    <div class="overview-copy reveal">
+      <p class="lead">{g.overview}</p>
+      <p>{g.heritage}</p>
+      <p>{g.standards}</p>
+      <p>{g.growth}</p>
+    </div>
+  </div>
+  <dl class="wrap stats">
+    {g.stats.map((s) => (
+      <div class="reveal">
+        <dt>{s.label}</dt>
+        <dd>{s.value}</dd>
+      </div>
+    ))}
+  </dl>
+</section>
+
+<!-- Legacy -->
+<section class="legacy" id="legacy" aria-labelledby="about-legacy">
+  <div class="wrap legacy-grid">
+    <div class="legacy-copy">
+      <div class="reveal">
+        <SectionHeading id="about-legacy" eyebrow={g.legacy.eyebrow} title={g.legacy.title} />
+      </div>
+      <p class="kicker reveal">{g.legacy.kicker}</p>
+      <p class="reveal">{g.legacy.intro} {g.legacy.founder}</p>
+      <p class="reveal">{g.legacy.achievements}</p>
+      <p class="reveal">{g.legacy.today}</p>
+    </div>
+    <figure class="legacy-photo reveal">
+      <Photo photo={g.imagery.legacy} sizes="(min-width: 64rem) 40vw, 100vw" />
+    </figure>
+  </div>
+
+  <div class="wrap principles">
+    <p class="eyebrow reveal">{copy.legacy.principlesLabel}</p>
+    <ol class="principle-list" role="list">
+      {g.legacy.principles.map((p, i) => (
+        <li class="reveal">
+          <span class="p-num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+          <span class="p-word">{p}</span>
+        </li>
+      ))}
+    </ol>
+  </div>
+
+  <figure class="wrap philosophy reveal">
+    <figcaption class="eyebrow">{copy.legacy.philosophyLabel}</figcaption>
+    <blockquote>
+      <p>{g.legacy.philosophy}</p>
+    </blockquote>
+    <p class="closing"><span class="gi">{g.legacy.closing}</span></p>
+  </figure>
+</section>
+
+<!-- Milestones -->
+<section class="milestones" aria-labelledby="about-milestones">
+  <div class="wrap">
+    <div class="reveal">
+      <SectionHeading id="about-milestones" eyebrow={copy.timeline.eyebrow} title={copy.timeline.title} />
+    </div>
+    <ol class="timeline" role="list">
+      {g.milestones.map((m) => (
+        <li class="reveal">
+          <span class="t-year">{m.year}</span>
+          <h3 class="t-title">{m.title}</h3>
+          <p class="t-text">{m.text}</p>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<!-- Leadership -->
+<section class="leadership" id="leadership" aria-labelledby="about-leadership">
+  <div class="wrap leadership-grid">
+    <figure class="portrait reveal">
+      <div class="portrait-frame">
+        <Photo photo={g.chairman.portrait} sizes="(min-width: 64rem) 26rem, 80vw" />
+      </div>
+      <figcaption>
+        <span class="p-name">{g.chairman.name}</span>
+        <span class="p-role">{g.chairman.role}</span>
+      </figcaption>
+    </figure>
+    <div class="leadership-copy">
+      <div class="reveal">
+        <SectionHeading id="about-leadership" eyebrow={g.chairman.eyebrow} title={g.chairman.title} />
+      </div>
+      {g.chairman.bio.map((para, i) => <p class:list={['reveal', { lead: i === 0 }]}>{para}</p>)}
+    </div>
+  </div>
+</section>
+
+<!-- Vision & mission -->
+<section class="direction" id="direction" aria-labelledby="about-direction">
+  <div class="wrap">
+    <div class="reveal">
+      <SectionHeading id="about-direction" eyebrow={copy.direction.eyebrow} title={copy.direction.title} />
+    </div>
+    <div class="vm">
+      {[g.direction.vision, g.direction.mission].map((block) => (
+        <article class="vm-block reveal">
+          <h3 class="vm-title">{block.title}</h3>
+          <p class="vm-main">{block.lines[0]}</p>
+          {block.lines[1] && (
+            <div class="vm-ahead">
+              <p class="eyebrow">{copy.direction.aheadLabel}</p>
+              <p>{block.lines[1]}</p>
+            </div>
+          )}
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- Values -->
+<section class="values" id="values" aria-labelledby="about-values">
+  <div class="wrap">
+    <div class="reveal">
+      <SectionHeading id="about-values" eyebrow={g.values.eyebrow} title={g.values.title} lede={copy.values.lede} />
+    </div>
+    <div class="values-grid">
+      {featured && (
+        <article class="value featured reveal">
+          <span class="v-num" aria-hidden="true">01</span>
+          <h3>{featured.name}</h3>
+          <p>{featured.text}</p>
+        </article>
+      )}
+      {values.map((v, i) => (
+        <article class="value reveal">
+          <span class="v-num" aria-hidden="true">{String(i + 2).padStart(2, '0')}</span>
+          <h3>{v.name}</h3>
+          <p>{v.text}</p>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- Portfolio -->
+<section class="portfolio" aria-labelledby="about-portfolio">
+  <div class="wrap">
+    <div class="portfolio-head reveal">
+      <SectionHeading id="about-portfolio" eyebrow={copy.companies.eyebrow} title={copy.companies.title} lede={copy.companies.lede} />
+    </div>
+    <CompanyIndex lang={lang} />
+    <div class="portfolio-cta reveal">
+      <CtaLink href={getLocalizedPath('/contact', lang)}>{copy.leadershipCta}</CtaLink>
+    </div>
+  </div>
+</section>
+
+<ContactBand lang={lang} />
+
+<style>
+  section {
+    padding-block: var(--section-space);
+  }
+
+  .lead {
+    font-family: var(--font-display);
+    font-size: clamp(1.3125rem, 2vw, 1.625rem);
+    line-height: 1.4;
+    color: var(--color-ink);
+  }
+
+  :global(html[dir='rtl']) .lead {
+    line-height: 1.7;
+  }
+
+  /* --- Overview --- */
+  .overview-grid {
+    display: grid;
+    gap: 2.5rem;
+  }
+
+  .overview-copy {
+    display: grid;
+    gap: 1.25rem;
+    color: var(--color-muted);
+  }
+
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0 2rem;
+    margin-top: clamp(3.5rem, 7vw, 6rem);
+  }
+
+  .stats > div {
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    padding-block: 1.25rem;
+    border-top: 1px solid var(--color-rule);
+  }
+
+  .stats dt {
+    font-size: 0.75rem;
+    letter-spacing: 0.06em;
+    color: var(--color-muted);
+  }
+
+  .stats dd {
+    font-family: var(--font-display);
+    font-size: clamp(2.25rem, 4.5vw, 3.75rem);
+    line-height: 1.1;
+    color: var(--color-gold);
+  }
+
+  @media (min-width: 64rem) {
+    .overview-grid {
+      grid-template-columns: 5fr 6fr;
+      gap: 6rem;
+      align-items: start;
+    }
+
+    .stats {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  /* --- Legacy --- */
+  .legacy {
+    border-top: 1px solid var(--color-rule);
+    background: var(--color-page-alt);
+  }
+
+  .legacy-grid {
+    display: grid;
+    gap: 3rem;
+  }
+
+  .legacy-copy {
+    display: grid;
+    gap: 1.25rem;
+    color: var(--color-muted);
+  }
+
+  .kicker {
+    margin-top: 0.5rem;
+    font-family: var(--font-display);
+    font-style: var(--style-accent);
+    font-size: 1.25rem;
+    color: var(--color-ink);
+  }
+
+  .legacy-photo {
+    aspect-ratio: 3 / 2;
+    overflow: hidden;
+  }
+
+  .legacy-photo :global(.photo) {
+    filter: grayscale(0.15);
+  }
+
+  @media (min-width: 64rem) {
+    .legacy-grid {
+      grid-template-columns: 6fr 5fr;
+      gap: 6rem;
+      align-items: center;
+    }
+
+    .legacy-photo {
+      aspect-ratio: 4 / 5;
+    }
+  }
+
+  .principles {
+    margin-top: clamp(4rem, 8vw, 6.5rem);
+  }
+
+  .principle-list {
+    display: grid;
+    margin-top: 1.5rem;
+    border-top: 1px solid var(--color-rule-strong);
+  }
+
+  .principle-list li {
+    display: flex;
+    align-items: baseline;
+    gap: 1.25rem;
+    padding-block: 1.25rem;
+    border-bottom: 1px solid var(--color-rule);
+  }
+
+  .p-num {
+    font-size: var(--text-caption);
+    font-variant-numeric: tabular-nums;
+    color: var(--color-muted);
+  }
+
+  .p-word {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 4.2vw, 3.5rem);
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+  }
+
+  @media (min-width: 48rem) {
+    .principle-list {
+      grid-template-columns: repeat(3, 1fr);
+      column-gap: 2rem;
+    }
+  }
+
+  .philosophy {
+    display: grid;
+    gap: 1.5rem;
+    margin-top: clamp(4rem, 8vw, 6.5rem);
+  }
+
+  .philosophy blockquote p {
+    max-width: 30ch;
+    font-family: var(--font-display);
+    font-size: clamp(1.75rem, 3.4vw, 3rem);
+    line-height: 1.22;
+    letter-spacing: -0.01em;
+    color: var(--color-ink);
+  }
+
+  :global(html[dir='rtl']) .philosophy blockquote p {
+    line-height: 1.6;
+  }
+
+  .closing {
+    font-family: var(--font-display);
+    font-size: clamp(1.25rem, 2vw, 1.625rem);
+  }
+
+  /* --- Milestones --- */
+  .timeline {
+    display: grid;
+    gap: 0 2rem;
+    margin-top: clamp(3rem, 6vw, 4.5rem);
+  }
+
+  .timeline li {
+    position: relative;
+    display: grid;
+    align-content: start;
+    gap: 0.35rem;
+    padding-block: 1.75rem 1.5rem;
+    border-top: 1px solid var(--color-rule);
+  }
+
+  .timeline li::before {
+    content: '';
+    position: absolute;
+    top: -4px;
+    inset-inline-start: 0;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--color-gold);
+  }
+
+  .t-year {
+    margin-bottom: 0.75rem;
+    font-family: var(--font-display);
+    font-size: 2.25rem;
+    line-height: 1.1;
+    color: var(--color-gold);
+  }
+
+  .t-title {
+    font-family: var(--font-body);
+    font-size: 1rem;
+    font-weight: 500;
+    line-height: 1.4;
+    letter-spacing: 0;
+  }
+
+  :global(html[dir='rtl']) .t-title {
+    font-weight: 700;
+  }
+
+  .t-text {
+    font-size: var(--text-small);
+    color: var(--color-muted);
+  }
+
+  @media (min-width: 48rem) {
+    .timeline {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 64rem) {
+    .timeline {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  /* --- Leadership --- */
+  .leadership {
+    border-top: 1px solid var(--color-rule);
+  }
+
+  .leadership-grid {
+    display: grid;
+    gap: 3rem;
+  }
+
+  .portrait {
+    max-width: 24rem;
+  }
+
+  .portrait-frame {
+    aspect-ratio: 536 / 800;
+    overflow: hidden;
+    border-radius: 0.75rem;
+  }
+
+  .portrait-frame :global(.photo) {
+    filter: grayscale(0.15);
+  }
+
+  .portrait figcaption {
+    display: grid;
+    gap: 0.25rem;
+    margin-top: 1rem;
+  }
+
+  .p-name {
+    font-family: var(--font-display);
+    font-style: var(--style-accent);
+    font-size: 1.125rem;
+  }
+
+  .p-role {
+    font-size: var(--text-label);
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-gold-ink);
+  }
+
+  :global(html[dir='rtl']) .p-role {
+    font-size: var(--text-small);
+    font-weight: 700;
+  }
+
+  .leadership-copy {
+    display: grid;
+    gap: 1.25rem;
+    align-content: start;
+    color: var(--color-muted);
+  }
+
+  .leadership-copy > div {
+    margin-bottom: 0.75rem;
+  }
+
+  @media (min-width: 64rem) {
+    .leadership-grid {
+      grid-template-columns: 24rem 1fr;
+      gap: 6rem;
+      align-items: start;
+    }
+
+    .portrait {
+      position: sticky;
+      top: calc(var(--header-height) + 2rem);
+    }
+  }
+
+  /* --- Direction --- */
+  .direction {
+    border-top: 1px solid var(--color-rule);
+    background: var(--color-page-alt);
+  }
+
+  .vm {
+    display: grid;
+    gap: 3rem;
+    margin-top: clamp(3rem, 6vw, 4.5rem);
+  }
+
+  .vm-block {
+    display: grid;
+    gap: 1.25rem;
+    align-content: start;
+    padding-top: 1.75rem;
+    border-top: 1px solid var(--color-rule-strong);
+  }
+
+  .vm-title {
+    font-size: var(--text-h3);
+  }
+
+  .vm-main {
+    font-family: var(--font-display);
+    font-size: clamp(1.3125rem, 2vw, 1.625rem);
+    line-height: 1.4;
+  }
+
+  :global(html[dir='rtl']) .vm-main {
+    line-height: 1.7;
+  }
+
+  .vm-ahead {
+    display: grid;
+    gap: 0.6rem;
+    margin-top: 0.5rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--color-rule);
+    color: var(--color-muted);
+  }
+
+  @media (min-width: 64rem) {
+    .vm {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 4rem;
+    }
+  }
+
+  /* --- Values --- */
+  .values {
+    border-top: 1px solid var(--color-rule);
+  }
+
+  .values-grid {
+    display: grid;
+    margin-top: clamp(3rem, 6vw, 4.5rem);
+    border-top: 1px solid var(--color-rule);
+  }
+
+  .value {
+    display: grid;
+    align-content: start;
+    gap: 0.75rem;
+    padding-block: 1.75rem;
+    border-bottom: 1px solid var(--color-rule);
+  }
+
+  .v-num {
+    font-size: var(--text-caption);
+    font-variant-numeric: tabular-nums;
+    color: var(--color-muted);
+  }
+
+  .value h3 {
+    font-size: clamp(1.5rem, 2.4vw, 2rem);
+    line-height: 1.15;
+    transition: color 0.3s ease;
+  }
+
+  .value p {
+    font-size: 0.9375rem;
+    color: var(--color-muted);
+  }
+
+  .featured h3 {
+    font-size: clamp(2rem, 4vw, 3.25rem);
+    color: var(--color-gold);
+  }
+
+  .featured p {
+    max-width: 44ch;
+    font-size: var(--text-lede);
+    color: var(--color-ink);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .value:not(.featured):hover h3 {
+      color: var(--color-gold-ink);
+    }
+  }
+
+  @media (min-width: 48rem) {
+    .values-grid {
+      grid-template-columns: repeat(2, 1fr);
+      column-gap: 2.5rem;
+    }
+
+    .featured {
+      grid-column: 1 / -1;
+    }
+  }
+
+  @media (min-width: 64rem) {
+    .values-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .featured {
+      grid-template-columns: 4rem 5fr 6fr;
+      align-items: baseline;
+      padding-block: 2.5rem;
+    }
+  }
+
+  /* --- Portfolio --- */
+  .portfolio {
+    border-top: 1px solid var(--color-rule);
+  }
+
+  .portfolio-head {
+    margin-bottom: clamp(2.5rem, 5vw, 4rem);
+  }
+
+  .portfolio-cta {
+    margin-top: 2.5rem;
+  }
+</style>
