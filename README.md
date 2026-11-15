@@ -93,10 +93,9 @@ Cloudflare Workers Builds deploys every push to `master` to the Worker `nslootah
 `BUN_VERSION`. Pages are served as static assets; only `/api/*` runs the Worker (the contact form and the CMS
 sign-in). Check a deploy with the Worker's build log, then curl the live site for the change.
 
-The site launched on 15 November 2026, when nslootah.com moved from the old Cloudflare Pages project (`ns-lootah`) to
-the Worker. That project still builds `master` at ns-lootah.pages.dev, detached from the domain, as a fallback: to
-roll back, remove the Worker's Custom Domain and re-add nslootah.com to the Pages project. Delete the Pages project
-once that is no longer needed.
+The site launched on 15 November 2026, when nslootah.com moved from the old Cloudflare Pages project to the Worker;
+the Pages project has since been deleted. To roll back a bad deploy, use the Worker's Deployments tab in the
+dashboard (or `wrangler rollback`), or revert the commit on `master`.
 
 Builds of any branch but `master` count as previews (`src/site.config.ts`): canonical and share URLs point at the
 preview, every page is `noindex` and `robots.txt` disallows everything.
