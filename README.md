@@ -108,8 +108,10 @@ Worker secrets (Settings → Variables and Secrets, or `wrangler secret put <NAM
 - `CMS_GITHUB_TOKEN`: a fine-grained GitHub token for this repo only, with Contents read and write. Note its expiry:
   the CMS can't save once it lapses.
 
-Still open: `www.nslootah.com` has no DNS record. Add one with a Redirect Rule to the apex (see the `site-deploy`
-skill), and submit `sitemap-index.xml` in Google Search Console.
+`www.nslootah.com` is a proxied CNAME to the apex, and a zone Redirect Rule sends it to `https://nslootah.com` with
+a 301, keeping the path and query string.
+
+Still open: submit `sitemap-index.xml` in Google Search Console.
 
 ## Editing the copy (CMS)
 
