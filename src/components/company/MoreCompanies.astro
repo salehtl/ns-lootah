@@ -1,0 +1,127 @@
+---
+/** The other five Group companies: logo, name and sector, each linking to its page. */
+import type { Lang } from '../../i18n/types';
+import type { CompanyId } from '../../data/types';
+import type { CompanyPageLabels } from '../../data/company-pages';
+import { getLocalizedPath } from '../../i18n/utils';
+import { companies } from '../../data/companies';
+import SectionHeading from '../SectionHeading.astro';
+
+interface Props {
+  lang: Lang;
+  current: CompanyId;
+  labels: CompanyPageLabels;
+}
+
+const { lang, current, labels } = Astro.props;
+const others = companies[lang].filter((c) => c.id !== current);
+---
+
+<section class="more" aria-labelledby="more-title">
+  <div class="wrap">
+    <div class="reveal">
+      <SectionHeading eyebrow={labels.moreEyebrow} title={labels.moreTitle} id="more-title" />
+    </div>
+    <ul class="more-grid" role="list">
+      {others.map((c) => (
+        <li class="reveal">
+          <a href={getLocalizedPath(c.path, lang)}>
+            <img src={c.logo.src} width={c.logo.width} height={c.logo.height} alt="" loading="lazy" />
+            <span class="m-name">{c.name}</span>
+            <span class="m-sector">{c.sector}</span>
+            <svg class="m-arrow" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" /></svg>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .more {
+    padding-block: var(--section-space);
+    border-top: 1px solid var(--color-rule);
+  }
+
+  .more-grid {
+    display: grid;
+    margin-top: clamp(2.5rem, 5vw, 4rem);
+    border-top: 1px solid var(--color-rule);
+  }
+
+  .more-grid li {
+    border-bottom: 1px solid var(--color-rule);
+  }
+
+  .more-grid a {
+    position: relative;
+    display: grid;
+    grid-template-columns: 6.5rem 1fr;
+    grid-template-rows: auto auto;
+    align-items: center;
+    gap: 0.15rem 1.5rem;
+    height: 100%;
+    padding-block: 1.5rem;
+    padding-inline-end: 2.5rem;
+    transition: background-color 0.3s ease;
+  }
+
+  .more-grid img {
+    grid-row: span 2;
+    width: 100%;
+    height: 2.75rem;
+    object-fit: contain;
+    object-position: left center;
+  }
+
+  :global(html[dir='rtl']) .more-grid img {
+    object-position: right center;
+  }
+
+  .m-name {
+    align-self: end;
+    font-family: var(--font-display);
+    font-size: 1.1875rem;
+    line-height: 1.3;
+    transition: color 0.3s ease;
+  }
+
+  .m-sector {
+    align-self: start;
+    font-size: var(--text-caption);
+    color: var(--color-muted);
+  }
+
+  .m-arrow {
+    position: absolute;
+    inset-inline-end: 0.5rem;
+    top: 50%;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.25;
+    color: var(--color-gold-ink);
+    transform: translateY(-50%) scaleX(var(--dir));
+    transition: transform 0.3s ease;
+  }
+
+  .more-grid a:hover .m-name {
+    color: var(--color-gold-ink);
+  }
+
+  .more-grid a:hover .m-arrow {
+    transform: translate(calc(3px * var(--dir)), -50%) scaleX(var(--dir));
+  }
+
+  @media (min-width: 48rem) {
+    .more-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      column-gap: 2rem;
+    }
+  }
+
+  @media (min-width: 72rem) {
+    .more-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+</style>

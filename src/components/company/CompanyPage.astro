@@ -1,0 +1,332 @@
+---
+/**
+ * One Group company, in the light Chapters language:
+ * hero panel → focus + facts → wide detail photo → development statement →
+ * portfolio grid → company-specific extras → the other companies → contact.
+ * Copy: data/companies.ts (summary) + data/company-pages.ts (page body).
+ */
+import type { Lang } from '../../i18n/types';
+import type { CompanyId } from '../../data/types';
+import { t } from '../../i18n/translations';
+import { getLocalizedPath } from '../../i18n/utils';
+import { getCompany } from '../../data/companies';
+import { companyPages } from '../../data/company-pages';
+import PageHero from '../PageHero.astro';
+import CtaLink from '../CtaLink.astro';
+import SectionHeading from '../SectionHeading.astro';
+import Photo from '../Photo.astro';
+import ContactBand from '../ContactBand.astro';
+import CompanyExtra from './CompanyExtra.astro';
+import MoreCompanies from './MoreCompanies.astro';
+
+interface Props {
+  lang: Lang;
+  id: CompanyId;
+}
+
+const { lang, id } = Astro.props;
+const strings = t(lang);
+const company = getCompany(lang, id);
+const { labels, pages } = companyPages[lang];
+const page = pages[id];
+const home = getLocalizedPath('/', lang);
+const localise = (href: string) => (href.startsWith('/') ? getLocalizedPath(href, lang) : href);
+---
+
+<PageHero
+  variant="panel"
+  image={company.cover}
+  logo={{ ...company.logo, alt: company.name }}
+  eyebrow={company.sector}
+  title={page.heroTitle}
+  lede={company.tagline}
+  crumbs={[
+    { label: strings.nav.home, href: home },
+    { label: strings.nav.companies, href: `${home}#companies` },
+    { label: company.name },
+  ]}
+  crumbsLabel={labels.breadcrumb}
+>
+  {page.actions.map((a, i) => (
+    <CtaLink href={localise(a.href)} variant={i === 0 ? 'solid' : 'outline'} external={a.external}>
+      {a.label}
+    </CtaLink>
+  ))}
+</PageHero>
+
+<!-- Focus -->
+<section class="focus" aria-labelledby="focus-title">
+  <div class="wrap focus-grid">
+    <div class="reveal">
+      <SectionHeading eyebrow={labels.focusEyebrow} title={labels.focusTitle} id="focus-title" />
+    </div>
+    <div class="focus-copy">
+      {page.focus.map((p) => <p class="reveal">{p}</p>)}
+    </div>
+  </div>
+  <div class="wrap">
+    <dl class="facts">
+      {page.facts.map((f) => (
+        <div class="reveal">
+          <dt>{f.label}</dt>
+          <dd>{f.value}</dd>
+        </div>
+      ))}
+    </dl>
+  </div>
+</section>
+
+<!-- Detail photo -->
+<figure class="band">
+  <Photo photo={company.detail} sizes="100vw" />
+</figure>
+
+<!-- Development -->
+<section class="dev" aria-labelledby="dev-title">
+  <div class="wrap">
+    <h2 id="dev-title" class="eyebrow reveal">{page.development.eyebrow}</h2>
+    <p class="statement reveal">
+      {page.development.statement.lead} <span class="gi">{page.development.statement.accent}</span>
+    </p>
+    <div class:list={['dev-grid', { 'has-photo': page.development.photo }]}>
+      <div class="dev-body">
+        {page.development.body.map((p) => <p class="reveal">{p}</p>)}
+      </div>
+      {page.development.photo && (
+        <figure class="dev-photo reveal">
+          <Photo photo={page.development.photo} sizes="(min-width: 64rem) 40vw, 100vw" />
+        </figure>
+      )}
+    </div>
+  </div>
+</section>
+
+<!-- Portfolio -->
+<section class="portfolio" aria-labelledby="portfolio-title">
+  <div class="wrap">
+    <div class="reveal">
+      <SectionHeading
+        eyebrow={labels.portfolioEyebrow}
+        title={page.portfolio.title}
+        lede={page.portfolio.intro}
+        id="portfolio-title"
+      />
+    </div>
+    <ol class="pf-grid" role="list">
+      {page.portfolio.items.map((item, i) => (
+        <li class="reveal">
+          <span class="pf-num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+          <h3>{item.title}</h3>
+          <p>{item.text}</p>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+{page.extras.map((extra, i) => <CompanyExtra extra={extra} labels={labels} tone={i % 2 === 0 ? 'plain' : 'alt'} />)}
+
+<MoreCompanies lang={lang} current={id} labels={labels} />
+
+<ContactBand lang={lang} />
+
+<style>
+  /* --- Focus --- */
+  .focus {
+    padding-block: var(--section-space);
+  }
+
+  .focus-grid {
+    display: grid;
+    gap: 2.5rem;
+  }
+
+  .focus-copy {
+    display: grid;
+    gap: 1.25rem;
+    font-size: var(--text-lede);
+    color: var(--color-text);
+  }
+
+  .facts {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0 2rem;
+    margin-top: clamp(3rem, 6vw, 5rem);
+  }
+
+  .facts > div {
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: flex-end;
+    gap: 0.4rem;
+    padding-block: 1.25rem;
+    border-top: 1px solid var(--color-rule-strong);
+  }
+
+  .facts dt {
+    font-size: var(--text-caption);
+    color: var(--color-muted);
+  }
+
+  .facts dd {
+    font-family: var(--font-display);
+    font-size: clamp(1.0625rem, 1.5vw, 1.25rem);
+    line-height: 1.35;
+  }
+
+  @media (min-width: 64rem) {
+    .focus-grid {
+      grid-template-columns: 5fr 7fr;
+      gap: 4rem;
+      align-items: start;
+    }
+
+    .facts {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+
+  /* --- Detail band --- */
+  .band {
+    height: clamp(18rem, 48vw, 40rem);
+    overflow: hidden;
+  }
+
+  /* --- Development --- */
+  .dev {
+    padding-block: var(--section-space);
+    background: var(--color-page-alt);
+  }
+
+  .statement {
+    max-width: 30ch;
+    margin-top: 1.75rem;
+    font-family: var(--font-display);
+    font-weight: var(--weight-display);
+    font-size: clamp(1.75rem, 3.4vw, 3rem);
+    line-height: 1.22;
+    letter-spacing: -0.01em;
+  }
+
+  :global(html[dir='rtl']) .statement {
+    line-height: 1.55;
+  }
+
+  .dev-grid {
+    display: grid;
+    gap: 2.5rem;
+    margin-top: clamp(2.5rem, 5vw, 4rem);
+  }
+
+  .dev-body {
+    display: grid;
+    align-content: start;
+    gap: 1.25rem;
+    color: var(--color-text);
+  }
+
+  .dev-photo {
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+  }
+
+  @media (min-width: 64rem) {
+    .dev-grid.has-photo {
+      grid-template-columns: 5fr 6fr;
+      gap: 5rem;
+      align-items: start;
+    }
+  }
+
+  /* --- Portfolio --- */
+  .portfolio {
+    padding-block: var(--section-space);
+  }
+
+  .pf-grid {
+    display: grid;
+    gap: 0 2rem;
+    margin-top: clamp(2.5rem, 5vw, 4rem);
+  }
+
+  .pf-grid li {
+    display: grid;
+    align-content: start;
+    gap: 0.6rem;
+    padding-block: 1.75rem 2rem;
+    border-top: 1px solid var(--color-rule);
+  }
+
+  .pf-num {
+    font-size: var(--text-caption);
+    font-variant-numeric: tabular-nums;
+    color: var(--color-gold-ink);
+  }
+
+  .pf-grid h3 {
+    font-size: clamp(1.25rem, 1.8vw, 1.5rem);
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+  }
+
+  :global(html[dir='rtl']) .pf-grid h3 {
+    line-height: 1.45;
+  }
+
+  .pf-grid p {
+    font-size: 0.9375rem;
+    color: var(--color-muted);
+  }
+
+  @media (min-width: 48rem) {
+    .pf-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 64rem) {
+    .pf-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  /* --- Motion: the detail band unveils as it scrolls in (longhands only). --- */
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      .band {
+        animation-name: co-unveil;
+        animation-timing-function: linear;
+        animation-fill-mode: both;
+        animation-timeline: view();
+        animation-range: entry 0% cover 35%;
+      }
+
+      .band :global(.photo) {
+        animation-name: co-settle;
+        animation-timing-function: var(--ease-out);
+        animation-fill-mode: both;
+        animation-timeline: view();
+        animation-range: entry 0% cover 35%;
+      }
+    }
+  }
+
+  @keyframes co-unveil {
+    from {
+      clip-path: inset(8% 6%);
+    }
+    to {
+      clip-path: inset(0);
+    }
+  }
+
+  @keyframes co-settle {
+    from {
+      transform: scale(1.08);
+    }
+    to {
+      transform: none;
+    }
+  }
+</style>
