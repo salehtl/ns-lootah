@@ -1,10 +1,9 @@
 // Cloudflare Workers deployment. Every page is prerendered and served as static
 // assets; a small Worker (worker/index.ts) only handles POST /api/contact and
 // the CMS sign-in at /api/cms/*.
-// Workers Builds: build command `bun run build`, deploy command `bunx wrangler deploy`,
-// build variable BUN_VERSION pinned (see README, "Deploy"). Until launch it builds the
-// website-refactor branch and serves it at preview.nslootah.com (a Custom Domain set on
-// the Worker in the dashboard, not here); nslootah.com stays on the old site.
+// Workers Builds: every push to master, build command `bun run build`, deploy command
+// `bunx wrangler deploy`, build variable BUN_VERSION pinned (see README, "Deploy").
+// Served at nslootah.com, a Custom Domain set on the Worker in the dashboard, not here.
 // The contact recipient is the CONTACT_TO secret, so it is not stored in the repo.
 {
   "name": "nslootah",
@@ -40,7 +39,7 @@
     // CMS sign-in (worker/cms-auth.ts). /admin and /api/cms sit behind the Cloudflare
     // Access application "N S Lootah Group site editor" (email one-time code); the Worker
     // checks Access's signed token against these before handing the CMS its GitHub
-    // token, the CMS_GITHUB_TOKEN secret. At launch, move the app's domains to nslootah.com.
+    // token, the CMS_GITHUB_TOKEN secret. The app covers nslootah.com/admin and /api/cms.
     "ACCESS_TEAM_DOMAIN": "grey-pigeon.cloudflareaccess.com",
     "ACCESS_AUD": "7bef8bd40e3ede2e5c8457fefa83880fc5e68fd5439dd314337c63730f30376d"
   },

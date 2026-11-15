@@ -5,7 +5,8 @@
 /** The production origin, no trailing slash. */
 export const productionUrl = "https://nslootah.com";
 
-/** Where the Worker serves builds of any other branch (the site before launch). */
+/** The address a Workers build of any other branch is described as (it served the site before
+ *  launch; no domain points at it now). Pages branch previews use their own pages.dev URL. */
 export const previewUrl = "https://preview.nslootah.com";
 
 /** The GitHub repository the CMS commits to, as "owner/name". */
