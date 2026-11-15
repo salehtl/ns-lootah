@@ -2,6 +2,7 @@
   "title": "Our companies",
   "description": "The companies of N S Lootah Group: independent UAE businesses across automotive, outdoor trading, food, EV charging, natural stone and emerging sectors.",
   "hero": {
+    "photo": "/images/profile/tower.webp",
     "label": "Our companies",
     "title": { "lead": "A portfolio", "accent": "built to grow" },
     "lede": "Independent businesses across automotive, outdoor trading, food, EV charging and natural stone, each with its own focus and connected by shared standards of excellence.",

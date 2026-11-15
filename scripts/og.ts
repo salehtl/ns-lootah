@@ -1,5 +1,5 @@
 // Builds the share cards (public/og.jpg and og-<locale>.jpg, 1200×630): the
-// towers as a pale print, the Group emblem and the home page's headline set in
+// home hero photo as a pale print, the Group emblem and the home page's headline set in
 // the site's own fonts. Run with `bun run og` after the headline, the emblem or
 // the fonts change. Renders an HTML card per language with headless Chrome
 // ($PUPPETEER_EXECUTABLE_PATH, from the flake) and converts it with sharp.
@@ -30,7 +30,7 @@ for (const [code, { dir }] of Object.entries(locales)) {
 *{margin:0;box-sizing:border-box}
 html,body{width:1200px;height:630px;overflow:hidden}
 body{position:relative;background:#f5f5f4;color:#0a0a0a;font-family:${rtl ? "Almarai" : "Lora"}}
-.bg{position:absolute;inset:0;background:url('${url("src/assets/images/profile/towers.webp")}') center/cover;filter:grayscale(1)}
+.bg{position:absolute;inset:0;background:url('${url(`src/assets/images/${home.hero.photo.replace(/^\/images\//, "")}`)}') center/cover;filter:grayscale(1)}
 .bg::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at ${rtl ? 66 : 34}% 50%,rgba(245,245,244,.6),transparent 70%),linear-gradient(rgba(245,245,244,.8),rgba(245,245,244,.8))}
 .in{position:absolute;inset:0;display:flex;align-items:center;gap:72px;padding:0 88px}
 .mark{width:200px;height:auto;flex:none}

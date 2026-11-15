@@ -4,7 +4,7 @@ name: "N S Lootah EV Charging"
 shortName: "EV Charging"
 legalName: "N S Lootah Electric Vehicles Fast Charging Stations"
 sector: "Energy"
-logo: "ns-lootah-ev-charging"
+logo: "/logos/ns-lootah-ev-charging.svg"
 tagline: "Supporting the UAE’s transition towards clean and sustainable transportation."
 summary: "Reliable, accessible charging infrastructure, professionally managed and maintained for homes, businesses, government entities and fleets."
 focus: "Making electric mobility more practical and accessible through professionally managed charging solutions and efficient operations."
@@ -13,9 +13,9 @@ points:
   - "Residential, commercial & fleet solutions"
   - "Growing the UAE’s EV network"
 cta: "Explore EV Charging"
-cover: "profile/ev"
+cover: "/images/profile/ev.webp"
 coverAlt: "A dual-cable DC fast charger lit against a dark wall"
-detail: "profile/ev-chargers"
+detail: "/images/profile/ev-chargers.webp"
 detailAlt: "A row of EV charging posts with connected cables"
 description: "N S Lootah EV Charging provides reliable, professionally managed EV charging for homes, businesses, government entities and fleets across the UAE."
 heroTitle: { lead: "N S Lootah", accent: "EV Charging" }
@@ -34,7 +34,7 @@ development:
   statement:
     lead: "Supporting the UAE’s transition towards"
     accent: "clean and sustainable transportation."
-  photo: "profile/ev-car"
+  photo: "/images/profile/ev-car.webp"
   photoAlt: "An electric sports car charging beside a concrete pavilion"
 portfolio:
   title: { lead: "Current", accent: "portfolio" }

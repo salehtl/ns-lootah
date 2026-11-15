@@ -4,7 +4,7 @@ name: "Real Fresh"
 shortName: "Real Fresh"
 legalName: "Real Fresh Wholesale Trading LLC"
 sector: "Food"
-logo: "real-fresh"
+logo: "/logos/real-fresh.svg"
 tagline: "Food sourcing, wholesale and distribution."
 summary: "Connecting quality products with businesses across the UAE through a reliable, responsive supply network and its own range of premium products."
 focus: "Built on quality, consistency and partnership, Real Fresh works closely with trusted suppliers and supports the Group’s food and hospitality activities."
@@ -13,9 +13,9 @@ points:
   - "Consistent quality & reliability"
   - "Long-term supplier partnerships"
 cta: "Explore Real Fresh"
-cover: "profile/realfresh"
+cover: "/images/profile/realfresh.webp"
 coverAlt: "Real Fresh frozen prawns, berries, croissants and fries on dark stone"
-detail: "profile/realfresh-food"
+detail: "/images/profile/realfresh-food.webp"
 detailAlt: "Bowls of rice, vegetables and grilled dishes on a slate table"
 description: "Real Fresh is N S Lootah Group’s food sourcing, wholesale and distribution company, supplying quality products to businesses across the UAE."
 heroTitle: { lead: "Real", accent: "Fresh" }
@@ -35,7 +35,7 @@ development:
   statement:
     lead: "Beyond distribution, Real Fresh is building"
     accent: "lasting relationships and new opportunities."
-  photo: "profile/realfresh-pantry"
+  photo: "/images/profile/realfresh-pantry.webp"
   photoAlt: "Real Fresh oils, sauces, honey and spices on a dark shelf"
 portfolio:
   title: { lead: "Where Real Fresh", accent: "is growing" }

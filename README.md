@@ -112,11 +112,24 @@ Worker secrets (Settings → Variables and Secrets, or `wrangler secret put <NAM
 
 ## Editing the copy (CMS)
 
-The Group edits the words at `/admin`, in [Sveltia CMS](https://sveltiacms.app), with the languages side by side:
-page copy, the companies and the news. Publishing commits to the branch the site was built from (`website-refactor` on the
-preview, `master` after launch), so the site redeploys within a minute or two. Editors don't need a GitHub account: `/admin` and `/api/cms` sit behind a Cloudflare Access application
-(email one-time code), and `worker/cms-auth.ts` checks the Access token and hands the CMS the `CMS_GITHUB_TOKEN`
-secret.
+The Group edits the site at `/admin`, in [Sveltia CMS](https://sveltiacms.app), with the languages side by side:
+
+- **Site copy:** the words on every page, and each page's photos (image pickers).
+- **Companies:** every company's text, logo and photos. Editors can add and remove companies; a new one needs
+  both languages, an SVG logo and its photos.
+- **News:** articles, with their card and article photos.
+
+Uploaded photos are committed to `src/assets/images/` (Sveltia converts them to WebP, at most 3840px), so the build
+resizes and compresses them like the rest; logos go to `src/assets/logos/`. Content stores them as `/images/…` and
+`/logos/…` paths, resolved by `src/lib/media.ts`; a missing file fails the build, so the live site keeps its last
+good version. The Group's own logos and the share cards stay in code (`bun run og` after the home headline or hero
+photo changes).
+
+Publishing commits to the branch the site was built from (`website-refactor` on the preview, `master` after launch),
+so the site redeploys within a minute or two. Editors don't need a GitHub account: `/admin` and `/api/cms` sit
+behind a Cloudflare Access application (email one-time code; add or remove editors in its "Site editors" policy),
+and `worker/cms-auth.ts` checks the Access token and hands the CMS the `CMS_GITHUB_TOKEN` secret. If that hand-over
+fails, `/admin` shows a plain message instead of a GitHub sign-in.
 
 `public/admin/config.yml` is generated: run `bun run cms` after adding, renaming or removing a copy key or a
 collection field. After a change to the copy's shape, editors must reload `/admin` before saving, or an open tab

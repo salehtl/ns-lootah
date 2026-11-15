@@ -4,7 +4,7 @@ name: "N S Lootah Motors"
 shortName: "Motors"
 legalName: "N S Lootah Motors LLC"
 sector: "Automotive"
-logo: "ns-lootah-motors"
+logo: "/logos/ns-lootah-motors.svg"
 tagline: "The automotive arm of the Group, established to represent distinctive mobility brands."
 summary: "Exclusive UAE distributor of SOUO Motorcycles and the flagship S2000, the world’s first production Flat-8 motorcycle engine."
 focus: "A platform for introducing international automotive and motorcycle brands to the UAE, backed by local market knowledge, distribution capability and customer-focused service."
@@ -13,9 +13,9 @@ points:
   - "Dedicated showroom presence in Dubai"
   - "Sales, test rides & after-sales support"
 cta: "Discover N S Lootah Motors"
-cover: "profile/motors"
+cover: "/images/profile/motors.webp"
 coverAlt: "A classic silver grand tourer in a warmly lit Dubai showroom"
-detail: "profile/motors-bike"
+detail: "/images/profile/motors-bike.webp"
 detailAlt: "The red tank and chrome controls of a SOUO S2000 motorcycle"
 description: "N S Lootah Motors, the Group’s automotive arm, is the exclusive UAE distributor of SOUO Motorcycles and the S2000, with the first production Flat-8 engine."
 heroTitle: { lead: "N S Lootah", accent: "Motors" }
@@ -35,7 +35,7 @@ development:
   statement:
     lead: "Through its dedicated showroom in Dubai, N S Lootah Motors delivers an integrated customer experience:"
     accent: "sales, test rides, brand engagement and after-sales support."
-  photo: "profile/motors-showroom"
+  photo: "/images/profile/motors-showroom.webp"
   photoAlt: "Guests in the N S Lootah Motors showroom in Dubai beside a red motorcycle"
 portfolio:
   title: { lead: "Current", accent: "portfolio" }

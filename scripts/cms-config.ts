@@ -69,8 +69,15 @@ const shared: Record<string, string> = {
 /** Hints for a field at a given path. */
 const pathHints: Record<string, string> = {};
 
+/** Photos: uploaded into src/assets/images/ and resized and compressed at build time. */
+const imageHint = "Upload a JPG, PNG or WebP, ideally 2,500 pixels wide or more, or pick one already in the library.";
+
 function field(name: string, value: unknown, path: string): Field {
   if (path in shared) return { name, label: humanize(name), widget: "string", i18n: "duplicate", hint: shared[path] };
+  // A photo path ("/images/…"): an image picker, the same photo in every language.
+  if (typeof value === "string" && value.startsWith("/images/")) {
+    return { name, label: humanize(name), widget: "image", i18n: "duplicate", choose_url: false, hint: imageHint };
+  }
   const base: Field = { name, label: humanize(name), i18n: true };
   if (path in pathHints) base.hint = pathHints[path];
   const hint = hints[name];
@@ -109,16 +116,28 @@ if (leftover.length) throw new Error(`Add these copy files to \`pages\` in scrip
 const str = (name: string, label: string, extra: Field = {}): Field => ({ name, label, widget: "string", i18n: true, ...extra });
 const text = (name: string, label: string, extra: Field = {}): Field => ({ name, label, widget: "text", i18n: true, ...extra });
 const optional = { required: false };
-/** A photo or logo key: the same in every language, set in English. */
-const key = (name: string, label: string, hint: string, extra: Field = {}): Field => ({
+/** A photo: an image picker uploading into src/assets/images/, the same photo in every language. */
+const image = (name: string, label: string, extra: Field = {}): Field => ({
   name,
   label,
-  widget: "string",
+  widget: "image",
   i18n: "duplicate",
-  hint,
+  choose_url: false,
+  hint: imageHint,
   ...extra,
 });
-const photoHint = "A file in src/assets/images/, without the extension (profile/motors). Ask the web team to add new photos.";
+/** A company logo: an SVG uploaded into src/assets/logos/ and served as it is. */
+const logoField: Field = {
+  name: "logo",
+  label: "Logo",
+  widget: "image",
+  i18n: "duplicate",
+  choose_url: false,
+  media_folder: "/src/assets/logos",
+  public_folder: "/logos",
+  accept: ".svg,image/svg+xml",
+  hint: "An SVG file, ideally with no empty margin around the logo.",
+};
 const heading = (name: string, label: string): Field => ({
   name,
   label,
@@ -165,8 +184,18 @@ const config = {
   },
   site_url: siteUrl,
   display_url: siteUrl,
-  media_folder: "public/media",
-  public_folder: "/media",
+  // Uploads go where the site's photos live, so the build optimises them like the
+  // rest. Sveltia converts uploads to WebP and caps their size before committing.
+  media_folder: "src/assets/images",
+  public_folder: "/images",
+  media_libraries: {
+    default: {
+      config: {
+        max_file_size: 25_000_000,
+        transformations: { raster_image: { format: "webp", quality: 90, width: 3840, height: 3840 } },
+      },
+    },
+  },
   i18n: { structure: "multiple_folders", locales: localeCodes, default_locale: defaultLocale },
   collections: [
     {
@@ -180,14 +209,16 @@ const config = {
       name: "companies",
       label: "Companies",
       label_singular: "Company",
-      description: "One entry per Group company: its home page chapter, its place in lists and its own page.",
+      description:
+        "One entry per Group company: its home page chapter, its place in lists and its own page. A new company needs both languages, its logo and its photos.",
       folder: "src/content/companies",
       extension: "md",
       format: "frontmatter",
       i18n: true,
-      create: false,
-      delete: false,
+      create: true,
+      delete: true,
       identifier_field: "name",
+      slug: "{{slug}}",
       sortable_fields: ["order", "name"],
       fields: [
         str("name", "Name"),
@@ -219,7 +250,7 @@ const config = {
           fields: [
             str("label", "Small label above"),
             heading("statement", "Statement"),
-            key("photo", "Photo", photoHint, optional),
+            image("photo", "Photo", optional),
             str("photoAlt", "Photo description", optional),
           ],
         },
@@ -269,7 +300,7 @@ const config = {
                   label: "Items",
                   widget: "list",
                   i18n: true,
-                  fields: [str("title", "Title"), text("text", "Text"), key("photo", "Photo", photoHint, optional), str("photoAlt", "Photo description", optional)],
+                  fields: [str("title", "Title"), text("text", "Text"), image("photo", "Photo", optional), str("photoAlt", "Photo description", optional)],
                 },
                 link("action", "Button", optional),
               ],
@@ -289,10 +320,10 @@ const config = {
           ],
         },
         { name: "order", label: "Order", widget: "number", value_type: "int", i18n: "duplicate", hint: "Position in every list (1 is first)." },
-        key("logo", "Logo", "A file in src/assets/logos/, without .svg. Ask the web team to add a new logo."),
-        key("cover", "Cover photo", photoHint),
+        logoField,
+        image("cover", "Cover photo"),
         str("coverAlt", "Cover photo description"),
-        key("detail", "Detail photo", photoHint),
+        image("detail", "Detail photo"),
         str("detailAlt", "Detail photo description"),
       ],
     },
@@ -325,9 +356,9 @@ const config = {
           format: "YYYY-MM-DD",
         },
         { name: "order", label: "Order (undated articles)", widget: "number", value_type: "int", i18n: "duplicate", required: false, hint: "Higher comes first." },
-        key("card", "Card photo", photoHint),
+        image("card", "Card photo"),
         str("cardAlt", "Card photo description"),
-        key("photo", "Article photo", photoHint),
+        image("photo", "Article photo"),
         str("photoAlt", "Article photo description"),
         str("caption", "Photo caption", optional),
         { name: "body", label: "Article", widget: "markdown", i18n: true },

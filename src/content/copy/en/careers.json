@@ -2,6 +2,7 @@
   "title": "Careers",
   "description": "Build your career with N S Lootah Group: opportunities across automotive, trading, food, EV charging and natural stone in the UAE.",
   "hero": {
+    "photo": "/images/careers-team.jpg",
     "label": "Careers",
     "title": { "lead": "Build a career", "accent": "with purpose" },
     "lede": "A family enterprise with a long view, with companies across automotive, trading, food, EV charging and natural stone, and room for people who want to build something lasting.",
@@ -22,6 +23,7 @@
     ]
   },
   "culture": {
+    "photo": "/images/legacy-meeting.webp",
     "label": "Our culture",
     "title": { "lead": "Guided by", "accent": "shared values" },
     "text": "Each company has its own expertise and commercial focus, but every team works to the same standards: the values that have guided the Lootah family enterprise for generations.",

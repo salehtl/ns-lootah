@@ -2,6 +2,7 @@
   "title": "About the Group",
   "description": "N S Lootah Group is a diversified UAE holding company building on a family legacy of enterprise: its story, leadership, vision and values.",
   "hero": {
+    "photo": "/images/profile/glass-roof.webp",
     "label": "About the Group",
     "title": { "lead": "Built", "accent": "on heritage" },
     "lede": "A diversified UAE holding company, building on a family legacy of enterprise and the principles it was founded on.",
@@ -22,6 +23,7 @@
     "accent": "shared standards of excellence."
   },
   "legacy": {
+    "photo": "/images/profile/legacy.webp",
     "label": "Our story",
     "title": { "lead": "A legacy", "accent": "with purpose" },
     "kicker": "Rooted in legacy. Driven by purpose.",
@@ -37,6 +39,7 @@
     "imageAlt": "Two members of the Lootah family seated in conversation"
   },
   "chairman": {
+    "portrait": "/images/director-bonlootah.webp",
     "label": "The leadership",
     "title": { "lead": "Chairman’s vision", "accent": "with operating depth" },
     "name": "Nasser Saeed Ahmed Nasser Lootah",

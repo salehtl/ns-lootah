@@ -4,7 +4,7 @@ name: "Project Upgraded"
 shortName: "Project Upgraded"
 legalName: "Project Upgraded Workshop L.L.C."
 sector: "Automotive atelier"
-logo: "project-upgraded"
+logo: "/logos/project-upgraded.svg"
 tagline: "Cars to be driven. The exclusive automotive atelier of N S Lootah Group."
 summary: "Bespoke vehicle care for the Lootah family, VVIP clients and a selected referral base, built around privacy, quality and personal service."
 focus: "Each vehicle is its own project: specialised maintenance, restoration, customisation, performance upgrades and full transformations, all managed in-house."
@@ -13,9 +13,9 @@ points:
   - "Performance upgrades & full transformations"
   - "3D printing, CNC, upholstery & dyno in-house"
 cta: "Visit the atelier"
-cover: "profile/upgraded"
+cover: "/images/profile/upgraded.webp"
 coverAlt: "A modified muscle car silhouetted against an amber city skyline"
-detail: "profile/upgraded-workshop"
+detail: "/images/profile/upgraded-workshop.webp"
 detailAlt: "A yellow classic Range Rover mid-restoration in the workshop"
 description: "Project Upgraded is N S Lootah Group’s automotive atelier: restoration, customisation, performance upgrades and fabrication in an 18,000 sq. ft. facility."
 heroTitle: { lead: "Project", accent: "Upgraded" }
@@ -32,7 +32,7 @@ about:
 development:
   label: "The company philosophy"
   statement: { lead: "An automotive experience", accent: "beyond the ordinary." }
-  photo: "profile/upgraded-engine"
+  photo: "/images/profile/upgraded-engine.webp"
   photoAlt: "A detailed engine bay in black and white"
 portfolio:
   title: { lead: "Current", accent: "portfolio" }
@@ -59,15 +59,15 @@ extras:
     items:
       - title: "Mechanical & electrical repairs"
         text: "Precise diagnosis and repair of mechanical and electrical systems."
-        photo: "mechanical-repairs"
+        photo: "/images/mechanical-repairs.jpg"
         photoAlt: "Technicians working in an open engine bay"
       - title: "ECU tuning & dyno testing"
         text: "ECU programming and performance tuning, verified on 2WD and AWD dynamometers."
-        photo: "dynamometer-testing"
+        photo: "/images/dynamometer-testing.jpg"
         photoAlt: "A car on a dynamometer in front of a large cooling fan"
       - title: "Bodyshop & ceramic coating"
         text: "Painting, denting and ceramic coating, finished in-house."
-        photo: "bodyshop-sealant"
+        photo: "/images/bodyshop-sealant.jpg"
         photoAlt: "A gloved hand applying coating to a car’s bodywork"
   - kind: "lists"
     id: "capabilities"

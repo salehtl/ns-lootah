@@ -4,7 +4,7 @@ name: "ريل فريش"
 shortName: "ريل فريش"
 legalName: "ريل فريش للتجارة بالجملة ذ.م.م"
 sector: "الأغذية"
-logo: "real-fresh"
+logo: "/logos/real-fresh.svg"
 tagline: "توريد الأغذية وتجارتها بالجملة وتوزيعها."
 summary: "تربط المنتجات عالية الجودة بالشركات في أنحاء الإمارات عبر شبكة إمداد موثوقة وسريعة الاستجابة، إلى جانب مجموعتها الخاصة من المنتجات المتميزة."
 focus: "تقوم ريل فريش على الجودة والاتساق والشراكة، وتعمل عن قرب مع موردين موثوقين وتدعم أنشطة المجموعة في قطاع الأغذية والضيافة."
@@ -13,9 +13,9 @@ points:
   - "جودة ثابتة وموثوقية"
   - "شراكات طويلة الأمد مع الموردين"
 cta: "استكشف ريل فريش"
-cover: "profile/realfresh"
+cover: "/images/profile/realfresh.webp"
 coverAlt: "منتجات ريل فريش المجمدة من روبيان وتوت وكرواسون وبطاطس على حجر داكن"
-detail: "profile/realfresh-food"
+detail: "/images/profile/realfresh-food.webp"
 detailAlt: "أطباق أرز وخضروات ومشويات على طاولة من الحجر"
 description: "ريل فريش شركة توريد الأغذية وتجارتها بالجملة وتوزيعها في مجموعة إن إس لوتاه، تزوّد الشركات في أنحاء الإمارات بمنتجات عالية الجودة."
 heroTitle: { lead: "ريل", accent: "فريش" }
@@ -35,7 +35,7 @@ development:
   statement:
     lead: "إلى جانب التوزيع، تبني ريل فريش"
     accent: "علاقات دائمة وفرصاً جديدة."
-  photo: "profile/realfresh-pantry"
+  photo: "/images/profile/realfresh-pantry.webp"
   photoAlt: "زيوت وصلصات وعسل وتوابل من ريل فريش على رف داكن"
 portfolio:
   title: { lead: "مجالات", accent: "النمو" }

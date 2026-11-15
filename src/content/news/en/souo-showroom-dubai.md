@@ -6,9 +6,9 @@ summary: "SOUO’s first showroom outside China brings the S2000, with the world
 description: "N S Lootah Motors has opened SOUO’s first showroom outside China, in Dubai, bringing the S2000 and its Flat-8 motorcycle engine to the UAE."
 date: 2026-09-24
 order: 0
-card: "profile/motors-showroom"
+card: "/images/profile/motors-showroom.webp"
 cardAlt: "Guests in the N S Lootah Motors showroom in Dubai beside a red motorcycle"
-photo: "profile/motors-bike"
+photo: "/images/profile/motors-bike.webp"
 photoAlt: "The red tank and chrome controls of a SOUO S2000 motorcycle"
 caption: "The SOUO S2000, on show at the Dubai showroom."
 ---

@@ -4,7 +4,7 @@ name: "بروجكت أبغريدد"
 shortName: "بروجكت أبغريدد"
 legalName: "بروجكت أبغريدد ورشة ذ.م.م"
 sector: "أتيليه السيارات"
-logo: "project-upgraded"
+logo: "/logos/project-upgraded.svg"
 tagline: "سيارات صُنعت لتُقاد. الأتيليه الحصري للسيارات في مجموعة إن إس لوتاه."
 summary: "عناية مخصصة بالمركبات لعائلة لوتاه وكبار الشخصيات وقاعدة مختارة من العملاء، قوامها الخصوصية والجودة والخدمة الشخصية."
 focus: "كل مركبة مشروع قائم بذاته: صيانة متخصصة وترميم وتخصيص وتحسين للأداء وتحويلات كاملة، تُدار جميعها داخلياً."
@@ -13,9 +13,9 @@ points:
   - "تحسين الأداء والتحويلات الكاملة"
   - "طباعة ثلاثية الأبعاد وCNC وتنجيد وديناموميتر داخلياً"
 cta: "زر الأتيليه"
-cover: "profile/upgraded"
+cover: "/images/profile/upgraded.webp"
 coverAlt: "سيارة معدّلة على خلفية أفق مدينة بلون كهرماني"
-detail: "profile/upgraded-workshop"
+detail: "/images/profile/upgraded-workshop.webp"
 detailAlt: "سيارة رينج روفر كلاسيكية صفراء قيد الترميم في الورشة"
 description: "بروجكت أبغريدد أتيليه السيارات في مجموعة إن إس لوتاه: ترميم وتخصيص وتحسين أداء وتصنيع في منشأة بمساحة 18,000 قدم مربع."
 heroTitle: { lead: "بروجكت", accent: "أبغريدد" }
@@ -32,7 +32,7 @@ about:
 development:
   label: "فلسفة الشركة"
   statement: { lead: "تجربة سيارات", accent: "تتجاوز المألوف." }
-  photo: "profile/upgraded-engine"
+  photo: "/images/profile/upgraded-engine.webp"
   photoAlt: "حجرة محرك بتفاصيلها بالأبيض والأسود"
 portfolio:
   title: { lead: "المحفظة", accent: "الحالية" }
@@ -59,15 +59,15 @@ extras:
     items:
       - title: "إصلاحات ميكانيكية وكهربائية"
         text: "تشخيص وإصلاح دقيق للأنظمة الميكانيكية والكهربائية."
-        photo: "mechanical-repairs"
+        photo: "/images/mechanical-repairs.jpg"
         photoAlt: "فنيون يعملون في حجرة محرك مفتوحة"
       - title: "برمجة ECU واختبار الديناموميتر"
         text: "برمجة وحدة التحكم وضبط الأداء، مع التحقق على أجهزة ديناموميتر 2WD و AWD."
-        photo: "dynamometer-testing"
+        photo: "/images/dynamometer-testing.jpg"
         photoAlt: "سيارة على جهاز ديناموميتر أمام مروحة تبريد كبيرة"
       - title: "السمكرة وطلاء السيراميك"
         text: "الدهان والسمكرة وطلاء السيراميك، بتنفيذ داخلي."
-        photo: "bodyshop-sealant"
+        photo: "/images/bodyshop-sealant.jpg"
         photoAlt: "يد بقفاز تضع طبقة حماية على هيكل سيارة"
   - kind: "lists"
     id: "capabilities"

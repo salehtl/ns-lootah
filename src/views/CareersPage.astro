@@ -29,7 +29,7 @@ const mailto = `mailto:${c.apply.email}?subject=${encodeURIComponent(c.apply.sub
 <Base title={c.title} description={c.description} lang={locale} jsonLd={jsonLd}>
   <PageHero
     variant="panel"
-    image={{ src: photo("careers-team"), alt: c.hero.imageAlt }}
+    image={{ src: photo(c.hero.photo), alt: c.hero.imageAlt }}
     label={c.hero.label}
     title={c.hero.title}
     lede={c.hero.lede}
@@ -63,7 +63,7 @@ const mailto = `mailto:${c.apply.email}?subject=${encodeURIComponent(c.apply.sub
   <section class="culture" aria-labelledby="careers-culture">
     <div class="wrap culture-grid">
       <figure class="culture-photo" data-enter>
-        <Photo src={photo("legacy-meeting")} alt={c.culture.photoAlt} sizes="(min-width: 64rem) 45vw, 100vw" />
+        <Photo src={photo(c.culture.photo)} alt={c.culture.photoAlt} sizes="(min-width: 64rem) 45vw, 100vw" />
       </figure>
       <div class="culture-copy">
         <div data-enter>

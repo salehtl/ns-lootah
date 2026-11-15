@@ -14,8 +14,23 @@
   },
   "site_url": "https://nslootah.com",
   "display_url": "https://nslootah.com",
-  "media_folder": "public/media",
-  "public_folder": "/media",
+  "media_folder": "src/assets/images",
+  "public_folder": "/images",
+  "media_libraries": {
+    "default": {
+      "config": {
+        "max_file_size": 25000000,
+        "transformations": {
+          "raster_image": {
+            "format": "webp",
+            "quality": 90,
+            "width": 3840,
+            "height": 3840
+          }
+        }
+      }
+    }
+  },
   "i18n": {
     "structure": "multiple_folders",
     "locales": [
@@ -202,6 +217,14 @@
               "collapsed": false,
               "fields": [
                 {
+                  "name": "photo",
+                  "label": "Photo",
+                  "widget": "image",
+                  "i18n": "duplicate",
+                  "choose_url": false,
+                  "hint": "Upload a JPG, PNG or WebP, ideally 2,500 pixels wide or more, or pick one already in the library."
+                },
+                {
                   "name": "title",
                   "label": "Title",
                   "i18n": true,
@@ -262,6 +285,14 @@
               "widget": "object",
               "collapsed": false,
               "fields": [
+                {
+                  "name": "photo",
+                  "label": "Photo",
+                  "widget": "image",
+                  "i18n": "duplicate",
+                  "choose_url": false,
+                  "hint": "Upload a JPG, PNG or WebP, ideally 2,500 pixels wide or more, or pick one already in the library."
+                },
                 {
                   "name": "lead",
                   "label": "Heading",
@@ -388,6 +419,14 @@
                   "collapsed": false,
                   "fields": [
                     {
+                      "name": "photo",
+                      "label": "Photo",
+                      "widget": "image",
+                      "i18n": "duplicate",
+                      "choose_url": false,
+                      "hint": "Upload a JPG, PNG or WebP, ideally 2,500 pixels wide or more, or pick one already in the library."
+                    },
+                    {
                       "name": "label",
                       "label": "Small label above",
                       "i18n": true,
@@ -449,6 +488,14 @@
               "widget": "object",
               "collapsed": false,
               "fields": [
+                {
+                  "name": "photo",
+                  "label": "Photo",
+                  "widget": "image",
+                  "i18n": "duplicate",
+                  "choose_url": false,
+                  "hint": "Upload a JPG, PNG or WebP, ideally 2,500 pixels wide or more, or pick one already in the library."
+                },
                 {
                   "name": "label",
                   "label": "Small label above",
@@ -570,6 +617,14 @@
               "collapsed": false,
               "fields": [
                 {
+                  "name": "photo",
+                  "label": "Photo",
+                  "widget": "image",
+                  "i18n": "duplicate",
+                  "choose_url": false,
+                  "hint": "Upload a JPG, PNG or WebP, ideally 2,500 pixels wide or more, or pick one already in the library."
+                },
+                {
                   "name": "label",
                   "label": "Small label above",
                   "i18n": true,
@@ -678,6 +733,14 @@
               "widget": "object",
               "collapsed": false,
               "fields": [
+                {
+                  "name": "portrait",
+                  "label": "Portrait",
+                  "widget": "image",
+                  "i18n": "duplicate",
+                  "choose_url": false,
+                  "hint": "Upload a JPG, PNG or WebP, ideally 2,500 pixels wide or more, or pick one already in the library."
+                },
                 {
                   "name": "label",
                   "label": "Small label above",
@@ -978,6 +1041,14 @@
               "collapsed": false,
               "fields": [
                 {
+                  "name": "photo",
+                  "label": "Photo",
+                  "widget": "image",
+                  "i18n": "duplicate",
+                  "choose_url": false,
+                  "hint": "Upload a JPG, PNG or WebP, ideally 2,500 pixels wide or more, or pick one already in the library."
+                },
+                {
                   "name": "label",
                   "label": "Small label above",
                   "i18n": true,
@@ -1225,6 +1296,14 @@
               "collapsed": false,
               "fields": [
                 {
+                  "name": "photo",
+                  "label": "Photo",
+                  "widget": "image",
+                  "i18n": "duplicate",
+                  "choose_url": false,
+                  "hint": "Upload a JPG, PNG or WebP, ideally 2,500 pixels wide or more, or pick one already in the library."
+                },
+                {
                   "name": "label",
                   "label": "Small label above",
                   "i18n": true,
@@ -1340,6 +1419,14 @@
               "widget": "object",
               "collapsed": false,
               "fields": [
+                {
+                  "name": "photo",
+                  "label": "Photo",
+                  "widget": "image",
+                  "i18n": "duplicate",
+                  "choose_url": false,
+                  "hint": "Upload a JPG, PNG or WebP, ideally 2,500 pixels wide or more, or pick one already in the library."
+                },
                 {
                   "name": "label",
                   "label": "Small label above",
@@ -1521,6 +1608,14 @@
               "widget": "object",
               "collapsed": false,
               "fields": [
+                {
+                  "name": "photo",
+                  "label": "Photo",
+                  "widget": "image",
+                  "i18n": "duplicate",
+                  "choose_url": false,
+                  "hint": "Upload a JPG, PNG or WebP, ideally 2,500 pixels wide or more, or pick one already in the library."
+                },
                 {
                   "name": "label",
                   "label": "Small label above",
@@ -2267,14 +2362,15 @@
       "name": "companies",
       "label": "Companies",
       "label_singular": "Company",
-      "description": "One entry per Group company: its home page chapter, its place in lists and its own page.",
+      "description": "One entry per Group company: its home page chapter, its place in lists and its own page. A new company needs both languages, its logo and its photos.",
       "folder": "src/content/companies",
       "extension": "md",
       "format": "frontmatter",
       "i18n": true,
-      "create": false,
-      "delete": false,
+      "create": true,
+      "delete": true,
       "identifier_field": "name",
+      "slug": "{{slug}}",
       "sortable_fields": [
         "order",
         "name"
@@ -2470,9 +2566,10 @@
             {
               "name": "photo",
               "label": "Photo",
-              "widget": "string",
+              "widget": "image",
               "i18n": "duplicate",
-              "hint": "A file in src/assets/images/, without the extension (profile/motors). Ask the web team to add new photos.",
+              "choose_url": false,
+              "hint": "Upload a JPG, PNG or WebP, ideally 2,500 pixels wide or more, or pick one already in the library.",
               "required": false
             },
             {
@@ -2707,9 +2804,10 @@
                     {
                       "name": "photo",
                       "label": "Photo",
-                      "widget": "string",
+                      "widget": "image",
                       "i18n": "duplicate",
-                      "hint": "A file in src/assets/images/, without the extension (profile/motors). Ask the web team to add new photos.",
+                      "choose_url": false,
+                      "hint": "Upload a JPG, PNG or WebP, ideally 2,500 pixels wide or more, or pick one already in the library.",
                       "required": false
                     },
                     {
@@ -2852,16 +2950,21 @@
         {
           "name": "logo",
           "label": "Logo",
-          "widget": "string",
+          "widget": "image",
           "i18n": "duplicate",
-          "hint": "A file in src/assets/logos/, without .svg. Ask the web team to add a new logo."
+          "choose_url": false,
+          "media_folder": "/src/assets/logos",
+          "public_folder": "/logos",
+          "accept": ".svg,image/svg+xml",
+          "hint": "An SVG file, ideally with no empty margin around the logo."
         },
         {
           "name": "cover",
           "label": "Cover photo",
-          "widget": "string",
+          "widget": "image",
           "i18n": "duplicate",
-          "hint": "A file in src/assets/images/, without the extension (profile/motors). Ask the web team to add new photos."
+          "choose_url": false,
+          "hint": "Upload a JPG, PNG or WebP, ideally 2,500 pixels wide or more, or pick one already in the library."
         },
         {
           "name": "coverAlt",
@@ -2872,9 +2975,10 @@
         {
           "name": "detail",
           "label": "Detail photo",
-          "widget": "string",
+          "widget": "image",
           "i18n": "duplicate",
-          "hint": "A file in src/assets/images/, without the extension (profile/motors). Ask the web team to add new photos."
+          "choose_url": false,
+          "hint": "Upload a JPG, PNG or WebP, ideally 2,500 pixels wide or more, or pick one already in the library."
         },
         {
           "name": "detailAlt",
@@ -2956,9 +3060,10 @@
         {
           "name": "card",
           "label": "Card photo",
-          "widget": "string",
+          "widget": "image",
           "i18n": "duplicate",
-          "hint": "A file in src/assets/images/, without the extension (profile/motors). Ask the web team to add new photos."
+          "choose_url": false,
+          "hint": "Upload a JPG, PNG or WebP, ideally 2,500 pixels wide or more, or pick one already in the library."
         },
         {
           "name": "cardAlt",
@@ -2969,9 +3074,10 @@
         {
           "name": "photo",
           "label": "Article photo",
-          "widget": "string",
+          "widget": "image",
           "i18n": "duplicate",
-          "hint": "A file in src/assets/images/, without the extension (profile/motors). Ask the web team to add new photos."
+          "choose_url": false,
+          "hint": "Upload a JPG, PNG or WebP, ideally 2,500 pixels wide or more, or pick one already in the library."
         },
         {
           "name": "photoAlt",

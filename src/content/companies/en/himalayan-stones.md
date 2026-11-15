@@ -4,7 +4,7 @@ name: "NSL Himalayan Stones"
 shortName: "Himalayan Stones"
 legalName: "NSL Himalayan Stones Trading"
 sector: "Natural stone"
-logo: "nsl-himalayan-stones"
+logo: "/logos/nsl-himalayan-stones.svg"
 tagline: "Natural slate, marble and granite from the Himalayan region."
 summary: "Carefully selected natural stone for architects, developers, contractors and landscape professionals across the UAE."
 focus: "Cladding, flooring, feature walls, pathways, showers and landscaping, backed by reliable sourcing, consistent quality and dependable supply."
@@ -13,9 +13,9 @@ points:
   - "Reliable sourcing & consistent quality"
   - "Partnerships with industry professionals"
 cta: "Explore Himalayan Stones"
-cover: "profile/stones"
+cover: "/images/profile/stones.webp"
 coverAlt: "A translucent blue bathtub against a dark slate stone wall"
-detail: "profile/stones-lounge"
+detail: "/images/profile/stones-lounge.webp"
 detailAlt: "A lounge clad in textured black slate with lanterns and pampas grass"
 description: "NSL Himalayan Stones supplies natural slate, marble and granite from the Himalayan region to architects, developers and contractors across the UAE."
 heroTitle: { lead: "NSL Himalayan", accent: "Stones" }
@@ -34,7 +34,7 @@ development:
   statement:
     lead: "Bringing the strength and natural character of the Himalayas"
     accent: "to projects across the UAE."
-  photo: "profile/stones-showroom"
+  photo: "/images/profile/stones-showroom.webp"
   photoAlt: "The NSL Himalayan Stones showroom, with slate-clad walls and a lounge setting"
 portfolio:
   title: { lead: "Expanding the possibilities of", accent: "natural stone" }

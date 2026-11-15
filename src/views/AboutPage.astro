@@ -33,7 +33,7 @@ const [featured, ...values] = a.values.items;
 <Base title={a.title} description={a.description} lang={locale} jsonLd={jsonLd}>
   <PageHero
     variant="wash"
-    image={{ src: photo("profile/glass-roof"), alt: a.hero.imageAlt }}
+    image={{ src: photo(a.hero.photo), alt: a.hero.imageAlt }}
     label={a.hero.label}
     title={a.hero.title}
     lede={a.hero.lede}
@@ -67,7 +67,7 @@ const [featured, ...values] = a.values.items;
         <p data-enter>{a.legacy.today}</p>
       </div>
       <figure class="legacy-photo" data-enter style="--i: 1">
-        <Photo src={photo("profile/legacy")} alt={a.legacy.imageAlt} sizes="(min-width: 64rem) 40vw, 100vw" />
+        <Photo src={photo(a.legacy.photo)} alt={a.legacy.imageAlt} sizes="(min-width: 64rem) 40vw, 100vw" />
       </figure>
     </div>
 
@@ -99,7 +99,7 @@ const [featured, ...values] = a.values.items;
     <div class="wrap leadership-grid">
       <figure class="portrait" data-enter>
         <div class="portrait-frame">
-          <Photo src={photo("director-bonlootah")} alt={a.chairman.portraitAlt} sizes="(min-width: 64rem) 24rem, 80vw" />
+          <Photo src={photo(a.chairman.portrait)} alt={a.chairman.portraitAlt} sizes="(min-width: 64rem) 24rem, 80vw" />
         </div>
         <figcaption>
           <span class="p-name">{a.chairman.name}</span>

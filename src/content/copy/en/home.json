@@ -1,6 +1,7 @@
 {
   "description": "A UAE holding company building on a family legacy of enterprise, with businesses across automotive, trading, food, EV charging, natural stone and more.",
   "hero": {
+    "photo": "/images/profile/towers.webp",
     "lead": "Diversified businesses.",
     "accent": "One standard.",
     "intro": "A UAE holding company building on a family legacy of enterprise, with businesses across automotive, trading, food, EV charging, natural stone and emerging sectors.",
@@ -24,6 +25,7 @@
       "cta": "Read the story"
     },
     "careers": {
+      "photo": "/images/careers-team.jpg",
       "label": "Careers",
       "title": "Build what comes next",
       "text": "A legacy-driven group with room to grow, across automotive, trading, food, energy and natural stone.",

@@ -6,9 +6,9 @@ summary: "أول صالة عرض لـ«سوو» خارج الصين تقدّم �
 description: "افتتحت إن إس لوتاه موتورز في دبي أول صالة عرض لعلامة «سوو» خارج الصين، لتقدّم إلى دولة الإمارات طراز S2000 ومحركه Flat-8."
 date: 2026-09-24
 order: 0
-card: "profile/motors-showroom"
+card: "/images/profile/motors-showroom.webp"
 cardAlt: "زوار في صالة عرض إن إس لوتاه موتورز في دبي بجانب دراجة نارية حمراء"
-photo: "profile/motors-bike"
+photo: "/images/profile/motors-bike.webp"
 photoAlt: "خزان الوقود الأحمر وأدوات التحكم الكرومية لدراجة SOUO S2000"
 caption: "دراجة «سوو» S2000 في صالة العرض في دبي."
 ---
