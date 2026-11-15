@@ -1,5 +1,40 @@
-# SOUO Moto became N S Lootah Motors (the Group's automotive arm and SOUO's UAE distributor).
-/en/souo-moto /en/ns-lootah-motors 301
-/en/souo-moto/ /en/ns-lootah-motors 301
-/ar/souo-moto /ar/ns-lootah-motors 301
-/ar/souo-moto/ /ar/ns-lootah-motors 301
+# Old URLs, kept working with permanent redirects.
+# English moved from /en/ to the root, company pages moved under /companies/,
+# and SOUO Moto became N S Lootah Motors (SOUO's UAE distributor).
+/en/souo-moto /companies/ns-lootah-motors/ 301
+/ar/souo-moto /ar/companies/ns-lootah-motors/ 301
+/en/souo-moto/ /companies/ns-lootah-motors/ 301
+/ar/souo-moto/ /ar/companies/ns-lootah-motors/ 301
+/en/ns-lootah-motors /companies/ns-lootah-motors/ 301
+/ar/ns-lootah-motors /ar/companies/ns-lootah-motors/ 301
+/en/ns-lootah-motors/ /companies/ns-lootah-motors/ 301
+/ar/ns-lootah-motors/ /ar/companies/ns-lootah-motors/ 301
+/en/nsl-trading /companies/nsl-trading/ 301
+/ar/nsl-trading /ar/companies/nsl-trading/ 301
+/en/nsl-trading/ /companies/nsl-trading/ 301
+/ar/nsl-trading/ /ar/companies/nsl-trading/ 301
+/en/project-upgraded /companies/project-upgraded/ 301
+/ar/project-upgraded /ar/companies/project-upgraded/ 301
+/en/project-upgraded/ /companies/project-upgraded/ 301
+/ar/project-upgraded/ /ar/companies/project-upgraded/ 301
+/en/real-fresh /companies/real-fresh/ 301
+/ar/real-fresh /ar/companies/real-fresh/ 301
+/en/real-fresh/ /companies/real-fresh/ 301
+/ar/real-fresh/ /ar/companies/real-fresh/ 301
+/en/ev-charging /companies/ev-charging/ 301
+/ar/ev-charging /ar/companies/ev-charging/ 301
+/en/ev-charging/ /companies/ev-charging/ 301
+/ar/ev-charging/ /ar/companies/ev-charging/ 301
+/en/himalayan-stones /companies/himalayan-stones/ 301
+/ar/himalayan-stones /ar/companies/himalayan-stones/ 301
+/en/himalayan-stones/ /companies/himalayan-stones/ 301
+/ar/himalayan-stones/ /ar/companies/himalayan-stones/ 301
+# The old electric-car story was replaced by current news.
+/en/news/electric-car /news/ 301
+/en/news/electric-car/ /news/ 301
+/ar/news/electric-car /ar/news/ 301
+/ar/news/electric-car/ /ar/news/ 301
+/news/electric-car /news/ 301
+/news/electric-car/ /news/ 301
+/en / 301
+/en/* /:splat 301

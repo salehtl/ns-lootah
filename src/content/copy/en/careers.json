@@ -1,0 +1,44 @@
+{
+  "title": "Careers",
+  "description": "Build your career with N S Lootah Group: opportunities across automotive, trading, food, EV charging and natural stone in the UAE.",
+  "hero": {
+    "label": "Careers",
+    "title": { "lead": "Build a career", "accent": "with purpose" },
+    "lede": "A family enterprise with a long view, with companies across automotive, trading, food, EV charging and natural stone, and room for people who want to build something lasting.",
+    "imageAlt": "Colleagues reviewing plans together in a bright Dubai office",
+    "primaryCta": "Send your CV",
+    "secondaryCta": "Why join us"
+  },
+  "why": {
+    "label": "Why join us",
+    "title": { "lead": "A place to", "accent": "grow and lead" },
+    "lede": "Our people are the foundation of our success. We empower talent, encourage collaboration and create opportunities to grow.",
+    "benefits": [
+      "A culture rooted in integrity, respect and collaboration",
+      "Diverse, meaningful work across the Group’s companies and sectors",
+      "Continuous learning and clear paths for career growth",
+      "Exposure to local and international business operations",
+      "A supportive team driven by innovation and excellence"
+    ]
+  },
+  "culture": {
+    "label": "Our culture",
+    "title": { "lead": "Guided by", "accent": "shared values" },
+    "text": "Each company has its own expertise and commercial focus, but every team works to the same standards: the values that have guided the Lootah family enterprise for generations.",
+    "valuesCta": "Read about our values",
+    "photoAlt": "Guests greeting one another at an N S Lootah Group gathering"
+  },
+  "companies": {
+    "label": "Where you could work",
+    "title": { "lead": "One group,", "accent": "many paths" }
+  },
+  "apply": {
+    "label": "Submit your CV",
+    "title": { "lead": "Tell us how", "accent": "you can add value" },
+    "text": "Send your CV with a short note about the role or company that interests you. We keep every application on file and will be in touch when your profile matches an opening.",
+    "cta": "Email your CV",
+    "email": "careers@nslootah.com",
+    "subject": "CV submission",
+    "emailLabel": "Careers email"
+  }
+}

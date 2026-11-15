@@ -1,0 +1,95 @@
+---
+// A company's focus: the heading, the "about" paragraphs and a row of key facts
+// (each value set large above its label).
+import { useTranslations, type Locale } from "../../i18n";
+import SectionHeading from "../SectionHeading.astro";
+
+interface Props {
+  locale: Locale;
+  about: string[];
+  facts: { label: string; value: string }[];
+}
+
+const { locale, about, facts } = Astro.props;
+const copy = useTranslations(locale).companies.page;
+---
+
+<section class="focus" aria-labelledby="focus-title">
+  <div class="wrap focus-grid">
+    <div data-enter>
+      <SectionHeading id="focus-title" label={copy.focusLabel} title={copy.focusTitle} />
+    </div>
+    <div class="focus-copy">
+      {about.map((p, i) => <p data-enter style={`--i: ${i + 1}`}>{p}</p>)}
+    </div>
+  </div>
+  {
+    facts.length > 0 && (
+      <div class="wrap">
+        <h3 class="visually-hidden">{copy.factsLabel}</h3>
+        <dl class="facts">
+          {facts.map((f, i) => (
+            <div data-enter style={`--i: ${i}`}>
+              <dt>{f.label}</dt>
+              <dd>{f.value}</dd>
+            </div>
+          ))}
+        </dl>
+      </div>
+    )
+  }
+</section>
+
+<style>
+  .focus {
+    padding-block: var(--section-space);
+  }
+  .focus-grid {
+    display: grid;
+    gap: 2.5rem;
+  }
+  .focus-copy {
+    display: grid;
+    gap: 1.25rem;
+    font-size: var(--text-lede);
+    color: var(--color-text);
+  }
+  .facts {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0 2rem;
+    margin-top: clamp(3rem, 6vw, 5rem);
+  }
+  /* The value reads first, large; its label sits under it. */
+  .facts > div {
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: flex-end;
+    gap: 0.4rem;
+    padding-block: 1.25rem;
+    border-top: var(--border-strong);
+  }
+  .facts dt {
+    font-size: var(--text-caption);
+    color: var(--color-muted);
+  }
+  .facts dd {
+    font-family: var(--font-display);
+    font-size: clamp(1.0625rem, 1.5vw, 1.25rem);
+    line-height: 1.35;
+    overflow-wrap: break-word;
+  }
+  :global(html[dir="rtl"]) .facts dd {
+    line-height: 1.6;
+  }
+  @media (min-width: 64rem) {
+    .focus-grid {
+      grid-template-columns: 5fr 7fr;
+      gap: 4rem;
+      align-items: start;
+    }
+    .facts {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+</style>

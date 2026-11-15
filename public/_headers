@@ -1,12 +1,14 @@
+# Cloudflare Workers static assets: response headers by path.
+# Files under /_astro/ have a content hash in their name, so a changed file
+# always gets a new URL and these can be cached for a year.
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Self-hosted fonts. Their names don't change, so cache for a month.
 /fonts/*
-  Cache-Control: public, max-age=31536000, immutable
+  Cache-Control: public, max-age=2592000
 
-/images/*
-  Cache-Control: public, max-age=31536000, immutable
-
-/meta-media/*
-  Cache-Control: public, max-age=31536000, immutable
-
+# Every response.
 /*
   X-Content-Type-Options: nosniff
   X-Frame-Options: DENY

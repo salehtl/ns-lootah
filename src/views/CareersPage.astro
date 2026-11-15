@@ -1,0 +1,248 @@
+---
+// Careers: why join, culture and values, where you could work, how to apply.
+import Base from "../layouts/Base.astro";
+import PageHero from "../components/PageHero.astro";
+import SectionHeading from "../components/SectionHeading.astro";
+import Photo from "../components/Photo.astro";
+import CtaLink from "../components/CtaLink.astro";
+import CompanyIndex from "../components/CompanyIndex.astro";
+import { localizePath, pad, useTranslations, type Locale } from "../i18n";
+import { photo } from "../lib/media";
+import { breadcrumbJsonLd } from "../lib/links";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+const c = t.careers;
+const home = localizePath(locale);
+const crumbs = [{ label: t.nav.homeCrumb, href: home }, { label: t.nav.careers }];
+const jsonLd = breadcrumbJsonLd(Astro.site, [
+  { name: t.nav.homeCrumb, path: home },
+  { name: t.nav.careers, path: localizePath(locale, "/careers/") },
+]);
+const mailto = `mailto:${c.apply.email}?subject=${encodeURIComponent(c.apply.subject)}`;
+---
+
+<Base title={c.title} description={c.description} lang={locale} jsonLd={jsonLd}>
+  <PageHero
+    variant="panel"
+    image={{ src: photo("careers-team"), alt: c.hero.imageAlt }}
+    label={c.hero.label}
+    title={c.hero.title}
+    lede={c.hero.lede}
+    crumbs={crumbs}
+    crumbsLabel={t.a11y.breadcrumb}
+  >
+    <CtaLink href="#apply" variant="solid">{c.hero.primaryCta}</CtaLink>
+    <CtaLink href="#why" variant="text">{c.hero.secondaryCta}</CtaLink>
+  </PageHero>
+
+  <!-- Why join -->
+  <section class="why" id="why" aria-labelledby="careers-why">
+    <div class="wrap why-grid">
+      <div data-enter>
+        <SectionHeading id="careers-why" label={c.why.label} title={c.why.title} lede={c.why.lede} />
+      </div>
+      <ol class="benefits" role="list">
+        {
+          c.why.benefits.map((b, i) => (
+            <li data-enter style={`--i: ${i}`}>
+              <span class="b-num" aria-hidden="true">{pad(i + 1)}</span>
+              <span class="b-text">{b}</span>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <!-- Culture -->
+  <section class="culture" aria-labelledby="careers-culture">
+    <div class="wrap culture-grid">
+      <figure class="culture-photo" data-enter>
+        <Photo src={photo("legacy-meeting")} alt={c.culture.photoAlt} sizes="(min-width: 64rem) 45vw, 100vw" />
+      </figure>
+      <div class="culture-copy">
+        <div data-enter>
+          <SectionHeading id="careers-culture" label={c.culture.label} title={c.culture.title} />
+        </div>
+        <p class="culture-text" data-enter>{c.culture.text}</p>
+        <ul class="value-tags" role="list" data-enter>
+          {t.about.values.items.map((v) => <li>{v.name}</li>)}
+        </ul>
+        <div data-enter>
+          <CtaLink href={`${localizePath(locale, "/about/")}#values`} variant="text">{c.culture.valuesCta}</CtaLink>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Companies -->
+  <section class="where" aria-labelledby="careers-where">
+    <div class="wrap">
+      <div class="where-head" data-enter>
+        <SectionHeading id="careers-where" label={c.companies.label} title={c.companies.title} />
+      </div>
+      <CompanyIndex locale={locale} variant="compact" />
+    </div>
+  </section>
+
+  <!-- Apply -->
+  <section class="apply" id="apply" aria-labelledby="careers-apply">
+    <div class="wrap">
+      <div class="apply-grid">
+        <div data-enter>
+          <SectionHeading id="careers-apply" label={c.apply.label} title={c.apply.title} />
+        </div>
+        <div class="apply-copy" data-enter style="--i: 1">
+          <p>{c.apply.text}</p>
+          <div class="apply-actions">
+            <CtaLink href={mailto} variant="solid">{c.apply.cta}</CtaLink>
+            <a class="apply-email" href={mailto}>
+              <span class="visually-hidden">{c.apply.emailLabel}: </span>{c.apply.email}
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  /* Scoped: the hero keeps its own spacing. */
+  section {
+    padding-block: var(--section-space);
+  }
+
+  /* Why */
+  .why-grid {
+    display: grid;
+    gap: 3rem;
+  }
+  .benefits {
+    border-top: var(--border-strong);
+  }
+  .benefits li {
+    display: grid;
+    grid-template-columns: 2.5rem 1fr;
+    align-items: baseline;
+    gap: 1rem;
+    padding-block: 1.4rem;
+    border-bottom: var(--border-hairline);
+  }
+  .b-num {
+    font-size: var(--text-caption);
+    font-variant-numeric: tabular-nums;
+    color: var(--color-muted);
+  }
+  .b-text {
+    font-family: var(--font-display);
+    font-size: clamp(1.25rem, 2vw, 1.625rem);
+    line-height: 1.3;
+  }
+  :global(html[dir="rtl"]) .b-text {
+    line-height: 1.6;
+  }
+  @media (min-width: 64rem) {
+    .why-grid {
+      grid-template-columns: 5fr 6fr;
+      gap: 6rem;
+      align-items: start;
+    }
+  }
+
+  /* Culture */
+  .culture {
+    border-top: var(--border-hairline);
+    background: var(--color-surface);
+  }
+  .culture-grid {
+    display: grid;
+    gap: 3rem;
+  }
+  .culture-photo {
+    aspect-ratio: 3 / 2;
+    overflow: hidden;
+  }
+  .culture-copy {
+    display: grid;
+    justify-items: start;
+    gap: 1.5rem;
+    align-content: center;
+  }
+  .culture-text {
+    font-size: var(--text-lede);
+    color: var(--color-muted);
+  }
+  .value-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .value-tags li {
+    padding: 0.4rem 0.85rem;
+    border: var(--border-hairline);
+    border-radius: 999px;
+    background: var(--color-bg);
+    font-size: var(--text-small);
+  }
+  @media (min-width: 64rem) {
+    .culture-grid {
+      grid-template-columns: 6fr 5fr;
+      gap: 5rem;
+    }
+    .culture-photo {
+      aspect-ratio: 4 / 3;
+    }
+  }
+
+  /* Where */
+  .where-head {
+    margin-bottom: clamp(2rem, 4vw, 3rem);
+  }
+
+  /* Apply */
+  .apply {
+    border-top: var(--border-hairline);
+  }
+  .apply-grid {
+    display: grid;
+    gap: 2rem;
+    padding-top: clamp(2rem, 4vw, 3rem);
+    border-top: var(--border-strong);
+  }
+  .apply-copy {
+    display: grid;
+    gap: 2rem;
+    align-content: start;
+    font-size: var(--text-lede);
+    color: var(--color-muted);
+  }
+  .apply-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem 1.75rem;
+  }
+  .apply-email {
+    font-family: var(--font-display);
+    font-size: 1.125rem;
+    color: var(--color-ink);
+    text-decoration: underline;
+    text-decoration-color: var(--color-gold);
+    text-underline-offset: 0.3em;
+    text-decoration-thickness: 1px;
+  }
+  .apply-email:hover {
+    color: var(--color-gold-ink);
+  }
+  @media (min-width: 64rem) {
+    .apply-grid {
+      grid-template-columns: 6fr 5fr;
+      gap: 6rem;
+    }
+  }
+</style>

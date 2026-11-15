@@ -1,30 +1,31 @@
 ---
-/** The seven Group values as a ruled, numbered list. */
-import type { Lang } from '../../i18n/types';
-import { group } from '../../data/group';
-import SectionHeading from '../SectionHeading.astro';
+// The Group values as a ruled, numbered list.
+import { pad, useTranslations, type Locale } from "../../i18n";
+import SectionHeading from "../SectionHeading.astro";
 
 interface Props {
-  lang: Lang;
+  locale: Locale;
 }
 
-const { lang } = Astro.props;
-const { values } = group[lang];
+const { locale } = Astro.props;
+const { values } = useTranslations(locale).about;
 ---
 
 <section class="values" aria-labelledby="home-values-title">
   <div class="wrap">
-    <div class="reveal">
-      <SectionHeading id="home-values-title" eyebrow={values.eyebrow} title={values.title} />
+    <div data-enter>
+      <SectionHeading id="home-values-title" label={values.label} title={values.title} />
     </div>
     <ol class="vlist" role="list">
-      {values.items.map((v, i) => (
-        <li class="reveal">
-          <span class="v-num">{String(i + 1).padStart(2, '0')}</span>
-          <h3>{v.name}</h3>
-          <p>{v.text}</p>
-        </li>
-      ))}
+      {
+        values.items.map((v, i) => (
+          <li data-enter style={`--i: ${i % 3}`}>
+            <span class="v-num">{pad(i + 1)}</span>
+            <h3>{v.name}</h3>
+            <p>{v.text}</p>
+          </li>
+        ))
+      }
     </ol>
   </div>
 </section>
@@ -32,58 +33,49 @@ const { values } = group[lang];
 <style>
   .values {
     padding-block: var(--section-space);
-    border-top: 1px solid var(--color-rule);
+    border-top: var(--border-hairline);
   }
-
   .vlist {
     margin-top: clamp(2.5rem, 5vw, 4rem);
-    border-bottom: 1px solid var(--color-rule);
+    border-bottom: var(--border-hairline);
   }
-
   .vlist li {
     display: grid;
     grid-template-columns: 2.5rem 1fr;
     gap: 0.5rem 1rem;
     padding-block: 1.5rem;
-    border-top: 1px solid var(--color-rule);
+    border-top: var(--border-hairline);
   }
-
   .v-num {
     padding-top: 0.6rem;
     font-size: 0.75rem;
     font-variant-numeric: tabular-nums;
     color: var(--color-muted);
   }
-
   .vlist h3 {
     font-size: clamp(1.625rem, 2.8vw, 2.375rem);
     line-height: 1.15;
-    transition: color 0.3s ease;
+    transition: color var(--transition-colour);
   }
-
-  :global(html[dir='rtl']) .vlist h3 {
+  :global(html[dir="rtl"]) .vlist h3 {
     line-height: 1.4;
   }
-
   .vlist p {
     grid-column: 2;
     max-width: 52ch;
     font-size: 0.9375rem;
     color: var(--color-muted);
   }
-
   @media (hover: hover) and (pointer: fine) {
     .vlist li:hover h3 {
       color: var(--color-gold-ink);
     }
   }
-
   @media (min-width: 64rem) {
     .vlist li {
       grid-template-columns: 4rem 5fr 6fr;
       align-items: baseline;
     }
-
     .vlist p {
       grid-column: 3;
     }

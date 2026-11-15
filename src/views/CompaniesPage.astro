@@ -1,0 +1,98 @@
+---
+// The Group's companies: a washed hero, a short introduction and the ruled
+// index of every company (open-ended: whatever is in src/content/companies/),
+// then the contact band. Copy: src/content/copy/<locale>/companies.json.
+import Base from "../layouts/Base.astro";
+import PageHero from "../components/PageHero.astro";
+import SectionHeading from "../components/SectionHeading.astro";
+import CompanyIndex from "../components/CompanyIndex.astro";
+import ContactBand from "../components/ContactBand.astro";
+import { localizePath, useTranslations, type Locale } from "../i18n";
+import { getCompanies } from "../lib/companies";
+import { photo } from "../lib/media";
+import { breadcrumbJsonLd } from "../lib/links";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const copy = useTranslations(locale).companies;
+const companies = await getCompanies(locale);
+
+const { "@context": context, ...trail } = breadcrumbJsonLd(Astro.site, [
+  { name: copy.breadcrumb.home, path: localizePath(locale) },
+  { name: copy.breadcrumb.companies, path: localizePath(locale, "/companies/") },
+]);
+const jsonLd = {
+  "@context": context,
+  "@graph": [
+    trail,
+    {
+      "@type": "ItemList",
+      name: copy.title,
+      itemListElement: companies.map((c, i) => ({
+        "@type": "ListItem",
+        position: i + 1,
+        name: c.data.name,
+        url: new URL(c.href, Astro.site).href,
+      })),
+    },
+  ],
+};
+---
+
+<Base title={copy.title} description={copy.description} lang={locale} jsonLd={jsonLd}>
+  <PageHero
+    variant="wash"
+    label={copy.hero.label}
+    title={copy.hero.title}
+    lede={copy.hero.lede}
+    image={{ src: photo("profile/tower"), alt: copy.hero.imageAlt }}
+  />
+
+  <section class="portfolio" aria-labelledby="companies-title">
+    <div class="wrap">
+      <div class="intro">
+        <div data-enter>
+          <SectionHeading id="companies-title" label={copy.intro.label} title={copy.intro.title} />
+        </div>
+        <div class="intro-copy">
+          {copy.intro.paragraphs.map((p, i) => <p data-enter style={`--i: ${i + 1}`}>{p}</p>)}
+        </div>
+      </div>
+      <div class="list">
+        <CompanyIndex locale={locale} variant="rows" level="h3" />
+      </div>
+    </div>
+  </section>
+
+  <ContactBand locale={locale} />
+</Base>
+
+<style>
+  .portfolio {
+    padding-block: clamp(3rem, 6vw, 5rem) var(--section-space);
+  }
+  .intro {
+    display: grid;
+    gap: 2rem;
+  }
+  .intro-copy {
+    display: grid;
+    align-content: start;
+    gap: 1.25rem;
+    font-size: var(--text-lede);
+    color: var(--color-text);
+  }
+  .list {
+    margin-top: clamp(3.5rem, 7vw, 6rem);
+  }
+  @media (min-width: 64rem) {
+    .intro {
+      grid-template-columns: 5fr 7fr;
+      gap: 4rem;
+      align-items: start;
+    }
+  }
+</style>

@@ -1,83 +1,65 @@
-# CLAUDE.md
+# Working on this site
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
-
-## Project Overview
-
-Bilingual (English/Arabic) website built with Astro 7 and Bun. Fully static, zero client-side JS by default. Deploys to Cloudflare Pages. See `PRINCIPLES.md` for the full design specification.
+nslootah.com, the N S Lootah Group website: a static, bilingual (English and Arabic) site built on
+`salehtl/client-site-template`. Read `README.md` for the layout. The skills in `.claude/skills/` cover the recurring
+jobs: `site-brand`, `site-content`, `site-images`, `site-deploy` and `site-qa`. Load the matching one before
+starting that kind of work.
 
 ## Commands
 
-- `bun run dev` — Start dev server
-- `bun run build` — Production build (outputs to `dist/`)
-- `bun run preview` — Preview production build locally
+Everything runs in the flake's dev shell: `nix develop -c bun run <script>` (or plain `bun run` with direnv).
+Run Astro as `bun --bun astro <cmd>`. Dev and preview servers run in the background; stop them with
+`bun --bun astro dev stop` or `preview stop`. Only one preview per machine: pass `--port` for another.
 
-## Architecture
+## Rules
 
-- **Framework**: Astro 7, static site generation, strict TypeScript
-- **Package manager**: Bun (`bun.lock`)
-- **Routing**: File-based via `src/pages/`. Path-based localization: `/en/` and `/ar/` prefixes
-- **Static assets**: `public/` (served as-is at site root)
-- **Deployment**: Cloudflare Pages. `functions/index.ts` handles Accept-Language redirect at root. `public/_headers` sets caching and security headers.
+- `master` is production: every push deploys. Commit when asked. Push only when the user says to push in the
+  same request; otherwise ask first, and say what will go live.
+- After a push, check the live site serves the change (curl for a new asset name or string) before saying it's
+  live.
+- Generated files are never edited by hand: `src/styles/tokens.css` (`bun run tokens`), `public/admin/config.yml`
+  (`bun run cms`), the icons (`bun run icons`) and the share cards (`bun run og`).
+- No UI framework, no Tailwind, no client JS by default. Note why in the commit when adding a package.
+- Every page, company and article exists in every language. Change copy in all languages together, or leave a
+  bracketed placeholder in the language you can't write.
+- Check a font's licence before shipping it. Self-hosted web fonts need a licence that allows web embedding and
+  conversion to woff2 (SIL OFL is the safe default). Keep the licence file beside the font.
+- Never mirror a photograph of a real place for right-to-left pages.
+- Look at what you changed before reporting it: build, then screenshot the affected pages at desktop and phone
+  width in both languages (see `site-qa`). Say plainly what you did not check (for example Safari or a real inbox).
 
-### Key Patterns
+## Client rules
 
-- **BaseLayout** (`src/layouts/BaseLayout.astro`): Every page uses this. Requires `title`, `description`, `lang`, `currentPath` props. Optionally accepts `jsonLd` and `ogImage`.
-- **SEOHead** (`src/components/SEOHead.astro`): Renders canonical, hreflang, OG, Twitter Card, and JSON-LD. Included by BaseLayout.
-- **i18n system** (`src/i18n/`): `types.ts` defines `Lang` (`'en' | 'ar'`) and `Dir` types. `translations.ts` holds all UI strings as a typed const object — call `t(lang)` to get strings. `utils.ts` provides `getLangFromUrl`, `getDir`, `getLocalizedPath`, `getAlternateUrl`.
-- **Content** (`src/data/`): typed `Record<Lang, …>` modules so both languages share one shape. `companies.ts` (the six Group companies: names, taglines, logos, photos, paths), `group.ts` (overview, legacy, milestones, chairman, vision/mission, values), `home.ts`, `company-pages.ts`, and `pages/*.ts` for interior-page copy. `translations.ts` keeps shared UI strings (site details, nav, footer, common labels).
-- **Page creation**: Each page needs two thin route files (e.g., `src/pages/en/about.astro` and `src/pages/ar/about.astro`) that set `const lang = 'en'`/`'ar'` and render a shared page component (`src/components/<area>/…Page.astro`) inside BaseLayout. Copy goes in `src/data/`, never inline.
-- **Shared components**: `PageHero` (every interior page opens with it; it holds the page's `<h1>` and reserves room for the fixed header — variants `wash`, `panel`, `plain`), `SectionHeading` (eyebrow + heading ending in the gold accent), `CtaLink` (outline/solid/text/on-dark), `Photo` (optimised images), `ContactBand` (closing contact section).
+- The portfolio is open-ended: never state a count of companies ("six companies", "06", «ست شركات»). Lists come
+  from `src/content/companies/`, so adding a company is adding a file.
+- No establishment timeline, and no founding dates presented as the Group's own (the client found the old
+  1954–1975–1986 timeline misleading). The Group builds on the Lootah family's legacy; say it that way.
+- The home line is "Diversified businesses. One standard." (Arabic «أعمال متنوعة. معيار واحد.»).
+- English copy comes from the 2026 Company Profile; keep the client's wording. Arabic is a translation to be
+  checked by a native speaker before launch.
 
-### CSS Architecture
+## Design language
 
-`src/styles/global.css` defines the tokens (colors, type scale, spacing on 4px base, layout, motion), base typography and a few primitives: `.wrap` (content column), `.eyebrow`, `.gi` (gold accent, italic in English), `.reveal` (scroll-driven fade-up), `.visually-hidden`. Components use scoped `<style>` blocks referencing the tokens. Fonts are language-aware: use `var(--font-display)` / `var(--font-body)`, never a family name. English: Lora (display, variable 400–700 plus italic) and DM Sans (text, 400/500). Arabic: Almarai (display, 400/700) and IBM Plex Sans Arabic (text). All self-hosted in `public/fonts/`. Use logical properties (`inset-inline`, `margin-inline`, `text-align: start`) so layouts mirror in RTL; `--dir` is 1/-1 for directional transforms. Arabic gets no letter-spacing (global rule). Scroll-driven animations must use longhand properties (`animation-name`, `animation-timeline`, …): the LightningCSS minifier folds the shorthand into a form browsers drop.
+The 2026 Company Profile, light only:
 
-### Images
+- A cool off-white page (`--color-bg`), black ink, soft hairlines (`--border-hairline`), alternate sections on
+  `--color-surface`. Black footer.
+- Gold from the Group monogram: `--color-gold` for display sizes on light grounds, `--color-gold-ink` for small
+  text and hovers on light, `--color-gold-glow` on black.
+- Headings end in a gold accent (`{lead} <span class="gi">{accent}</span>`, italic in English); content stores them
+  as `{ lead, accent }`.
+- Fonts by role, never by family: `--font-display` / `--font-body` switch with the language. English: Lora (display)
+  and DM Sans (text). Arabic: Almarai (display) and IBM Plex Sans Arabic (text). Arabic gets no letter-spacing or
+  capitals.
+- The header is fixed and frosted, transparent over the hero at the top of the page. Hero and contact-band photos
+  sit under a page-coloured wash (greyscale, a pale print); company photos run as full-height panels.
+- Use logical properties so layouts mirror in Arabic; `--dir` (1 or -1) mirrors arrows and offsets.
+- Motion: `data-enter` for entrances, `Photo` reveals for images, both played once by the script in `Base.astro`.
+  Scroll-driven CSS animations must use longhand properties (`animation-name`, `animation-timeline`, …): the CSS
+  minifier folds the shorthand into a form browsers drop. Everything respects `prefers-reduced-motion`.
 
-- Content images live in `src/assets/images/` (company-profile photography in `profile/`) and render through `src/components/Photo.astro`: AVIF + WebP, a width ladder capped at the source size, lazy by default (`priority` for above-the-fold). The image fills its wrapper (`object-fit: cover`), so size the wrapper and style the image via `.wrapper :global(.photo)`.
-- Photos carry their `alt` in the data modules, per language. Purely atmospheric backgrounds pass `decorative`.
-- Logos stay as raw `<img>` in `public/images/logos/` (SVG, no optimization needed)
+## Writing to the user
 
-## Localization
-
-- Two languages with equal weight — all content 1:1 translated
-- URL structure: `nslootah.com/en/about`, `nslootah.com/ar/about`
-- Root `/` redirects based on `Accept-Language` (Cloudflare function), with meta-refresh fallback to `/en/`
-- RTL pages require `dir="rtl"` and `lang="ar"` on `<html>`
-- Every page includes `hreflang` tags pointing to its counterpart and `x-default`
-
-## Styling Rules
-
-- Scoped styles only — no global style leaks between components
-- Light theme only — no dark mode
-- Design language: the 2026 Company Profile. Cool off-white page (`--color-page: #f5f5f4`), black ink, soft hairlines (`--color-rule`), alternate sections on `--color-page-alt: #ebebe8`
-- Gold from the group monogram: `--color-gold: #af6a03` for display sizes only on light; `--color-gold-ink: #8c5502` for small text and hovers on light; `--color-gold-glow: #d9a441` on black
-- Headings end in a gold accent word (`AccentTitle` → `{lead} <span class="gi">{accent}</span>`)
-- Header: fixed, frosted off-white, transparent over the hero at the top of the page. Footer: black with light text
-- Photos in heroes and the contact band sit under a page-coloured wash (grayscale, pale print); company photos run as full-height panels
-- 1280px max content width, centered. 4px spacing scale. Mobile-first
-- Self-hosted fonts, `font-display: swap`, preload above-the-fold weights
-- All transitions respect `prefers-reduced-motion`
-- Transitions use `0.3s ease` (not 200ms)
-
-## Performance Targets
-
-- Lighthouse 100 across all categories
-- Zero client-side JS unless absolutely necessary
-- LCP < 2.0s, FCP < 1.0s, CLS < 0.05, TBT 0ms
-- Total page weight < 500KB
-- Inline critical CSS, defer non-critical styles, preload key assets
-
-## SEO
-
-- Semantic HTML, one `<h1>` per page, logical heading hierarchy
-- Unique `<title>` and `<meta description>` per page per language, canonical URLs
-- JSON-LD (Organization on homepage, BreadcrumbList on interior pages), Open Graph, and Twitter Card meta on every page
-- All `<img>` must have descriptive `alt` in page language
-
-## Code Standards
-
-- Strict TypeScript — no `any` in production code
-- Semantic HTML first; `<div>` only when no semantic element fits
-- WCAG 2.1 AA: keyboard accessible, visible focus indicators, 4.5:1 contrast, skip-to-content link
+The user writes short messages, often with typos; read for intent, and when you pick between options they offered,
+say which. A question ("should we use X?") gets an answer, not an action. Give options as a short list with a
+recommendation. Report what changed, where it is, and what's not verified.

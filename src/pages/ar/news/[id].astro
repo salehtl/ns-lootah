@@ -1,0 +1,12 @@
+---
+import type { InferGetStaticPropsType } from "astro";
+import ArticlePage from "../../../views/ArticlePage.astro";
+import { newsPaths } from "../../../lib/news";
+
+export const getStaticPaths = () => newsPaths("ar");
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
+
+const { locale, article } = Astro.props;
+---
+
+<ArticlePage locale={locale} article={article} />

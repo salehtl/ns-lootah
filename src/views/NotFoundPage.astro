@@ -1,0 +1,110 @@
+---
+// The 404 page, one per language: Cloudflare serves the nearest 404.html, so
+// /ar/… misses get the Arabic one (see the localized-404 step in astro.config.mjs).
+import Base from "../layouts/Base.astro";
+import { useTranslations, type Locale } from "../i18n";
+import { linkTo } from "../lib/links";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const nf = useTranslations(locale).notFound;
+---
+
+<Base title={nf.title} description={nf.description} lang={locale} alternates={false}>
+  <meta slot="head" name="robots" content="noindex" />
+  <section class="nf" aria-labelledby="page-title">
+    <div class="wrap nf-in">
+      <p class="code" aria-hidden="true">404</p>
+      <div class="body">
+        <h1 id="page-title">{nf.heading.lead} <span class="gi">{nf.heading.accent}</span></h1>
+        <p>{nf.text}</p>
+        <nav aria-label={nf.linksLabel}>
+          <ul role="list">
+            {
+              nf.links.map((l) => (
+                <li>
+                  <a href={linkTo(locale, l.href)}>
+                    <span>{l.label}</span>
+                    <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
+                      <path d="M3 8h10M9 4l4 4-4 4" />
+                    </svg>
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .nf {
+    padding-block: calc(var(--header-height) + clamp(3.5rem, 9vw, 7rem)) var(--section-space);
+  }
+  .nf-in {
+    display: grid;
+    gap: 2rem 6rem;
+    align-items: start;
+  }
+  .code {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: clamp(5rem, 16vw, 12rem);
+    line-height: 0.9;
+    letter-spacing: -0.04em;
+    color: var(--color-gold);
+  }
+  .body {
+    display: grid;
+    gap: 1.25rem;
+    max-width: 36rem;
+    padding-top: 1.75rem;
+    border-top: var(--border-strong);
+  }
+  h1 {
+    font-size: clamp(2.25rem, 4.6vw, 3.5rem);
+    letter-spacing: -0.02em;
+  }
+  .body > p {
+    color: var(--color-muted);
+  }
+  ul {
+    border-top: var(--border-hairline);
+  }
+  a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-block: 1rem;
+    border-bottom: var(--border-hairline);
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+  }
+  a:hover {
+    color: var(--color-gold-ink);
+  }
+  svg {
+    flex: none;
+    fill: none;
+    stroke: var(--color-gold);
+    stroke-width: 1.25;
+    transform: scaleX(var(--dir));
+    transition: transform var(--transition-nudge);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    a:hover svg {
+      transform: translateX(calc(4px * var(--dir))) scaleX(var(--dir));
+    }
+  }
+  @media (min-width: 64rem) {
+    .nf-in {
+      grid-template-columns: auto 1fr;
+    }
+  }
+</style>

@@ -1,0 +1,63 @@
+{
+  "title": "Contact",
+  "description": "Contact N S Lootah Group in Dubai: the Group office’s telephone, email and WhatsApp, an enquiry form, and how to reach each of our companies.",
+  "hero": {
+    "label": "Contact",
+    "title": { "lead": "Let’s build", "accent": "something together" },
+    "lede": "Whether you’re exploring a partnership, enquiring about one of our companies or simply want to connect, the Group office is the place to start.",
+    "imageAlt": "The Dubai skyline seen from above"
+  },
+  "office": {
+    "label": "Group office",
+    "title": { "lead": "Visit or", "accent": "call us" },
+    "lede": "Our team will direct your enquiry to the right company.",
+    "maps": "Open in Google Maps",
+    "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Al%20Ttay%2C%20Al%20Khawaneej%2C%20Dubai",
+    "whatsapp": "Message on WhatsApp"
+  },
+  "form": {
+    "label": "Send an enquiry",
+    "title": { "lead": "Send us", "accent": "a message" },
+    "lede": "Tell us briefly what you have in mind and which company it concerns. The Group office reads every enquiry and passes it to the right team.",
+    "name": "Full name",
+    "namePlaceholder": "Your name",
+    "email": "Email",
+    "phone": "Phone",
+    "optional": "(optional)",
+    "company": "Company",
+    "companyPlaceholder": "Choose a company",
+    "companyGroup": "The Group office",
+    "companyOther": "Something else",
+    "message": "How can we help?",
+    "messagePlaceholder": "A few lines about your enquiry.",
+    "consent": "I agree that N S Lootah Group may contact me about this enquiry.",
+    "submit": "Send enquiry",
+    "errors": {
+      "invalid": "Please add your name, a valid email address and a short message, and tick the consent box.",
+      "send": "Your enquiry couldn’t be sent just now. Please try again in a few minutes, or call us.",
+      "limit": "Too many enquiries from this connection in a short time. Please wait a minute and try again."
+    }
+  },
+  "companies": {
+    "label": "Our companies",
+    "title": { "lead": "Reach a", "accent": "company" },
+    "lede": "Each company has its own team. Visit its page, or contact the Group office and we’ll connect you.",
+    "directLabel": "Direct line"
+  },
+  "direct": {
+    "real-fresh": {
+      "address": "Al Mulla Warehouses, Al Qusais Industrial Area 1, Dubai",
+      "phone": "+971 4 358 1088",
+      "email": "info@realfreshuae.com"
+    }
+  },
+  "sent": {
+    "title": "Enquiry sent",
+    "description": "Thank you. Your enquiry has reached N S Lootah Group.",
+    "label": "Enquiry sent",
+    "heading": { "lead": "Thank you.", "accent": "We have your enquiry." },
+    "intro": "The Group office will read it and reply to the email address you gave, or pass it to the company concerned.",
+    "home": "Back to the home page",
+    "companies": "Explore our companies"
+  }
+}

@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <title>Edit the site · N S Lootah Group</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  </head>
+  <body>
+    <!-- Sveltia CMS (https://sveltiacms.app). It reads ./config.yml, which scripts/cms-config.ts generates.
+         This page sits behind Cloudflare Access; see "Editing the copy" in the README. -->
+    <script>
+      window.CMS_MANUAL_INIT = true;
+    </script>
+    <script src="https://unpkg.com/@sveltia/cms@0.265.0/dist/sveltia-cms.js"></script>
+    <script>
+      // The editor has already signed in with Cloudflare Access to reach this page, so fetch the
+      // CMS's GitHub token from the Worker (worker/cms-auth.ts) and store it where Sveltia looks
+      // for a signed-in user. Sveltia then starts signed in and skips its own sign-in screen.
+      // If this fails, Sveltia shows that screen, and its "Sign In with GitHub" button still works.
+      (async () => {
+        try {
+          const response = await fetch("/api/cms/token", { cache: "no-store", credentials: "same-origin" });
+          if (response.ok) {
+            const { token } = await response.json();
+            if (token) localStorage.setItem("sveltia-cms.user", JSON.stringify({ backendName: "github", token }));
+          }
+        } catch {}
+        window.CMS.init();
+      })();
+    </script>
+  </body>
+</html>

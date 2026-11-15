@@ -1,0 +1,467 @@
+---
+// Contact: the Group office's direct channels, the enquiry form, and the
+// companies with any direct lines of their own.
+import Base from "../layouts/Base.astro";
+import PageHero from "../components/PageHero.astro";
+import SectionHeading from "../components/SectionHeading.astro";
+import CompanyIndex from "../components/CompanyIndex.astro";
+import { localizePath, useTranslations, type Locale } from "../i18n";
+import { getCompanies } from "../lib/companies";
+import { photo } from "../lib/media";
+import { breadcrumbJsonLd, telHref } from "../lib/links";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+const c = t.contact;
+const f = c.form;
+const home = localizePath(locale);
+const crumbs = [{ label: t.nav.homeCrumb, href: home }, { label: t.nav.contact }];
+const jsonLd = breadcrumbJsonLd(Astro.site, [
+  { name: t.nav.homeCrumb, path: home },
+  { name: t.nav.contact, path: localizePath(locale, "/contact/") },
+]);
+const whatsapp = `https://wa.me/${t.firm.phone.replace(/\D/g, "")}`;
+
+// The "Company" choices. Each option sends the English name, so every enquiry
+// email reads the same whichever language the form was sent in.
+const en = useTranslations("en").contact.form;
+const englishNames = new Map((await getCompanies("en")).map((co) => [co.slug, co.data.name]));
+const options = [
+  ...(await getCompanies(locale)).map((co) => ({ value: englishNames.get(co.slug) ?? co.data.name, label: co.data.name })),
+  { value: en.companyGroup, label: f.companyGroup },
+  { value: en.companyOther, label: f.companyOther },
+];
+---
+
+<Base title={c.title} description={c.description} lang={locale} jsonLd={jsonLd}>
+  <PageHero
+    variant="wash"
+    image={{ src: photo("dubai-lootah1"), alt: c.hero.imageAlt }}
+    label={c.hero.label}
+    title={c.hero.title}
+    lede={c.hero.lede}
+    crumbs={crumbs}
+    crumbsLabel={t.a11y.breadcrumb}
+  />
+
+  <!-- Group office -->
+  <section class="office" aria-labelledby="contact-office">
+    <div class="wrap office-grid">
+      <div data-enter>
+        <SectionHeading id="contact-office" label={c.office.label} title={c.office.title} lede={c.office.lede} />
+      </div>
+      <dl class="channels">
+        <div class="channel" data-enter>
+          <dt>{t.contactBand.office}</dt>
+          <dd>
+            <address>{t.firm.address}</address>
+            <a class="channel-sub" href={c.office.mapsUrl} target="_blank" rel="noopener noreferrer">{c.office.maps}</a>
+          </dd>
+        </div>
+        <div class="channel" data-enter style="--i: 1">
+          <dt>{t.contactBand.telephone}</dt>
+          <dd>
+            <a class="channel-main" href={telHref(t.firm.phone)}><bdi dir="ltr">{t.firm.phone}</bdi></a>
+            <a class="channel-sub" href={whatsapp} target="_blank" rel="noopener noreferrer">{c.office.whatsapp}</a>
+          </dd>
+        </div>
+        <div class="channel" data-enter style="--i: 2">
+          <dt>{t.contactBand.email}</dt>
+          <dd>
+            <a class="channel-main" href={`mailto:${t.firm.email}`}>{t.firm.email}</a>
+          </dd>
+        </div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- Enquiry form -->
+  <section class="enquiry" id="enquiry" aria-labelledby="contact-form">
+    <div class="wrap enquiry-grid">
+      <div data-enter>
+        <SectionHeading id="contact-form" label={f.label} title={f.title} lede={f.lede} />
+      </div>
+      <!-- Posts to the Worker in worker/index.ts, which emails the enquiry and redirects
+           to /contact/sent/ (or /ar/contact/sent/), or back here with #error-… to show
+           one of the messages below. No JavaScript. -->
+      <form class="form" method="post" action="/api/contact" data-enter style="--i: 1">
+        <p id="error-invalid" class="form-error" role="alert">{f.errors.invalid}</p>
+        <p id="error-send" class="form-error" role="alert">{f.errors.send}</p>
+        <p id="error-limit" class="form-error" role="alert">{f.errors.limit}</p>
+        <input type="hidden" name="lang" value={locale} />
+        <!-- Honeypot: hidden from people, often filled in by spam bots. -->
+        <div class="trap" aria-hidden="true">
+          <label for="website">Website</label>
+          <input id="website" name="website" type="text" tabindex="-1" autocomplete="off" />
+        </div>
+        <div class="fields">
+          <div class="field">
+            <label for="name">{f.name}</label>
+            <input
+              id="name"
+              name="name"
+              type="text"
+              autocomplete="name"
+              placeholder={f.namePlaceholder}
+              maxlength="120"
+              required
+            />
+          </div>
+          <div class="field">
+            <label for="email">{f.email}</label>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              autocomplete="email"
+              placeholder="name@example.com"
+              maxlength="254"
+              required
+            />
+          </div>
+          <div class="field">
+            <label for="phone">{f.phone} <span class="optional">{f.optional}</span></label>
+            <input id="phone" name="phone" type="tel" autocomplete="tel" placeholder="+971" maxlength="40" />
+          </div>
+          <div class="field">
+            <label for="company">{f.company}</label>
+            <div class="select">
+              <select id="company" name="company">
+                <option value="">{f.companyPlaceholder}</option>
+                {options.map((o) => <option value={o.value}>{o.label}</option>)}
+              </select>
+              <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
+                <path d="M4 6l4 4 4-4"></path>
+              </svg>
+            </div>
+          </div>
+          <div class="field wide">
+            <label for="message">{f.message}</label>
+            <textarea
+              id="message"
+              name="message"
+              rows="5"
+              maxlength="5000"
+              placeholder={f.messagePlaceholder}
+              required></textarea>
+          </div>
+        </div>
+        <div class="submit-row">
+          <label class="consent">
+            <input type="checkbox" name="consent" required />
+            <span>{f.consent}</span>
+          </label>
+          <button class="submit" type="submit">
+            <span>{f.submit}</span>
+            <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
+              <path d="M3 8h10M9 4l4 4-4 4"></path>
+            </svg>
+          </button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- Companies -->
+  <section class="companies" aria-labelledby="contact-companies">
+    <div class="wrap">
+      <div class="companies-head" data-enter>
+        <SectionHeading
+          id="contact-companies"
+          label={c.companies.label}
+          title={c.companies.title}
+          lede={c.companies.lede}
+        />
+      </div>
+      <CompanyIndex locale={locale} direct={c.direct} directLabel={c.companies.directLabel} />
+    </div>
+  </section>
+</Base>
+
+<style>
+  /* Scoped: the hero keeps its own spacing. */
+  section {
+    padding-block: var(--section-space);
+  }
+
+  /* Office */
+  .office-grid {
+    display: grid;
+    gap: 3rem;
+  }
+  .channels {
+    border-top: var(--border-strong);
+  }
+  .channel {
+    display: grid;
+    gap: 0.5rem;
+    padding-block: 1.5rem;
+    border-bottom: var(--border-hairline);
+  }
+  .channel dt {
+    font-size: var(--text-label);
+    font-weight: var(--font-weight-medium);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+  }
+  :global(html[dir="rtl"]) .channel dt {
+    font-size: var(--text-small);
+    font-weight: var(--font-weight-bold);
+    text-transform: none;
+  }
+  .channel dd {
+    display: grid;
+    justify-items: start;
+    gap: 0.6rem;
+  }
+  .channel address,
+  .channel-main {
+    font-family: var(--font-display);
+    font-style: normal;
+    font-size: clamp(1.375rem, 2.6vw, 2.125rem);
+    line-height: 1.25;
+    color: var(--color-ink);
+    overflow-wrap: anywhere;
+  }
+  :global(html[dir="rtl"]) .channel address {
+    line-height: 1.6;
+  }
+  .channel-main:hover {
+    color: var(--color-gold-ink);
+  }
+  .channel-sub {
+    font-size: var(--text-small);
+    color: var(--color-ink);
+    text-decoration: underline;
+    text-decoration-color: var(--color-gold);
+    text-underline-offset: 0.3em;
+    text-decoration-thickness: 1px;
+  }
+  .channel-sub:hover {
+    color: var(--color-gold-ink);
+  }
+  @media (min-width: 64rem) {
+    .office-grid {
+      grid-template-columns: 5fr 6fr;
+      gap: 6rem;
+      align-items: start;
+    }
+  }
+
+  /* Enquiry form */
+  .enquiry {
+    border-top: var(--border-hairline);
+    background: var(--color-surface);
+  }
+  .enquiry-grid {
+    display: grid;
+    gap: 3rem;
+  }
+  .form {
+    padding-top: 2rem;
+    border-top: var(--border-strong);
+  }
+  /* Shown only when the Worker redirects back with the matching #fragment. */
+  .form-error {
+    display: none;
+    /* Room above it when the #fragment scrolls it under the fixed header. */
+    scroll-margin-top: 2rem;
+    margin-bottom: 2rem;
+    padding: 0.9rem 1rem;
+    border-inline-start: 2px solid var(--color-gold);
+    background: var(--color-bg);
+    font-size: var(--text-small);
+    color: var(--color-ink);
+  }
+  .form-error:target {
+    display: block;
+  }
+  .trap {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+  .fields {
+    display: grid;
+    gap: 2rem 2rem;
+  }
+  .field {
+    display: grid;
+    gap: 0.4rem;
+  }
+  .field label {
+    font-size: var(--text-small);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-ink);
+  }
+  .optional {
+    font-weight: var(--font-weight-regular);
+    color: var(--color-muted);
+  }
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  select,
+  textarea {
+    width: 100%;
+    min-height: 3rem;
+    padding: 0.6rem 0;
+    border: 0;
+    border-bottom: 1px solid var(--color-muted);
+    border-radius: 0;
+    background: transparent;
+    font-size: var(--text-body);
+    line-height: 1.5;
+    color: var(--color-ink);
+    transition:
+      border-color var(--transition-colour),
+      box-shadow var(--transition-colour);
+  }
+  /* Email addresses and phone numbers are written left to right in every
+     language; in Arabic they still line up on the right with the other fields. */
+  :global(html[dir="rtl"]) input[type="email"],
+  :global(html[dir="rtl"]) input[type="tel"] {
+    direction: ltr;
+    text-align: right;
+  }
+  textarea {
+    min-height: 9rem;
+    resize: vertical;
+  }
+  ::placeholder {
+    color: var(--color-muted);
+    opacity: 1;
+  }
+  input:focus,
+  select:focus,
+  textarea:focus {
+    outline: none;
+    border-bottom-color: var(--color-gold-ink);
+    box-shadow: 0 1px 0 var(--color-gold-ink);
+  }
+  .select {
+    position: relative;
+  }
+  select {
+    appearance: none;
+    padding-inline-end: 1.75rem;
+    cursor: pointer;
+  }
+  .select svg {
+    position: absolute;
+    top: 50%;
+    inset-inline-end: 0.25rem;
+    translate: 0 -50%;
+    fill: none;
+    stroke: var(--color-ink);
+    stroke-width: 1.4;
+    pointer-events: none;
+  }
+  .submit-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem 2rem;
+    margin-top: 2.5rem;
+  }
+  .consent {
+    flex: 1 1 18rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    font-size: var(--text-caption);
+    line-height: 1.5;
+    color: var(--color-text);
+    cursor: pointer;
+  }
+  .consent input {
+    flex: none;
+    width: 1.125rem;
+    height: 1.125rem;
+    margin-top: 0.1rem;
+    accent-color: var(--color-primary);
+  }
+  :global(html[dir="rtl"]) .consent {
+    font-size: var(--text-small);
+  }
+  .submit {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.85rem 1.4rem;
+    border: 1px solid var(--color-primary);
+    background: var(--color-primary);
+    color: var(--color-bg);
+    font-family: var(--font-body);
+    font-size: 0.8125rem;
+    font-weight: var(--font-weight-medium);
+    line-height: 1.3;
+    letter-spacing: 0.08em;
+    cursor: pointer;
+    transition:
+      background-color var(--transition-colour),
+      border-color var(--transition-colour),
+      transform var(--transition-press);
+  }
+  :global(html[dir="rtl"]) .submit {
+    font-size: 0.9375rem;
+    font-weight: var(--font-weight-bold);
+  }
+  .submit svg {
+    flex: none;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.25;
+    transform: scaleX(var(--dir));
+    transition: transform var(--transition-nudge);
+  }
+  .submit:active {
+    transform: scale(0.98);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .submit:hover {
+      border-color: var(--color-gold-ink);
+      background: var(--color-gold-ink);
+    }
+    .submit:hover svg {
+      transform: translateX(calc(3px * var(--dir))) scaleX(var(--dir));
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .submit:active {
+      transform: none;
+    }
+  }
+  @media (min-width: 40rem) {
+    .fields {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .wide {
+      grid-column: 1 / -1;
+    }
+  }
+  @media (min-width: 64rem) {
+    .enquiry-grid {
+      grid-template-columns: 5fr 6fr;
+      gap: 6rem;
+      align-items: start;
+    }
+  }
+
+  /* Companies */
+  .companies {
+    border-top: var(--border-hairline);
+  }
+  .companies-head {
+    margin-bottom: clamp(2.5rem, 5vw, 4rem);
+  }
+</style>

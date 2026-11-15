@@ -1,0 +1,500 @@
+---
+// About the Group: overview, the legacy and its principles, the Chairman,
+// strategic direction, the values and the portfolio. The words are in
+// src/content/copy/<locale>/about.json, shared with the home page.
+import Base from "../layouts/Base.astro";
+import PageHero from "../components/PageHero.astro";
+import SectionHeading from "../components/SectionHeading.astro";
+import Photo from "../components/Photo.astro";
+import CtaLink from "../components/CtaLink.astro";
+import CompanyIndex from "../components/CompanyIndex.astro";
+import ContactBand from "../components/ContactBand.astro";
+import { localizePath, pad, useTranslations, type Locale } from "../i18n";
+import { photo } from "../lib/media";
+import { breadcrumbJsonLd } from "../lib/links";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+const a = t.about;
+const home = localizePath(locale);
+const crumbs = [{ label: t.nav.homeCrumb, href: home }, { label: t.nav.about }];
+const jsonLd = breadcrumbJsonLd(Astro.site, [
+  { name: t.nav.homeCrumb, path: home },
+  { name: t.nav.about, path: localizePath(locale, "/about/") },
+]);
+const [lead, ...paragraphs] = a.overview.paragraphs;
+const [featured, ...values] = a.values.items;
+---
+
+<Base title={a.title} description={a.description} lang={locale} jsonLd={jsonLd}>
+  <PageHero
+    variant="wash"
+    image={{ src: photo("profile/glass-roof"), alt: a.hero.imageAlt }}
+    label={a.hero.label}
+    title={a.hero.title}
+    lede={a.hero.lede}
+    crumbs={crumbs}
+    crumbsLabel={t.a11y.breadcrumb}
+  />
+
+  <!-- Overview -->
+  <section class="overview" aria-labelledby="about-overview">
+    <div class="wrap overview-grid">
+      <div data-enter>
+        <SectionHeading id="about-overview" label={a.overview.label} title={a.overview.title} />
+      </div>
+      <div class="overview-copy" data-enter style="--i: 1">
+        <p class="lead">{lead}</p>
+        {paragraphs.map((p) => <p>{p}</p>)}
+      </div>
+    </div>
+  </section>
+
+  <!-- Legacy -->
+  <section class="legacy" id="legacy" aria-labelledby="about-legacy">
+    <div class="wrap legacy-grid">
+      <div class="legacy-copy">
+        <div data-enter>
+          <SectionHeading id="about-legacy" label={a.legacy.label} title={a.legacy.title} />
+        </div>
+        <p class="kicker" data-enter>{a.legacy.kicker}</p>
+        <p data-enter>{a.legacy.intro} {a.legacy.founder}</p>
+        <p data-enter>{a.legacy.achievements}</p>
+        <p data-enter>{a.legacy.today}</p>
+      </div>
+      <figure class="legacy-photo" data-enter style="--i: 1">
+        <Photo src={photo("profile/legacy")} alt={a.legacy.imageAlt} sizes="(min-width: 64rem) 40vw, 100vw" />
+      </figure>
+    </div>
+
+    <div class="wrap principles">
+      <h3 class="eyebrow" data-enter>{a.legacy.principlesLabel}</h3>
+      <ol class="principle-list" role="list">
+        {
+          a.legacy.principles.map((p, i) => (
+            <li data-enter style={`--i: ${i}`}>
+              <span class="p-num" aria-hidden="true">{pad(i + 1)}</span>
+              <span class="p-word">{p}</span>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+
+    <figure class="wrap philosophy" data-enter>
+      <figcaption class="eyebrow">{a.legacy.philosophyLabel}</figcaption>
+      <blockquote>
+        <p>{a.legacy.philosophy}</p>
+      </blockquote>
+      <p class="closing"><span class="gi">{a.legacy.closing}</span></p>
+    </figure>
+  </section>
+
+  <!-- Leadership -->
+  <section class="leadership" id="leadership" aria-labelledby="about-leadership">
+    <div class="wrap leadership-grid">
+      <figure class="portrait" data-enter>
+        <div class="portrait-frame">
+          <Photo src={photo("director-bonlootah")} alt={a.chairman.portraitAlt} sizes="(min-width: 64rem) 24rem, 80vw" />
+        </div>
+        <figcaption>
+          <span class="p-name">{a.chairman.name}</span>
+          <span class="p-role">{a.chairman.role}</span>
+        </figcaption>
+      </figure>
+      <div class="leadership-copy">
+        <div data-enter>
+          <SectionHeading id="about-leadership" label={a.chairman.label} title={a.chairman.title} />
+        </div>
+        {a.chairman.bio.map((para, i) => <p class:list={{ lead: i === 0 }} data-enter>{para}</p>)}
+      </div>
+    </div>
+  </section>
+
+  <!-- Vision and mission -->
+  <section class="direction" id="direction" aria-labelledby="about-direction">
+    <div class="wrap">
+      <div data-enter>
+        <SectionHeading id="about-direction" label={a.direction.label} title={a.direction.title} />
+      </div>
+      <div class="vm">
+        {
+          [a.direction.vision, a.direction.mission].map((block, i) => (
+            <article class="vm-block" data-enter style={`--i: ${i}`}>
+              <h3 class="vm-title">{block.title}</h3>
+              <p class="vm-main">{block.lines[0]}</p>
+              {block.lines[1] && (
+                <div class="vm-ahead">
+                  <p class="eyebrow">{a.direction.aheadLabel}</p>
+                  <p>{block.lines[1]}</p>
+                </div>
+              )}
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Values -->
+  <section class="values" id="values" aria-labelledby="about-values">
+    <div class="wrap">
+      <div data-enter>
+        <SectionHeading id="about-values" label={a.values.label} title={a.values.title} lede={a.values.lede} />
+      </div>
+      <div class="values-grid">
+        {
+          featured && (
+            <article class="value featured" data-enter>
+              <span class="v-num" aria-hidden="true">{pad(1)}</span>
+              <h3>{featured.name}</h3>
+              <p>{featured.text}</p>
+            </article>
+          )
+        }
+        {
+          values.map((v, i) => (
+            <article class="value" data-enter style={`--i: ${i % 3}`}>
+              <span class="v-num" aria-hidden="true">{pad(i + 2)}</span>
+              <h3>{v.name}</h3>
+              <p>{v.text}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Portfolio -->
+  <section class="portfolio" aria-labelledby="about-portfolio">
+    <div class="wrap">
+      <div class="portfolio-head" data-enter>
+        <SectionHeading id="about-portfolio" label={a.companies.label} title={a.companies.title} lede={a.companies.lede} />
+      </div>
+      <CompanyIndex locale={locale} />
+      <div class="portfolio-cta" data-enter>
+        <CtaLink href={localizePath(locale, "/contact/")}>{a.chairman.cta}</CtaLink>
+      </div>
+    </div>
+  </section>
+
+  <ContactBand locale={locale} />
+</Base>
+
+<style>
+  /* Scoped: the hero and the contact band keep their own spacing. */
+  section {
+    padding-block: var(--section-space);
+  }
+
+  .lead {
+    font-family: var(--font-display);
+    font-size: clamp(1.3125rem, 2vw, 1.625rem);
+    line-height: 1.4;
+    color: var(--color-ink);
+  }
+  :global(html[dir="rtl"]) .lead {
+    line-height: 1.7;
+  }
+
+  /* Overview */
+  .overview-grid {
+    display: grid;
+    gap: 2.5rem;
+  }
+  .overview-copy {
+    display: grid;
+    gap: 1.25rem;
+    color: var(--color-muted);
+  }
+  @media (min-width: 64rem) {
+    .overview-grid {
+      grid-template-columns: 5fr 6fr;
+      gap: 6rem;
+      align-items: start;
+    }
+  }
+
+  /* Legacy */
+  .legacy {
+    border-top: var(--border-hairline);
+    background: var(--color-surface);
+  }
+  .legacy-grid {
+    display: grid;
+    gap: 3rem;
+  }
+  .legacy-copy {
+    display: grid;
+    gap: 1.25rem;
+    color: var(--color-muted);
+  }
+  .kicker {
+    margin-top: 0.5rem;
+    font-family: var(--font-display);
+    font-style: var(--style-accent);
+    font-size: 1.25rem;
+    color: var(--color-ink);
+  }
+  .legacy-photo {
+    aspect-ratio: 3 / 2;
+    overflow: hidden;
+  }
+  .legacy-photo :global(.photo-img) {
+    filter: grayscale(0.15);
+  }
+  @media (min-width: 64rem) {
+    .legacy-grid {
+      grid-template-columns: 6fr 5fr;
+      gap: 6rem;
+      align-items: center;
+    }
+    .legacy-photo {
+      aspect-ratio: 4 / 5;
+    }
+  }
+
+  .principles {
+    margin-top: clamp(4rem, 8vw, 6.5rem);
+  }
+  .principle-list {
+    display: grid;
+    margin-top: 1.5rem;
+    border-top: var(--border-strong);
+  }
+  .principle-list li {
+    display: flex;
+    align-items: baseline;
+    gap: 1.25rem;
+    padding-block: 1.25rem;
+    border-bottom: var(--border-hairline);
+  }
+  .p-num {
+    font-size: var(--text-caption);
+    font-variant-numeric: tabular-nums;
+    color: var(--color-muted);
+  }
+  .p-word {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 4.2vw, 3.5rem);
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+  }
+  :global(html[dir="rtl"]) .p-word {
+    line-height: 1.4;
+  }
+  @media (min-width: 48rem) {
+    .principle-list {
+      grid-template-columns: repeat(3, 1fr);
+      column-gap: 2rem;
+    }
+  }
+
+  .philosophy {
+    display: grid;
+    gap: 1.5rem;
+    margin-top: clamp(4rem, 8vw, 6.5rem);
+  }
+  .philosophy blockquote p {
+    max-width: 30ch;
+    font-family: var(--font-display);
+    font-size: clamp(1.75rem, 3.4vw, 3rem);
+    line-height: 1.22;
+    letter-spacing: -0.01em;
+    color: var(--color-ink);
+  }
+  :global(html[dir="rtl"]) .philosophy blockquote p {
+    line-height: 1.6;
+  }
+  .closing {
+    font-family: var(--font-display);
+    font-size: clamp(1.25rem, 2vw, 1.625rem);
+  }
+
+  /* Leadership */
+  .leadership {
+    border-top: var(--border-hairline);
+  }
+  .leadership-grid {
+    display: grid;
+    gap: 3rem;
+  }
+  .portrait {
+    max-width: 24rem;
+  }
+  .portrait-frame {
+    aspect-ratio: 536 / 800;
+    overflow: hidden;
+    border-radius: 0.75rem;
+  }
+  .portrait-frame :global(.photo-img) {
+    filter: grayscale(0.15);
+  }
+  .portrait figcaption {
+    display: grid;
+    gap: 0.25rem;
+    margin-top: 1rem;
+  }
+  .p-name {
+    font-family: var(--font-display);
+    font-style: var(--style-accent);
+    font-size: 1.125rem;
+  }
+  .p-role {
+    font-size: var(--text-label);
+    font-weight: var(--font-weight-medium);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-gold-ink);
+  }
+  :global(html[dir="rtl"]) .p-role {
+    font-size: var(--text-small);
+    font-weight: var(--font-weight-bold);
+    text-transform: none;
+  }
+  .leadership-copy {
+    display: grid;
+    gap: 1.25rem;
+    align-content: start;
+    color: var(--color-muted);
+  }
+  .leadership-copy > div {
+    margin-bottom: 0.75rem;
+  }
+  @media (min-width: 64rem) {
+    .leadership-grid {
+      grid-template-columns: 24rem 1fr;
+      gap: 6rem;
+      align-items: start;
+    }
+    .portrait {
+      position: sticky;
+      top: calc(var(--header-height) + 2rem);
+    }
+  }
+
+  /* Direction */
+  .direction {
+    border-top: var(--border-hairline);
+    background: var(--color-surface);
+  }
+  .vm {
+    display: grid;
+    gap: 3rem;
+    margin-top: clamp(3rem, 6vw, 4.5rem);
+  }
+  .vm-block {
+    display: grid;
+    gap: 1.25rem;
+    align-content: start;
+    padding-top: 1.75rem;
+    border-top: var(--border-strong);
+  }
+  .vm-title {
+    font-size: var(--text-h3);
+  }
+  .vm-main {
+    font-family: var(--font-display);
+    font-size: clamp(1.3125rem, 2vw, 1.625rem);
+    line-height: 1.4;
+  }
+  :global(html[dir="rtl"]) .vm-main {
+    line-height: 1.7;
+  }
+  .vm-ahead {
+    display: grid;
+    gap: 0.6rem;
+    margin-top: 0.5rem;
+    padding-top: 1.25rem;
+    border-top: var(--border-hairline);
+    color: var(--color-muted);
+  }
+  @media (min-width: 64rem) {
+    .vm {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 4rem;
+    }
+  }
+
+  /* Values */
+  .values {
+    border-top: var(--border-hairline);
+  }
+  .values-grid {
+    display: grid;
+    margin-top: clamp(3rem, 6vw, 4.5rem);
+    border-top: var(--border-hairline);
+  }
+  .value {
+    display: grid;
+    align-content: start;
+    gap: 0.75rem;
+    padding-block: 1.75rem;
+    border-bottom: var(--border-hairline);
+  }
+  .v-num {
+    font-size: var(--text-caption);
+    font-variant-numeric: tabular-nums;
+    color: var(--color-muted);
+  }
+  .value h3 {
+    font-size: clamp(1.5rem, 2.4vw, 2rem);
+    line-height: 1.15;
+    transition: color var(--transition-colour);
+  }
+  :global(html[dir="rtl"]) .value h3 {
+    line-height: 1.4;
+  }
+  .value p {
+    font-size: 0.9375rem;
+    color: var(--color-muted);
+  }
+  .featured h3 {
+    font-size: clamp(2rem, 4vw, 3.25rem);
+    color: var(--color-gold);
+  }
+  .featured p {
+    max-width: 44ch;
+    font-size: var(--text-lede);
+    color: var(--color-ink);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .value:not(.featured):hover h3 {
+      color: var(--color-gold-ink);
+    }
+  }
+  @media (min-width: 48rem) {
+    .values-grid {
+      grid-template-columns: repeat(2, 1fr);
+      column-gap: 2.5rem;
+    }
+    .featured {
+      grid-column: 1 / -1;
+    }
+  }
+  @media (min-width: 64rem) {
+    .values-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+    .featured {
+      grid-template-columns: 4rem 5fr 6fr;
+      align-items: baseline;
+      padding-block: 2.5rem;
+    }
+  }
+
+  /* Portfolio */
+  .portfolio {
+    border-top: var(--border-hairline);
+  }
+  .portfolio-head {
+    margin-bottom: clamp(2.5rem, 5vw, 4rem);
+  }
+  .portfolio-cta {
+    margin-top: 2.5rem;
+  }
+</style>

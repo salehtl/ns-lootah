@@ -1,0 +1,31 @@
+---
+// Where the contact Worker (worker/index.ts) sends people after their enquiry
+// is emailed. Not indexed, and left out of the sitemap (astro.config.mjs).
+import Base from "../layouts/Base.astro";
+import PageHero from "../components/PageHero.astro";
+import CtaLink from "../components/CtaLink.astro";
+import { localizePath, useTranslations, type Locale } from "../i18n";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+const s = t.contact.sent;
+---
+
+<Base title={s.title} description={s.description} lang={locale}>
+  <meta slot="head" name="robots" content="noindex" />
+  <PageHero label={s.label} title={s.heading} lede={s.intro}>
+    <CtaLink href={localizePath(locale)} variant="solid">{s.home}</CtaLink>
+    <CtaLink href={localizePath(locale, "/companies/")}>{s.companies}</CtaLink>
+  </PageHero>
+  <div class="spacer"></div>
+</Base>
+
+<style>
+  .spacer {
+    height: var(--section-space);
+  }
+</style>

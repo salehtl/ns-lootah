@@ -1,0 +1,108 @@
+---
+// One Group company: hero panel (crumbs, logo, actions) → focus and facts →
+// wide detail photo → development statement and story → portfolio →
+// company-specific extras → the other companies → contact.
+// Content: src/content/companies/<locale>/<slug>.md; labels: copy/<locale>/companies.json.
+import { render } from "astro:content";
+import Base from "../layouts/Base.astro";
+import PageHero from "../components/PageHero.astro";
+import CtaLink from "../components/CtaLink.astro";
+import ContactBand from "../components/ContactBand.astro";
+import CompanyFocus from "../components/company/CompanyFocus.astro";
+import CompanyBand from "../components/company/CompanyBand.astro";
+import CompanyDevelopment from "../components/company/CompanyDevelopment.astro";
+import CompanyPortfolio from "../components/company/CompanyPortfolio.astro";
+import CompanyExtra from "../components/company/CompanyExtra.astro";
+import MoreCompanies from "../components/company/MoreCompanies.astro";
+import { localizePath, useTranslations, type Locale } from "../i18n";
+import type { Company } from "../lib/companies";
+import { logo, photo } from "../lib/media";
+import { breadcrumbJsonLd, linkTo } from "../lib/links";
+
+interface Props {
+  locale: Locale;
+  company: Company;
+}
+
+const { locale, company } = Astro.props;
+const t = useTranslations(locale);
+const copy = t.companies;
+const data = company.data;
+const { Content } = await render(company);
+const mark = logo(data.logo);
+
+const home = localizePath(locale);
+const index = localizePath(locale, "/companies/");
+const { "@context": context, ...trail } = breadcrumbJsonLd(Astro.site, [
+  { name: copy.breadcrumb.home, path: home },
+  { name: copy.breadcrumb.companies, path: index },
+  { name: data.name, path: company.href },
+]);
+const website = data.actions.find((a) => a.external)?.href;
+const jsonLd = {
+  "@context": context,
+  "@graph": [
+    trail,
+    {
+      "@type": "Organization",
+      name: data.legalName,
+      alternateName: data.name,
+      url: new URL(company.href, Astro.site).href,
+      logo: new URL(mark.src, Astro.site).href,
+      description: data.description,
+      ...(website ? { sameAs: [website] } : {}),
+      parentOrganization: {
+        "@type": "Organization",
+        name: t.firm.legalName,
+        url: new URL(home, Astro.site).href,
+      },
+    },
+  ],
+};
+---
+
+<Base title={data.name} description={data.description} lang={locale} jsonLd={jsonLd}>
+  <PageHero
+    variant="panel"
+    image={{ src: photo(data.cover), alt: data.coverAlt }}
+    logo={{ ...mark, alt: data.name }}
+    label={data.sector}
+    title={data.heroTitle}
+    lede={data.summary}
+    crumbs={[
+      { label: copy.breadcrumb.home, href: home },
+      { label: copy.breadcrumb.companies, href: index },
+      { label: data.name },
+    ]}
+    crumbsLabel={t.a11y.breadcrumb}
+  >
+    {
+      data.actions.map((a, i) => (
+        <CtaLink href={linkTo(locale, a.href)} variant={i === 0 ? "solid" : "outline"} external={a.external || undefined}>
+          {a.label}
+        </CtaLink>
+      ))
+    }
+  </PageHero>
+
+  <CompanyFocus locale={locale} about={data.about} facts={data.facts} />
+
+  <CompanyBand src={photo(data.detail)} alt={data.detailAlt} />
+
+  <CompanyDevelopment
+    label={data.development.label}
+    statement={data.development.statement}
+    photo={data.development.photo}
+    photoAlt={data.development.photoAlt}
+  >
+    <Content />
+  </CompanyDevelopment>
+
+  <CompanyPortfolio locale={locale} title={data.portfolio.title} intro={data.portfolio.intro} items={data.portfolio.items} />
+
+  {data.extras.map((extra, i) => <CompanyExtra locale={locale} extra={extra} tone={i % 2 === 0 ? "plain" : "alt"} />)}
+
+  <MoreCompanies locale={locale} current={company.slug} />
+
+  <ContactBand locale={locale} />
+</Base>

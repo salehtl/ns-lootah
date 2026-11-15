@@ -1,0 +1,292 @@
+{
+  "$description": "N S Lootah Group design tokens, from the 2026 Company Profile. Design Tokens Format Module 2025.10 (https://www.designtokens.org/tr/2025.10/format/). Token paths map to CSS custom properties by joining with '-': color.gold becomes --color-gold. Fluid sizes (clamp) live in global.css, built on the font-size maxima here.",
+
+  "color": {
+    "$type": "color",
+    "palette": {
+      "$description": "Base tokens: the profile's cool off-white page, black ink and hairlines, and the amber gold of the Group monogram. Use the semantic colour tokens in designs, not these.",
+      "paper": {
+        "$value": { "colorSpace": "srgb", "components": [1.0, 1.0, 1.0], "hex": "#ffffff" }
+      },
+      "stone": {
+        "$value": { "colorSpace": "srgb", "components": [0.9608, 0.9608, 0.9569], "hex": "#f5f5f4" }
+      },
+      "stone-deep": {
+        "$value": { "colorSpace": "srgb", "components": [0.9216, 0.9216, 0.9098], "hex": "#ebebe8" }
+      },
+      "hairline": {
+        "$value": { "colorSpace": "srgb", "components": [0.8431, 0.8431, 0.8235], "hex": "#d7d7d2" }
+      },
+      "ash": {
+        "$value": { "colorSpace": "srgb", "components": [0.651, 0.651, 0.6275], "hex": "#a6a6a0" }
+      },
+      "pewter": {
+        "$value": { "colorSpace": "srgb", "components": [0.4, 0.4, 0.3725], "hex": "#66665f" }
+      },
+      "graphite": {
+        "$value": { "colorSpace": "srgb", "components": [0.1804, 0.1804, 0.1804], "hex": "#2e2e2e" }
+      },
+      "ink": {
+        "$value": { "colorSpace": "srgb", "components": [0.0392, 0.0392, 0.0392], "hex": "#0a0a0a" }
+      },
+      "black": {
+        "$value": { "colorSpace": "srgb", "components": [0.0, 0.0, 0.0], "hex": "#000000" }
+      },
+      "amber": {
+        "$value": { "colorSpace": "srgb", "components": [0.6863, 0.4157, 0.0118], "hex": "#af6a03" }
+      },
+      "amber-deep": {
+        "$value": { "colorSpace": "srgb", "components": [0.549, 0.3333, 0.0078], "hex": "#8c5502" }
+      },
+      "amber-glow": {
+        "$value": { "colorSpace": "srgb", "components": [0.851, 0.6431, 0.2549], "hex": "#d9a441" }
+      }
+    },
+    "bg": {
+      "$description": "Page background, the profile's cool off-white.",
+      "$value": "{color.palette.stone}"
+    },
+    "surface": {
+      "$description": "Background for alternating sections.",
+      "$value": "{color.palette.stone-deep}"
+    },
+    "paper": {
+      "$description": "White, for cards and form fields that sit on the page.",
+      "$value": "{color.palette.paper}"
+    },
+    "rule": {
+      "$description": "1px hairline between items in a list or group.",
+      "$value": "{color.palette.hairline}"
+    },
+    "muted": {
+      "$description": "Ledes, labels and captions. 5.3:1 on bg, 4.8:1 on surface.",
+      "$value": "{color.palette.pewter}"
+    },
+    "text": {
+      "$description": "Long running text.",
+      "$value": "{color.palette.graphite}"
+    },
+    "ink": {
+      "$description": "Headings, body copy and the strong rule that opens a section.",
+      "$value": "{color.palette.ink}"
+    },
+    "primary": {
+      "$description": "The one solid button and the skip link.",
+      "$value": "{color.palette.ink}"
+    },
+    "black": {
+      "$description": "The footer.",
+      "$value": "{color.palette.black}"
+    },
+    "on-dark": {
+      "$description": "Text on black.",
+      "$value": "{color.palette.stone}"
+    },
+    "on-dark-muted": {
+      "$description": "Secondary text on black. 8.6:1 on black.",
+      "$value": "{color.palette.ash}"
+    },
+    "gold": {
+      "$description": "The accent word that ends a heading, numbers and hairline buttons. Display sizes only on light grounds (3.9:1 on bg); any size on black.",
+      "$value": "{color.palette.amber}"
+    },
+    "gold-ink": {
+      "$description": "Gold for small text, labels and hovers on light grounds. 5.6:1 on bg.",
+      "$value": "{color.palette.amber-deep}"
+    },
+    "gold-glow": {
+      "$description": "Gold for small text and hovers on black. 9.3:1 on black.",
+      "$value": "{color.palette.amber-glow}"
+    },
+    "glass": {
+      "$description": "The frosted header: the page colour, nearly opaque, over a blur.",
+      "$value": { "colorSpace": "srgb", "components": [0.9608, 0.9608, 0.9569], "alpha": 0.97, "hex": "#f5f5f4" }
+    },
+    "wash": {
+      "$description": "The page-coloured wash that turns hero photographs into a pale print.",
+      "$value": { "colorSpace": "srgb", "components": [0.9608, 0.9608, 0.9569], "alpha": 0.8, "hex": "#f5f5f4" }
+    },
+    "rule-dark": {
+      "$description": "Hairline on black.",
+      "$value": { "colorSpace": "srgb", "components": [0.9608, 0.9608, 0.9569], "alpha": 0.18, "hex": "#f5f5f4" }
+    }
+  },
+
+  "font": {
+    "$type": "fontFamily",
+    "serif": {
+      "$description": "Lora (variable, with italic), the English display face: headings, the hero and the gold italic accent. SIL Open Font License.",
+      "$value": ["Lora", "Georgia", "Times New Roman", "serif"]
+    },
+    "sans": {
+      "$description": "DM Sans (Regular, Medium), the English text face: body, labels, navigation and buttons. SIL Open Font License.",
+      "$value": ["DM Sans", "system-ui", "-apple-system", "Segoe UI", "sans-serif"]
+    },
+    "arabic": {
+      "$description": "IBM Plex Sans Arabic (Regular, Medium, Bold), Arabic running text and UI; legible at 16 to 18px. Its Latin covers digits and English words. SIL Open Font License.",
+      "$value": ["IBM Plex Sans Arabic", "system-ui", "sans-serif"]
+    },
+    "arabic-display": {
+      "$description": "Almarai (Regular, Bold), Arabic headings and display. Never used for running text. SIL Open Font License.",
+      "$value": ["Almarai", "IBM Plex Sans Arabic", "system-ui", "sans-serif"]
+    }
+  },
+
+  "font-weight": {
+    "$type": "fontWeight",
+    "regular": { "$value": 400 },
+    "medium": {
+      "$description": "Labels, navigation and buttons in English.",
+      "$value": 500
+    },
+    "bold": {
+      "$description": "Arabic headings (Almarai Bold) and Arabic labels.",
+      "$value": 700
+    }
+  },
+
+  "font-size": {
+    "$type": "dimension",
+    "$description": "The largest size of each step. Headings scale down fluidly from these (see the --text-* roles in global.css).",
+    "hero": { "$value": { "value": 7, "unit": "rem" } },
+    "h1": { "$value": { "value": 5.25, "unit": "rem" } },
+    "h2": { "$value": { "value": 4, "unit": "rem" } },
+    "h3": { "$value": { "value": 2.125, "unit": "rem" } },
+    "lede": { "$value": { "value": 1.1875, "unit": "rem" } },
+    "body": { "$value": { "value": 1, "unit": "rem" } },
+    "small": { "$value": { "value": 0.875, "unit": "rem" } },
+    "caption": { "$value": { "value": 0.8125, "unit": "rem" } },
+    "label": {
+      "$description": "Capitalised, tracked labels (eyebrows). Arabic labels use small, uncapitalised.",
+      "$value": { "value": 0.6875, "unit": "rem" }
+    }
+  },
+
+  "container": {
+    "$type": "dimension",
+    "page": {
+      "$description": "Content width, centred.",
+      "$value": { "value": 80, "unit": "rem" }
+    },
+    "prose": {
+      "$description": "Maximum width for running text.",
+      "$value": { "value": 40, "unit": "rem" }
+    }
+  },
+
+  "ease": {
+    "$type": "cubicBezier",
+    "out": {
+      "$description": "Strong ease-out. Anything entering, and press feedback.",
+      "$value": [0.23, 1, 0.32, 1]
+    },
+    "in-out": {
+      "$description": "Strong ease-in-out. Things moving while already on screen, such as photo reveals.",
+      "$value": [0.77, 0, 0.175, 1]
+    },
+    "standard": {
+      "$description": "The CSS 'ease' curve, for colour changes.",
+      "$value": [0.25, 0.1, 0.25, 1]
+    }
+  },
+
+  "duration": {
+    "$type": "duration",
+    "colour": {
+      "$description": "Hover and focus colour changes (the house 0.3s ease).",
+      "$value": { "value": 300, "unit": "ms" }
+    },
+    "press": { "$value": { "value": 160, "unit": "ms" } },
+    "small": {
+      "$description": "Arrow nudges and other small hover movement.",
+      "$value": { "value": 300, "unit": "ms" }
+    },
+    "enter": {
+      "$description": "Section entrances on scroll, played once.",
+      "$value": { "value": 700, "unit": "ms" }
+    },
+    "reveal": {
+      "$description": "Photograph reveals on scroll, played once.",
+      "$value": { "value": 900, "unit": "ms" }
+    },
+    "stagger": {
+      "$description": "Gap between items entering as a group.",
+      "$value": { "value": 70, "unit": "ms" }
+    },
+    "none": { "$value": { "value": 0, "unit": "ms" } }
+  },
+
+  "transition": {
+    "$type": "transition",
+    "colour": {
+      "$value": { "duration": "{duration.colour}", "delay": "{duration.none}", "timingFunction": "{ease.standard}" }
+    },
+    "press": {
+      "$value": { "duration": "{duration.press}", "delay": "{duration.none}", "timingFunction": "{ease.out}" }
+    },
+    "nudge": {
+      "$value": { "duration": "{duration.small}", "delay": "{duration.none}", "timingFunction": "{ease.out}" }
+    },
+    "enter": {
+      "$description": "Section content: opacity 0 to 1 and translateY 1rem to 0, once, staggered.",
+      "$value": { "duration": "{duration.enter}", "delay": "{duration.none}", "timingFunction": "{ease.out}" }
+    },
+    "reveal": {
+      "$description": "Photographs: a cover of the photo's average colour wipes away once it has loaded.",
+      "$value": { "duration": "{duration.reveal}", "delay": "{duration.none}", "timingFunction": "{ease.in-out}" }
+    }
+  },
+
+  "border": {
+    "$type": "border",
+    "strong": {
+      "$description": "Opens a list or section.",
+      "$value": { "color": "{color.ink}", "width": { "value": 1, "unit": "px" }, "style": "solid" }
+    },
+    "hairline": {
+      "$description": "Divides items within a list or group.",
+      "$value": { "color": "{color.rule}", "width": { "value": 1, "unit": "px" }, "style": "solid" }
+    }
+  },
+
+  "typography": {
+    "$type": "typography",
+    "display": {
+      "$value": {
+        "fontFamily": "{font.serif}",
+        "fontSize": "{font-size.hero}",
+        "fontWeight": "{font-weight.regular}",
+        "letterSpacing": { "value": -0.175, "unit": "rem" },
+        "lineHeight": 0.98
+      }
+    },
+    "body": {
+      "$value": {
+        "fontFamily": "{font.sans}",
+        "fontSize": "{font-size.body}",
+        "fontWeight": "{font-weight.regular}",
+        "letterSpacing": { "value": 0, "unit": "px" },
+        "lineHeight": 1.65
+      }
+    },
+    "arabic-display": {
+      "$value": {
+        "fontFamily": "{font.arabic-display}",
+        "fontSize": "{font-size.h2}",
+        "fontWeight": "{font-weight.bold}",
+        "letterSpacing": { "value": 0, "unit": "px" },
+        "lineHeight": 1.3
+      }
+    },
+    "arabic-body": {
+      "$description": "Arabic running text needs more line height than Latin.",
+      "$value": {
+        "fontFamily": "{font.arabic}",
+        "fontSize": { "value": 1.0625, "unit": "rem" },
+        "fontWeight": "{font-weight.regular}",
+        "letterSpacing": { "value": 0, "unit": "px" },
+        "lineHeight": 1.85
+      }
+    }
+  }
+}

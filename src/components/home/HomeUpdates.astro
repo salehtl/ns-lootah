@@ -1,35 +1,59 @@
 ---
-/** Two doors out of the homepage: the latest news story and careers. */
-import type { Lang } from '../../i18n/types';
-import { getLocalizedPath } from '../../i18n/utils';
-import { home } from '../../data/home';
-import Photo from '../Photo.astro';
-import CtaLink from '../CtaLink.astro';
+// Two doors out of the home page: the latest news story and careers.
+import { localizePath, useTranslations, type Locale } from "../../i18n";
+import { getNews } from "../../lib/news";
+import { photo } from "../../lib/media";
+import Photo from "../Photo.astro";
+import CtaLink from "../CtaLink.astro";
 
 interface Props {
-  lang: Lang;
+  locale: Locale;
 }
 
-const { lang } = Astro.props;
-const copy = home[lang].updates;
-const cards = [copy.news, copy.careers];
+const { locale } = Astro.props;
+const copy = useTranslations(locale).home.updates;
+const [latest] = await getNews(locale);
+const cards = [
+  latest && {
+    label: copy.news.label,
+    title: latest.data.title,
+    text: latest.data.summary,
+    cta: copy.news.cta,
+    href: latest.href,
+    src: photo(latest.data.card),
+    alt: latest.data.cardAlt,
+  },
+  {
+    label: copy.careers.label,
+    title: copy.careers.title,
+    text: copy.careers.text,
+    cta: copy.careers.cta,
+    href: localizePath(locale, "/careers/"),
+    src: photo("careers-team"),
+    alt: copy.careers.photoAlt,
+  },
+].filter((c) => !!c);
 ---
 
 <section class="updates" aria-labelledby="home-updates-title">
   <div class="wrap">
     <h2 id="home-updates-title" class="eyebrow">{copy.heading}</h2>
     <div class="cards">
-      {cards.map((c) => (
-        <article class="card reveal">
-          <div class="card-img">
-            <Photo photo={c.photo} sizes="(min-width: 64rem) 40vw, 100vw" />
-          </div>
-          <p class="eyebrow">{c.eyebrow}</p>
-          <h3 class="card-title">{c.title}</h3>
-          <p class="card-text">{c.text}</p>
-          <CtaLink href={getLocalizedPath(c.path, lang)} variant="text">{c.cta}</CtaLink>
-        </article>
-      ))}
+      {
+        cards.map((c, i) => (
+          <article class="card" data-enter style={`--i: ${i}`}>
+            <div class="card-img">
+              <Photo src={c.src} alt={c.alt} sizes="(min-width: 64rem) 40vw, 100vw" />
+            </div>
+            <p class="eyebrow">{c.label}</p>
+            <h3 class="card-title">{c.title}</h3>
+            <p class="card-text">{c.text}</p>
+            <CtaLink href={c.href} variant="text">
+              {c.cta}
+            </CtaLink>
+          </article>
+        ))
+      }
     </div>
   </div>
 </section>
@@ -37,49 +61,41 @@ const cards = [copy.news, copy.careers];
 <style>
   .updates {
     padding-block: var(--section-space);
-    border-top: 1px solid var(--color-rule);
+    border-top: var(--border-hairline);
   }
-
   .cards {
     display: grid;
     gap: 4rem 3rem;
     margin-top: 2.5rem;
   }
-
   .card {
     display: grid;
     justify-items: start;
     align-content: start;
     gap: 1rem;
   }
-
   .card-img {
     width: 100%;
     aspect-ratio: 3 / 2;
     margin-bottom: 0.75rem;
     overflow: hidden;
   }
-
-  .card-img :global(.photo) {
+  .card-img :global(.photo-img) {
     transition: transform 0.6s var(--ease-out);
   }
-
   @media (hover: hover) and (pointer: fine) {
-    .card:hover .card-img :global(.photo) {
+    .card:hover .card-img :global(.photo-img) {
       transform: scale(1.03);
     }
   }
-
   .card-title {
     font-size: var(--text-h3);
   }
-
   .card-text {
     max-width: 44ch;
     margin-bottom: 0.5rem;
     color: var(--color-muted);
   }
-
   @media (min-width: 64rem) {
     .cards {
       grid-template-columns: 1fr 1fr;

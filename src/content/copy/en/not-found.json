@@ -1,0 +1,13 @@
+{
+  "title": "Page not found",
+  "description": "The page you’re looking for doesn’t exist or has moved.",
+  "heading": { "lead": "Page", "accent": "not found" },
+  "text": "The page you’re looking for doesn’t exist or has moved. These will take you somewhere useful:",
+  "linksLabel": "Key pages",
+  "links": [
+    { "label": "Home", "href": "/" },
+    { "label": "About the Group", "href": "/about/" },
+    { "label": "Our companies", "href": "/companies/" },
+    { "label": "Contact", "href": "/contact/" }
+  ]
+}

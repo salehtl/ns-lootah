@@ -1,29 +1,26 @@
 ---
-/** The Group in one statement — words light up as it scrolls through — and four figures. */
-import type { Lang } from '../../i18n/types';
-import { home } from '../../data/home';
-import { group } from '../../data/group';
+// The Group in one statement. Where scroll-driven animations are supported,
+// its words brighten as it crosses the screen.
+import { useTranslations, type Locale } from "../../i18n";
 
 interface Props {
-  lang: Lang;
+  locale: Locale;
 }
 
-const { lang } = Astro.props;
-const { statement, stats } = group[lang];
-const lead = statement.lead.split(' ');
-const accent = statement.accent.split(' ');
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+const { statement } = t.about;
+const lead = statement.lead.split(" ");
+const accent = statement.accent.split(" ");
 ---
 
 <section class="intro" id="home-intro" aria-labelledby="home-intro-title">
   <div class="wrap">
-    <h2 id="home-intro-title" class="eyebrow">{home[lang].intro.eyebrow}</h2>
+    <h2 id="home-intro-title" class="eyebrow">{t.home.intro.label}</h2>
     <p class="statement">
       {lead.map((w) => <span class="w">{w} </span>)}
       {accent.map((w) => <span class="w g">{w} </span>)}
     </p>
-    <dl class="stats">
-      {stats.map((s) => <div class="reveal"><dt>{s.label}</dt><dd>{s.value}</dd></div>)}
-    </dl>
   </div>
 </section>
 
@@ -31,7 +28,6 @@ const accent = statement.accent.split(' ');
   .intro {
     padding-block: clamp(5rem, 12vw, 10rem);
   }
-
   .statement {
     max-width: 30ch;
     margin-top: 2rem;
@@ -40,58 +36,16 @@ const accent = statement.accent.split(' ');
     line-height: 1.22;
     letter-spacing: -0.01em;
   }
-
-  :global(html[dir='rtl']) .statement {
+  :global(html[dir="rtl"]) .statement {
     max-width: 34ch;
     font-size: clamp(1.625rem, 3.2vw, 2.75rem);
     line-height: 1.55;
   }
-
   .statement .g {
     font-style: var(--style-accent);
     color: var(--color-gold);
   }
-
-  .stats {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 0 2rem;
-    margin-top: clamp(3.5rem, 7vw, 6rem);
-  }
-
-  .stats > div {
-    display: flex;
-    flex-direction: column-reverse;
-    justify-content: flex-end;
-    gap: 0.5rem;
-    padding-block: 1.25rem;
-    border-top: 1px solid var(--color-rule);
-  }
-
-  .stats dt {
-    font-size: 0.75rem;
-    letter-spacing: 0.06em;
-    color: var(--color-muted);
-  }
-
-  :global(html[dir='rtl']) .stats dt {
-    font-size: var(--text-small);
-  }
-
-  .stats dd {
-    font-family: var(--font-display);
-    font-size: clamp(2.25rem, 4.5vw, 3.75rem);
-    line-height: 1.1;
-    color: var(--color-gold);
-  }
-
-  @media (min-width: 64rem) {
-    .stats {
-      grid-template-columns: repeat(4, 1fr);
-    }
-  }
-
-  /* Words brighten as the statement crosses the viewport. Longhands only. */
+  /* Longhands only: the minifier breaks the shorthand with a timeline. */
   @media (prefers-reduced-motion: no-preference) {
     @supports (animation-timeline: view()) {
       .statement .w {
@@ -104,7 +58,6 @@ const accent = statement.accent.split(' ');
       }
     }
   }
-
   @keyframes word-on {
     to {
       opacity: 1;

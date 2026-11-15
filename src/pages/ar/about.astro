@@ -1,21 +1,5 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import AboutPage from '../../components/about/AboutPage.astro';
-import { about } from '../../data/pages/about';
-import { breadcrumbJsonLd } from '../../data/pages/seo';
-import { t } from '../../i18n/translations';
-
-const lang = 'ar' as const;
-const currentPath = '/ar/about';
-const strings = t(lang);
-const page = about[lang];
-
-const jsonLd = breadcrumbJsonLd([
-  { name: strings.nav.home, path: '/ar/' },
-  { name: strings.nav.about, path: currentPath },
-]);
+import AboutPage from "../../views/AboutPage.astro";
 ---
 
-<BaseLayout title={page.meta.title} description={page.meta.description} lang={lang} currentPath={currentPath} jsonLd={jsonLd}>
-  <AboutPage lang={lang} />
-</BaseLayout>
+<AboutPage locale="ar" />

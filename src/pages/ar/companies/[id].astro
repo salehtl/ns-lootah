@@ -1,0 +1,8 @@
+---
+import CompanyPage from "../../../views/CompanyPage.astro";
+import { companyPaths } from "../../../lib/companies";
+
+export const getStaticPaths = () => companyPaths("ar");
+---
+
+<CompanyPage {...Astro.props} />

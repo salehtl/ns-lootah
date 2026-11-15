@@ -1,0 +1,199 @@
+---
+import "../styles/global.css";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import {
+  defaultLocale,
+  localeCodes,
+  locales,
+  localizePath,
+  unlocalizePath,
+  useTranslations,
+  type Locale,
+} from "../i18n";
+
+interface Props {
+  /** The page's own title; " · N S Lootah Group" is added. The home page leaves it out. */
+  title?: string;
+  description?: string;
+  /** Page language. Sets lang and dir, the share card and the language switch. */
+  lang?: Locale;
+  /** Optional share image path under public/ (1200×630), to override the default card. */
+  image?: string;
+  /** False for pages with no translations to point to (the 404 pages). */
+  alternates?: boolean;
+  /** schema.org structured data for this page. */
+  jsonLd?: Record<string, unknown>;
+}
+
+const { title, lang = defaultLocale, image, alternates = true, jsonLd } = Astro.props;
+const t = useTranslations(lang);
+const site = t.site;
+const description = Astro.props.description || t.meta.description;
+const fullTitle = title ? `${title} · ${site}` : `${site} · ${t.meta.tagline}`;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const ogImage = new URL(image ?? t.meta.image, Astro.site);
+
+// The same page in every language. Every page exists in every language
+// (getCompanies() and getNews() check the content), so the paths map one to one.
+const path = unlocalizePath(Astro.url.pathname);
+const translations = localeCodes.map((code) => ({
+  code,
+  href: new URL(localizePath(code, alternates ? path : "/"), Astro.site),
+}));
+const others = translations.filter((tr) => tr.code !== lang);
+const rtl = locales[lang].dir === "rtl";
+---
+
+<!doctype html>
+<html lang={lang} dir={locales[lang].dir}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <script is:inline>
+      document.documentElement.classList.add("js");
+    </script>
+
+    <!-- Fonts, self-hosted (see global.css). The faces that set the first screen
+         load first: Lora and DM Sans in English; Almarai Bold (headings) and
+         IBM Plex Sans Arabic Regular (text) in Arabic. -->
+    {
+      rtl ? (
+        <>
+          <link rel="preload" href="/fonts/almarai-arabic-700.woff2" as="font" type="font/woff2" crossorigin />
+          <link rel="preload" href="/fonts/IBMPlexSansArabic-arabic-400.woff2" as="font" type="font/woff2" crossorigin />
+        </>
+      ) : (
+        <>
+          <link rel="preload" href="/fonts/lora-variable.woff2" as="font" type="font/woff2" crossorigin />
+          <link rel="preload" href="/fonts/dm-sans-regular.woff2" as="font" type="font/woff2" crossorigin />
+        </>
+      )
+    }
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    {
+      alternates && (
+        <>
+          {translations.map((tr) => (
+            <link rel="alternate" hreflang={tr.code} href={tr.href} />
+          ))}
+          <link rel="alternate" hreflang="x-default" href={translations.find((tr) => tr.code === defaultLocale)!.href} />
+        </>
+      )
+    }
+
+    <!-- Icons: ico for legacy browsers and crawlers, svg for modern ones -->
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="theme-color" content="#f5f5f4" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content={locales[lang].ogLocale} />
+    {others.map((tr) => <meta property="og:locale:alternate" content={locales[tr.code].ogLocale} />)}
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={t.meta.imageAlt} />
+
+    <!-- Twitter / X -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:image:alt" content={t.meta.imageAlt} />
+
+    {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
+
+    <!-- Page-specific head tags. -->
+    <slot name="head" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">{t.a11y.skipLink}</a>
+    <Header locale={lang} translations={others} />
+    <main id="main" tabindex="-1">
+      <slot />
+    </main>
+    <Footer locale={lang} translations={others} />
+
+    <script>
+      // Section entrances and photograph reveals: played once, when 100px inside
+      // the viewport. Styles live in global.css under [data-enter] and [data-reveal].
+      // A photo is covered by its average colour until its image has loaded and
+      // decoded, so the wipe never uncovers an empty frame. It waits at most
+      // REVEAL_WAIT: a photo that is slow, or that a browser never finishes
+      // loading or decoding, is uncovered anyway rather than staying hidden.
+      const REVEAL_WAIT = 3000;
+      const targets = document.querySelectorAll("[data-enter], [data-reveal]");
+
+      const ready = (img: HTMLImageElement | null): Promise<unknown> => {
+        if (!img) return Promise.resolve();
+        const loaded =
+          img.complete && img.naturalWidth > 0
+            ? Promise.resolve()
+            : new Promise((done) => {
+                img.addEventListener("load", done, { once: true });
+                img.addEventListener("error", done, { once: true });
+              });
+        return loaded.then(() => img.decode().catch(() => {}));
+      };
+
+      const show = (el: Element) => {
+        if (el.hasAttribute("data-reveal")) {
+          const timeout = new Promise((done) => setTimeout(done, REVEAL_WAIT));
+          Promise.race([ready(el.querySelector("img")), timeout]).then(() => el.classList.add("is-in"));
+        } else {
+          el.classList.add("is-in");
+        }
+      };
+
+      if (!("IntersectionObserver" in window)) {
+        targets.forEach(show);
+      } else {
+        const io = new IntersectionObserver(
+          (entries) => {
+            for (const entry of entries) {
+              if (!entry.isIntersecting) continue;
+              show(entry.target);
+              io.unobserve(entry.target);
+            }
+          },
+          { rootMargin: "0px 0px -100px 0px" },
+        );
+        targets.forEach((el) => io.observe(el));
+      }
+    </script>
+  </body>
+</html>
+
+<style>
+  .skip-link {
+    position: fixed;
+    top: -100%;
+    inset-inline-start: 1rem;
+    z-index: 100;
+    padding: 0.5rem 1rem;
+    background: var(--color-primary);
+    color: var(--color-bg);
+    font-size: var(--text-small);
+    transition: top var(--transition-colour);
+  }
+  .skip-link:focus {
+    top: 0.5rem;
+    outline: 2px solid var(--color-gold);
+    outline-offset: 2px;
+  }
+  main:focus {
+    outline: none;
+  }
+</style>

@@ -1,0 +1,37 @@
+{
+  "name": "N S Lootah Group",
+  "tagline": "A diversified UAE holding company",
+  "description": "N S Lootah Group is a UAE holding company building on a family legacy of enterprise, with businesses across automotive, trading, food, EV charging, natural stone and emerging sectors.",
+  "shareImageAlt": "N S Lootah Group: Diversified businesses. One standard.",
+  "nav": {
+    "about": "About",
+    "companies": "Companies",
+    "news": "News",
+    "careers": "Careers",
+    "contact": "Contact",
+    "menu": "Menu",
+    "homeCrumb": "Home"
+  },
+  "firm": {
+    "legalName": "N S Lootah Group L.L.C.",
+    "address": "Al Ttay, Al Khawaneej, Dubai — UAE",
+    "phone": "+971 5633 33 783",
+    "email": "contact@nslootah.com"
+  },
+  "footer": {
+    "tagline": "A diversified UAE holding company, building on a family legacy of enterprise.",
+    "companies": "Companies",
+    "group": "The Group",
+    "aboutGroup": "About the Group",
+    "contact": "Contact",
+    "rights": "All rights reserved."
+  },
+  "contactBand": {
+    "title": "Contact",
+    "accent": "us",
+    "lede": "For partnerships, enquiries or to reach any of our companies, the Group office is the place to start.",
+    "telephone": "Telephone",
+    "email": "Email",
+    "office": "Office"
+  }
+}

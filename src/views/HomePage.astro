@@ -1,0 +1,53 @@
+---
+import Base from "../layouts/Base.astro";
+import ContactBand from "../components/ContactBand.astro";
+import HomeHero from "../components/home/HomeHero.astro";
+import HomeIntro from "../components/home/HomeIntro.astro";
+import HomeChapters from "../components/home/HomeChapters.astro";
+import HomeLegacy from "../components/home/HomeLegacy.astro";
+import HomeValues from "../components/home/HomeValues.astro";
+import HomeUpdates from "../components/home/HomeUpdates.astro";
+import { localizePath, useTranslations, type Locale } from "../i18n";
+import { getCompanies } from "../lib/companies";
+import { logo } from "../lib/media";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+const companies = await getCompanies(locale);
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: t.site,
+  legalName: t.firm.legalName,
+  url: new URL(localizePath(locale), Astro.site).href,
+  logo: new URL(logo("ns-lootah-group-bronze").src, Astro.site).href,
+  email: t.firm.email,
+  telephone: t.firm.phone.replace(/\s/g, ""),
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: t.firm.address,
+    addressLocality: locale === "ar" ? "دبي" : "Dubai",
+    addressCountry: "AE",
+  },
+  subOrganization: companies.map((c) => ({
+    "@type": "Organization",
+    name: c.data.legalName,
+    url: new URL(c.href, Astro.site).href,
+  })),
+};
+---
+
+<Base lang={locale} description={t.home.description} jsonLd={jsonLd}>
+  <HomeHero locale={locale} />
+  <HomeIntro locale={locale} />
+  <HomeChapters locale={locale} />
+  <HomeLegacy locale={locale} />
+  <HomeValues locale={locale} />
+  <HomeUpdates locale={locale} />
+  <ContactBand locale={locale} />
+</Base>

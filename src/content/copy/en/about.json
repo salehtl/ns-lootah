@@ -1,0 +1,90 @@
+{
+  "title": "About the Group",
+  "description": "N S Lootah Group is a diversified UAE holding company building on a family legacy of enterprise: its story, leadership, vision and values.",
+  "hero": {
+    "label": "About the Group",
+    "title": { "lead": "Built", "accent": "on heritage" },
+    "lede": "A diversified UAE holding company, building on a family legacy of enterprise and the principles it was founded on.",
+    "imageAlt": "Looking up through a faceted glass roof at Dubai towers"
+  },
+  "overview": {
+    "label": "Company overview",
+    "title": { "lead": "One group,", "accent": "many disciplines" },
+    "paragraphs": [
+      "N S Lootah Group L.L.C. is a UAE-based holding company with businesses across automotive, sustainability, EV charging, food and emerging sectors.",
+      "Building on the legacy of S. S. Lootah Group, the company carries forward decades of business experience.",
+      "Its companies combine specialised expertise with independent commercial focus, creating a diverse portfolio connected by shared standards of excellence.",
+      "As the portfolio expands, the Group continues to pursue new opportunities while supporting local industries and the UAE economy."
+    ]
+  },
+  "statement": {
+    "lead": "N S Lootah Group L.L.C. is a UAE-based holding company with businesses across automotive, sustainability, EV charging, food and emerging sectors. Its companies combine specialised expertise with independent commercial focus, creating a diverse portfolio connected by",
+    "accent": "shared standards of excellence."
+  },
+  "legacy": {
+    "label": "Our story",
+    "title": { "lead": "A legacy", "accent": "with purpose" },
+    "kicker": "Rooted in legacy. Driven by purpose.",
+    "intro": "The story behind N S Lootah Group is rooted in a legacy of entrepreneurship, responsibility and service to society.",
+    "founder": "That legacy was shaped by the late Haj Saeed bin Ahmed Al Lootah, one of the UAE’s pioneering entrepreneurs, a visionary whose philosophy rested on three enduring principles: Education, Cooperation and Economy.",
+    "achievements": "His achievements reflected a belief that enterprise should create value not only for its owners, but for people and society. He helped establish Dubai Islamic Bank, recognised as the world’s first commercial Islamic bank, and later founded pioneering educational institutions, including Dubai Medical College for Girls.",
+    "today": "Under the leadership of Nasser Saeed Ahmed Nasser Lootah, the Group carries that entrepreneurial spirit into a new generation, building a diversified portfolio across automotive, trading, sustainable mobility, food distribution and emerging sectors.",
+    "philosophyLabel": "The philosophy we build on",
+    "philosophy": "Build with purpose, pursue opportunity with integrity, invest for the long term, and create businesses that contribute positively to the UAE and its people.",
+    "closing": "A legacy not simply to preserve, but to build upon.",
+    "principlesLabel": "Three enduring principles",
+    "principles": ["Education", "Cooperation", "Economy"],
+    "imageAlt": "Two members of the Lootah family seated in conversation"
+  },
+  "chairman": {
+    "label": "The leadership",
+    "title": { "lead": "Chairman’s vision", "accent": "with operating depth" },
+    "name": "Nasser Saeed Ahmed Nasser Lootah",
+    "role": "Founder & Chairman",
+    "bio": [
+      "Nasser Saeed Ahmed Nasser Lootah is the Founder and Chairman of N S Lootah Group, a diversified business group with interests across automotive, general trading, EV charging solutions, food trading and other evolving sectors. He also serves as Vice Chairman of S. S. Lootah Group and sits on various company boards, contributing strategic direction and financial insight across a broad range of business interests.",
+      "With a strong background in banking and finance, he brings extensive commercial experience and a clear understanding of business operations and long-term strategy. He is a major shareholder of Dubai Islamic Bank, the world’s first Islamic bank, founded by his late father, Haj Saeed bin Ahmed Al Lootah.",
+      "Alongside his financial experience, his passion for automobiles has led to an active, hands-on role in developing the Group’s automotive interests. His leadership reflects a commitment to innovation, operational excellence and sustainable growth, as the Group supports the UAE’s national vision through job creation, local industry development and continued business growth."
+    ],
+    "portraitAlt": "Nasser Saeed Ahmed Nasser Lootah, Founder and Chairman",
+    "cta": "Contact the Group office"
+  },
+  "direction": {
+    "label": "Strategic direction",
+    "title": { "lead": "Where the Group", "accent": "is heading" },
+    "aheadLabel": "Looking ahead",
+    "vision": {
+      "title": "Vision",
+      "lines": [
+        "To continue evolving as a diversified UAE business group, creating lasting value across industries and pursuing new opportunities.",
+        "To strengthen the Group’s position while contributing to the country’s continued economic development."
+      ]
+    },
+    "mission": {
+      "title": "Mission",
+      "lines": [
+        "To support established and growing industries, create meaningful opportunities for people and continue to shape the UAE business landscape.",
+        "To expand the Group’s reach, strengthen its competitiveness and establish a growing presence across regional and global markets."
+      ]
+    }
+  },
+  "values": {
+    "label": "What guides us",
+    "title": { "lead": "The Group", "accent": "values" },
+    "lede": "Seven values shape how every company in the Group works, with its people, its partners and the communities it serves.",
+    "items": [
+      { "name": "Responsibility", "text": "Business has a responsibility beyond commercial success. We make decisions that create lasting economic and social value for our stakeholders and future generations." },
+      { "name": "Integrity", "text": "We conduct our business with honesty, transparency and accountability, building trust with our people, partners, customers and communities." },
+      { "name": "Innovation", "text": "We embrace new ideas, technologies and ways of thinking to create better solutions and continuously strengthen our businesses." },
+      { "name": "Excellence", "text": "We pursue the highest standards in everything we do, delivering quality products, services and experiences across our portfolio." },
+      { "name": "People", "text": "Our people are the foundation of our success. We empower talent, encourage collaboration and create opportunities to grow and lead." },
+      { "name": "Sustainable Growth", "text": "We make responsible, forward-looking decisions that create lasting value for our businesses, communities and future generations." },
+      { "name": "Commitment to the UAE", "text": "We are proud to contribute to the UAE’s development through responsible investment, entrepreneurship and long-term growth." }
+    ]
+  },
+  "companies": {
+    "label": "Portfolio structure",
+    "title": { "lead": "Diversified businesses,", "accent": "one standard" },
+    "lede": "The Group operates across multiple sectors through a diverse portfolio of subsidiary companies, each contributing its own expertise and commercial focus."
+  }
+}

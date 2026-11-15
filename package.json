@@ -1,13 +1,21 @@
 {
-  "name": "astro-seo-template",
+  "name": "nslootah",
   "type": "module",
+  "version": "0.0.1",
   "private": true,
   "scripts": {
-    "dev": "astro dev",
-    "build": "astro build",
-    "preview": "astro preview"
+    "dev": "bun --bun astro dev",
+    "build": "bun --bun astro build",
+    "preview": "bun --bun astro preview",
+    "tokens": "bun scripts/tokens.ts",
+    "cms": "bun scripts/cms-config.ts",
+    "icons": "bun scripts/icons.ts",
+    "og": "bun scripts/og.ts",
+    "setup": "bun scripts/setup.ts"
   },
   "dependencies": {
-    "astro": "^7.3.1"
+    "@astrojs/sitemap": "^3.7.4",
+    "astro": "^7.4.11",
+    "sharp": "^0.35.5"
   }
 }

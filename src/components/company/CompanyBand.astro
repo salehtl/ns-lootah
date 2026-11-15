@@ -1,0 +1,59 @@
+---
+// A full-width detail photograph between sections. Where scroll-driven
+// animations are supported, it unveils and settles as it scrolls in.
+import type { ImageMetadata } from "astro";
+import Photo from "../Photo.astro";
+
+interface Props {
+  src: ImageMetadata;
+  alt: string;
+}
+
+const { src, alt } = Astro.props;
+---
+
+<figure class="band">
+  <Photo src={src} alt={alt} sizes="100vw" reveal={false} />
+</figure>
+
+<style>
+  .band {
+    height: clamp(18rem, 48vw, 40rem);
+    overflow: hidden;
+  }
+  /* Longhands only: the minifier breaks the shorthand with a timeline. */
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      .band {
+        animation-name: band-unveil;
+        animation-timing-function: linear;
+        animation-fill-mode: both;
+        animation-timeline: view();
+        animation-range: entry 0% cover 35%;
+      }
+      .band :global(.photo-img) {
+        animation-name: band-settle;
+        animation-timing-function: var(--ease-out);
+        animation-fill-mode: both;
+        animation-timeline: view();
+        animation-range: entry 0% cover 35%;
+      }
+    }
+  }
+  @keyframes band-unveil {
+    from {
+      clip-path: inset(8% 6%);
+    }
+    to {
+      clip-path: inset(0);
+    }
+  }
+  @keyframes band-settle {
+    from {
+      transform: scale(1.08);
+    }
+    to {
+      transform: none;
+    }
+  }
+</style>

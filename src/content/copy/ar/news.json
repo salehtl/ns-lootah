@@ -1,0 +1,122 @@
+{
+  "title": "الأخبار",
+  "description": "إعلانات ومقابلات وتغطيات إعلامية من مجموعة إن إس لوتاه وشركاتها.",
+  "hero": {
+    "label": "الأخبار",
+    "title": { "lead": "الأخبار", "accent": "والمستجدات" },
+    "lede": "إعلانات ومقابلات وتغطيات إعلامية من مجموعة إن إس لوتاه وشركاتها."
+  },
+  "listLabel": "الأحدث",
+  "readMore": "اقرأ الخبر",
+  "backToNews": "العودة إلى الأخبار",
+  "newTab": "يفتح في علامة تبويب جديدة",
+  "otherLanguage": "بالإنجليزية",
+  "interviews": {
+    "label": "مقابلات",
+    "title": { "lead": "في", "accent": "حوار" },
+    "readInterview": "اقرأ المقابلة",
+    "items": [
+      {
+        "outlet": "Integrator",
+        "date": "2026-09-30",
+        "title": "Inside the Strategy Shaping the Future of Premium Mobility",
+        "text": "ناصر سعيد أحمد ناصر لوتاه، مؤسس مجموعة إن إس لوتاه ورئيس مجلس إدارتها، يتحدث عن التنقل الفاخر في الإمارات ودول الخليج، وعن تقديم «سوو» إلى المنطقة.",
+        "href": "https://integratormedia.com/2026/09/30/inside-the-strategy-shaping-the-future-of-premium-mobility/",
+        "lang": "en"
+      },
+      {
+        "outlet": "Carbook Magazine",
+        "date": "2026-09-23",
+        "title": "Exclusive Interview: Victor Zhao on the SOUO S2000, Dubai Launch and the Brand’s Middle East Ambitions",
+        "text": "الرئيس التنفيذي لشركة GWM سوو يتحدث عن طراز S2000 وهندسته، وعن الافتتاح في دبي، وخطط العلامة في الشرق الأوسط.",
+        "href": "https://carbookmagazine.com/2026/09/exclusive-interview-victor-zhao-on-the-souo-s2000-dubai-launch-and-the-brands-middle-east-ambitions/",
+        "lang": "en"
+      }
+    ]
+  },
+  "press": {
+    "label": "في الإعلام",
+    "title": { "lead": "الافتتاح", "accent": "في الأخبار" },
+    "intro": "تغطية افتتاح صالة عرض «سوو» في دبي في وسائل الإعلام الإماراتية والإقليمية، باللغتين العربية والإنجليزية.",
+    "items": [
+      {
+        "outlet": "Gulf News",
+        "title": "Eight cylinders, two wheels: A new motorcycle arrives in Dubai",
+        "href": "https://gulfnews.com/auto/eight-cylinders-two-wheels-a-new-motorcycle-arrives-in-dubai-1.500686208",
+        "lang": "en"
+      },
+      {
+        "outlet": "البيان",
+        "title": "«إن إس لوتاه موتورز» تفتتح أول صالة عرض لدراجات «سوو» خارج الصين",
+        "href": "https://www.albayan.ae/amp/economy/business/uae-economy/1554107",
+        "lang": "ar"
+      },
+      {
+        "outlet": "Gulf Today",
+        "title": "NS Lootah Motors opens first international SOUO showroom in Dubai",
+        "href": "https://www.gulftoday.ae/business/2026/09/25/ns-lootah-motors-opens-first-international-souo-showroom-in-dubai",
+        "lang": "en"
+      },
+      {
+        "outlet": "Zawya",
+        "title": "N S Lootah Motors L.L.C opens first international SOUO showroom in Dubai",
+        "href": "https://www.zawya.com/en/press-release/companies-news/n-s-lootah-motors-l.l.c-opens-first-international-souo-showroom-in-dubai-1188759",
+        "lang": "en"
+      },
+      {
+        "outlet": "MENA FN",
+        "title": "N S Lootah Motors L.L.C Opens First International SOUO Showroom in Dubai",
+        "href": "https://menafn.com/1111709117/N-S-Lootah-Motors-LLC-Opens-First-International-SOUO-Showroom-in-Dubai",
+        "lang": "en"
+      },
+      {
+        "outlet": "Tbreak",
+        "title": "SOUO S2000 CL Flat-8 motorcycle showroom opens in Dubai",
+        "href": "https://tbreak.com/souo-s2000-dubai-flat-8-motorcycle-showroom/",
+        "lang": "en"
+      },
+      {
+        "outlet": "UECN",
+        "title": "China’s GWM SOUO Opens First International Motorcycle Showroom in Dubai",
+        "href": "https://uecn.org/ns-lootah-motors-opens-first-international-souo-showroom-in-dubai/?lng=en",
+        "lang": "en"
+      },
+      {
+        "outlet": "Logistics Gulf",
+        "title": "N S Lootah Motors opens first international SOUO showroom in Dubai",
+        "href": "https://logisticsgulf.com/2026/09/n-s-lootah-motors-opens-first-international-souo-showroom-in-dubai/",
+        "lang": "en"
+      },
+      {
+        "outlet": "Business Lobbies",
+        "title": "N S Lootah Motors L.L.C Opens First International SOUO Showroom in Dubai",
+        "href": "https://businesslobbies.com/post/n-s-lootah-motors-l-l-c-opens-first-international-souo-showroom-in-dubai",
+        "lang": "en"
+      },
+      {
+        "outlet": "Pan Time Arabia",
+        "title": "N S Lootah Motors L.L.C Opens First International SOUO Showroom in Dubai",
+        "href": "https://pantimearabia.com/n-s-lootah-motors-llc-opens-first-international-souo-showroom-in-dubai/",
+        "lang": "en"
+      },
+      {
+        "outlet": "بان تايم أرابيا",
+        "title": "«إن إس لوتاه موتورز» تفتتح في دبي أول صالة عرض دولية لـ«سوو» خارج الصين",
+        "href": "https://pantimearabia.com/ar/n-s-lootah-motors-llc-opens-first-international-souo-showroom-in-dubai/",
+        "lang": "ar"
+      },
+      {
+        "outlet": "Middle East News 247",
+        "title": "N S Lootah Motors L.L.C Opens First International SOUO Showroom in Dubai",
+        "href": "https://menews247.com/n-s-lootah-motors-l-l-c-opens-first-international-souo-showroom-in-dubai/",
+        "lang": "en"
+      },
+      {
+        "outlet": "UAE News 247",
+        "title": "N S Lootah Motors L.L.C Opens First International SOUO Showroom in Dubai",
+        "href": "https://uaenews247.com/2026/09/25/n-s-lootah-motors-l-l-c-opens-first-international-souo-showroom-in-dubai/",
+        "lang": "en"
+      }
+    ]
+  }
+}

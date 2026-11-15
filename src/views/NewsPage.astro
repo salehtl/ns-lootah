@@ -1,0 +1,461 @@
+---
+// News index: the articles as large editorial cards, newest first, then the
+// leadership interviews and the press coverage (external links, from news.json).
+import Base from "../layouts/Base.astro";
+import PageHero from "../components/PageHero.astro";
+import Photo from "../components/Photo.astro";
+import ContactBand from "../components/ContactBand.astro";
+import { localizePath, locales, useTranslations, type Locale } from "../i18n";
+import { getNews } from "../lib/news";
+import { photo } from "../lib/media";
+import { breadcrumbJsonLd } from "../lib/links";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+const n = t.news;
+const articles = await getNews(locale);
+const home = localizePath(locale);
+const crumbs = [{ label: t.nav.homeCrumb, href: home }, { label: t.nav.news }];
+// Coverage is shown in the language it was published in.
+const dirOf = (lang: string) => (lang in locales ? locales[lang as keyof typeof locales].dir : "ltr");
+const jsonLd = breadcrumbJsonLd(Astro.site, [
+  { name: t.nav.homeCrumb, path: home },
+  { name: t.nav.news, path: localizePath(locale, "/news/") },
+]);
+---
+
+<Base title={n.title} description={n.description} lang={locale} jsonLd={jsonLd}>
+  <PageHero
+    label={n.hero.label}
+    title={n.hero.title}
+    lede={n.hero.lede}
+    crumbs={crumbs}
+    crumbsLabel={t.a11y.breadcrumb}
+  />
+
+  <section class="list" aria-labelledby="news-latest">
+    <div class="wrap">
+      <h2 id="news-latest" class="eyebrow list-label">{n.listLabel}</h2>
+      <ol class="articles" role="list">
+        {
+          articles.map((a, i) => (
+            <li data-enter style={`--i: ${i % 3}`}>
+              <article class="card">
+                <div class="card-media">
+                  <Photo src={photo(a.data.card)} alt={a.data.cardAlt} sizes="(min-width: 64rem) 36rem, 100vw" />
+                </div>
+                <div class="card-body">
+                  <p class="eyebrow">{a.data.topic}</p>
+                  <h3 class="card-title">
+                    <a href={a.href}>{a.data.title}</a>
+                  </h3>
+                  {a.data.date && <time datetime={a.data.date.toISOString().slice(0, 10)}>{t.date(a.data.date)}</time>}
+                  <p class="card-summary">{a.data.summary}</p>
+                  <span class="card-more" aria-hidden="true">
+                    {n.readMore}
+                    <svg width="16" height="16" viewBox="0 0 16 16">
+                      <path d="M3 8h10M9 4l4 4-4 4" />
+                    </svg>
+                  </span>
+                </div>
+              </article>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <section class="interviews" aria-labelledby="news-interviews">
+    <div class="wrap">
+      <div class="section-head" data-enter>
+        <p class="eyebrow">{n.interviews.label}</p>
+        <h2 id="news-interviews" class="section-title">
+          {n.interviews.title.lead} <span class="gi">{n.interviews.title.accent}</span>
+        </h2>
+      </div>
+      <ul class="interview-list" role="list">
+        {
+          n.interviews.items.map((item, i) => (
+            <li data-enter style={`--i: ${i}`}>
+              <article class="interview">
+                <p class="meta">
+                  <span class="outlet">{item.outlet}</span>
+                  <time datetime={item.date}>{t.date(new Date(item.date))}</time>
+                </p>
+                <h3 class="interview-title" lang={item.lang} dir={dirOf(item.lang)}>
+                  <a href={item.href} target="_blank" rel="noopener noreferrer">
+                    {item.title}
+                    <span class="visually-hidden"> ({n.newTab})</span>
+                  </a>
+                </h3>
+                <p class="interview-text">{item.text}</p>
+                <span class="more" aria-hidden="true">
+                  {n.interviews.readInterview}
+                  <svg width="16" height="16" viewBox="0 0 16 16"><path d="M5 11 11 5M6 5h5v5" /></svg>
+                </span>
+              </article>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="press" aria-labelledby="news-press">
+    <div class="wrap">
+      <div class="section-head" data-enter>
+        <p class="eyebrow">{n.press.label}</p>
+        <h2 id="news-press" class="section-title">
+          {n.press.title.lead} <span class="gi">{n.press.title.accent}</span>
+        </h2>
+        <p class="section-lede">{n.press.intro}</p>
+      </div>
+      <ul class="press-list" role="list">
+        {
+          n.press.items.map((item, i) => (
+            <li data-enter style={`--i: ${i % 3}`}>
+              <span class="press-outlet">{item.outlet}</span>
+              <a class="press-title" href={item.href} target="_blank" rel="noopener noreferrer" lang={item.lang} dir={dirOf(item.lang)}>
+                {item.title}
+                <span class="visually-hidden"> ({n.newTab})</span>
+              </a>
+              {item.lang !== locale ? <span class="press-lang">{n.otherLanguage}</span> : <span />}
+              <svg class="press-arrow" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
+                <path d="M5 11 11 5M6 5h5v5" />
+              </svg>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <ContactBand locale={locale} />
+</Base>
+
+<style>
+  .list {
+    padding-block: clamp(3rem, 7vw, 5.5rem) var(--section-space);
+  }
+  .list-label {
+    margin-bottom: 1.5rem;
+  }
+  .articles {
+    border-top: var(--border-strong);
+  }
+  .articles > li {
+    padding-block: 2rem;
+    border-bottom: var(--border-hairline);
+  }
+  .card {
+    position: relative;
+    display: grid;
+    gap: 1.75rem;
+  }
+  .card-media {
+    aspect-ratio: 600 / 537;
+    max-width: 36rem;
+    overflow: hidden;
+  }
+  .card-media :global(.photo-img) {
+    filter: grayscale(0.2);
+    transition: transform 0.6s var(--ease-out);
+  }
+  .card-body {
+    display: grid;
+    justify-items: start;
+    align-content: center;
+    gap: 1rem;
+  }
+  .card-title {
+    font-size: var(--text-h3);
+    line-height: 1.15;
+    transition: color var(--transition-colour);
+  }
+  :global(html[dir="rtl"]) .card-title {
+    line-height: 1.45;
+  }
+  /* Stretched link: the title's anchor makes the whole card clickable. */
+  .card-title a::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+  }
+  .card-title a:focus-visible {
+    outline: none;
+  }
+  .card:has(.card-title a:focus-visible) {
+    outline: 2px solid var(--color-gold-ink);
+    outline-offset: 6px;
+  }
+  time {
+    font-size: var(--text-caption);
+    color: var(--color-muted);
+  }
+  .card-summary {
+    color: var(--color-muted);
+  }
+  .card-more {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-top: 0.5rem;
+    padding-bottom: 0.35rem;
+    border-bottom: 1px solid var(--color-gold);
+    font-size: 0.8125rem;
+    font-weight: var(--font-weight-medium);
+    letter-spacing: 0.08em;
+    transition: color var(--transition-colour);
+  }
+  :global(html[dir="rtl"]) .card-more {
+    font-size: 0.9375rem;
+    font-weight: var(--font-weight-bold);
+  }
+  .card-more svg {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.25;
+    transform: scaleX(var(--dir));
+    transition: transform var(--transition-nudge);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .card:hover .card-title,
+    .card:hover .card-more {
+      color: var(--color-gold-ink);
+    }
+    .card:hover .card-more svg {
+      transform: translateX(calc(3px * var(--dir))) scaleX(var(--dir));
+    }
+    .card:hover .card-media :global(.photo-img) {
+      transform: scale(1.03);
+    }
+  }
+  @media (min-width: 64rem) {
+    .card {
+      grid-template-columns: 5fr 6fr;
+      gap: 4rem;
+      align-items: center;
+    }
+  }
+
+  /* Interviews and press: section openers */
+  .section-head {
+    display: grid;
+    gap: 1.25rem;
+    margin-bottom: clamp(2rem, 4vw, 3rem);
+  }
+  .section-title {
+    font-size: var(--text-h2);
+    letter-spacing: -0.02em;
+  }
+  .section-lede {
+    max-width: 52ch;
+    font-size: var(--text-lede);
+    color: var(--color-muted);
+  }
+
+  /* Interviews */
+  .interviews {
+    padding-block: var(--section-space);
+    border-top: var(--border-hairline);
+    background: var(--color-surface);
+  }
+  .interview-list {
+    display: grid;
+    gap: 3rem;
+  }
+  .interview {
+    position: relative;
+    display: grid;
+    justify-items: start;
+    gap: 1rem;
+    padding-top: 1.5rem;
+    border-top: var(--border-strong);
+  }
+  .meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.25rem;
+    font-size: var(--text-label);
+    font-weight: var(--font-weight-medium);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-gold-ink);
+  }
+  :global(html[dir="rtl"]) .meta {
+    font-size: var(--text-small);
+    font-weight: var(--font-weight-bold);
+  }
+  .meta time {
+    font-size: inherit;
+    color: var(--color-muted);
+  }
+  .interview-title {
+    font-size: clamp(1.5rem, 2.4vw, 2rem);
+    line-height: 1.2;
+    transition: color var(--transition-colour);
+  }
+  .interview-title[lang="en"] {
+    font-family: var(--font-serif);
+    font-weight: var(--font-weight-regular);
+  }
+  /* Stretched link: the whole card opens the interview. */
+  .interview-title a::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+  }
+  .interview-title a:focus-visible {
+    outline: none;
+  }
+  .interview:has(.interview-title a:focus-visible) {
+    outline: 2px solid var(--color-gold-ink);
+    outline-offset: 6px;
+  }
+  .interview-text {
+    color: var(--color-muted);
+  }
+  .more {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-top: 0.5rem;
+    padding-bottom: 0.35rem;
+    border-bottom: 1px solid var(--color-gold);
+    font-size: 0.8125rem;
+    font-weight: var(--font-weight-medium);
+    letter-spacing: 0.08em;
+    transition: color var(--transition-colour);
+  }
+  :global(html[dir="rtl"]) .more {
+    font-size: 0.9375rem;
+    font-weight: var(--font-weight-bold);
+  }
+  .more svg,
+  .press-arrow {
+    flex: none;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.25;
+    transform: scaleX(var(--dir));
+    transition: transform var(--transition-nudge);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .interview:hover .interview-title,
+    .interview:hover .more {
+      color: var(--color-gold-ink);
+    }
+    .interview:hover .more svg {
+      transform: translate(calc(2px * var(--dir)), -2px) scaleX(var(--dir));
+    }
+  }
+  @media (min-width: 64rem) {
+    .interview-list {
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+    }
+  }
+
+  /* Press */
+  .press {
+    padding-block: var(--section-space);
+    border-top: var(--border-hairline);
+  }
+  .press-list {
+    border-top: var(--border-strong);
+  }
+  .press-list li {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: baseline;
+    gap: 0.35rem 1.5rem;
+    padding-block: 1.25rem;
+    border-bottom: var(--border-hairline);
+  }
+  .press-outlet {
+    grid-column: 1;
+    font-size: var(--text-label);
+    font-weight: var(--font-weight-medium);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-gold-ink);
+  }
+  :global(html[dir="rtl"]) .press-outlet {
+    font-size: var(--text-small);
+    font-weight: var(--font-weight-bold);
+  }
+  .press-title {
+    grid-column: 1;
+    /* A headline in the other language keeps to the page's reading edge. */
+    text-align: match-parent;
+    font-family: var(--font-display);
+    font-size: clamp(1.125rem, 1.6vw, 1.3125rem);
+    line-height: 1.35;
+    transition: color var(--transition-colour);
+  }
+  .press-title[lang="en"] {
+    font-family: var(--font-serif);
+    font-weight: var(--font-weight-regular);
+  }
+  .press-title[lang="ar"] {
+    font-family: var(--font-arabic-display);
+    font-weight: var(--font-weight-bold);
+    line-height: 1.6;
+  }
+  /* Stretched link: the whole row opens the article. */
+  .press-title::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+  }
+  .press-title:focus-visible {
+    outline: none;
+  }
+  .press-list li:has(.press-title:focus-visible) {
+    outline: 2px solid var(--color-gold-ink);
+    outline-offset: 2px;
+  }
+  .press-lang {
+    grid-column: 1;
+    font-size: var(--text-caption);
+    color: var(--color-muted);
+  }
+  .press-lang:empty {
+    display: none;
+  }
+  .press-arrow {
+    grid-column: 2;
+    grid-row: 1 / span 3;
+    align-self: center;
+    color: var(--color-gold);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .press-list li:hover .press-title {
+      color: var(--color-gold-ink);
+    }
+    .press-list li:hover .press-arrow {
+      transform: translate(calc(2px * var(--dir)), -2px) scaleX(var(--dir));
+    }
+  }
+  @media (min-width: 64rem) {
+    .press-list li {
+      grid-template-columns: 12rem minmax(0, 1fr) 7rem auto;
+      gap: 2rem;
+    }
+    .press-outlet,
+    .press-title,
+    .press-lang {
+      grid-column: auto;
+    }
+    .press-arrow {
+      grid-column: auto;
+      grid-row: auto;
+    }
+  }
+</style>

@@ -1,0 +1,82 @@
+---
+// The company's current portfolio: a numbered grid of short items.
+import { pad, useTranslations, type Locale } from "../../i18n";
+import type { AccentTitle } from "../../lib/links";
+import SectionHeading from "../SectionHeading.astro";
+
+interface Props {
+  locale: Locale;
+  title: AccentTitle;
+  intro: string;
+  items: { title: string; text: string }[];
+}
+
+const { locale, title, intro, items } = Astro.props;
+const copy = useTranslations(locale).companies.page;
+---
+
+<section class="portfolio" aria-labelledby="portfolio-title">
+  <div class="wrap">
+    <div data-enter>
+      <SectionHeading id="portfolio-title" label={copy.portfolioLabel} title={title} lede={intro} />
+    </div>
+    <ol class="pf-grid" role="list">
+      {
+        items.map((item, i) => (
+          <li data-enter style={`--i: ${i % 3}`}>
+            <span class="pf-num" aria-hidden="true">
+              {pad(i + 1)}
+            </span>
+            <h3 class="pf-title">{item.title}</h3>
+            <p class="pf-text">{item.text}</p>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>
+
+<style>
+  .portfolio {
+    padding-block: var(--section-space);
+  }
+  .pf-grid {
+    display: grid;
+    gap: 0 2rem;
+    margin-top: clamp(2.5rem, 5vw, 4rem);
+  }
+  .pf-grid li {
+    display: grid;
+    align-content: start;
+    gap: 0.6rem;
+    padding-block: 1.75rem 2rem;
+    border-top: var(--border-hairline);
+  }
+  .pf-num {
+    font-size: var(--text-caption);
+    font-variant-numeric: tabular-nums;
+    color: var(--color-gold-ink);
+  }
+  .pf-title {
+    font-size: clamp(1.25rem, 1.8vw, 1.5rem);
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+  }
+  :global(html[dir="rtl"]) .pf-title {
+    line-height: 1.45;
+  }
+  .pf-text {
+    font-size: 0.9375rem;
+    color: var(--color-muted);
+  }
+  @media (min-width: 48rem) {
+    .pf-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (min-width: 64rem) {
+    .pf-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+</style>

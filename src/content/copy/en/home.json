@@ -1,0 +1,34 @@
+{
+  "description": "A UAE holding company building on a family legacy of enterprise, with businesses across automotive, trading, food, EV charging, natural stone and more.",
+  "hero": {
+    "lead": "Diversified businesses.",
+    "accent": "One standard.",
+    "intro": "A UAE holding company building on a family legacy of enterprise, with businesses across automotive, trading, food, EV charging, natural stone and emerging sectors.",
+    "cue": "Explore the Group",
+    "markAlt": "N S Lootah Group"
+  },
+  "intro": {
+    "label": "About the Group"
+  },
+  "companies": {
+    "heading": "Our companies",
+    "indexLabel": "Company chapters"
+  },
+  "legacy": {
+    "more": "More about the Group"
+  },
+  "updates": {
+    "heading": "From the Group",
+    "news": {
+      "label": "Latest news",
+      "cta": "Read the story"
+    },
+    "careers": {
+      "label": "Careers",
+      "title": "Build what comes next",
+      "text": "A legacy-driven group with room to grow, across automotive, trading, food, energy and natural stone.",
+      "cta": "Explore careers",
+      "photoAlt": "Colleagues reviewing plans together in a bright Dubai office"
+    }
+  }
+}

@@ -1,167 +1,187 @@
 ---
-/**
- * A company-specific section: hairline lists, photo features, or the
- * company's own contact details. Shape comes from data/company-pages.ts.
- */
-import type { CompanyPageLabels, Extra } from '../../data/company-pages';
-import SectionHeading from '../SectionHeading.astro';
-import CtaLink from '../CtaLink.astro';
-import Photo from '../Photo.astro';
+// A company-specific section, by kind (see `extras` in src/content.config.ts):
+//  - lists:    hairline lists beside the heading (a single list flows into two columns)
+//  - features: a row of items, with photos when they have them, and an optional link
+//  - contact:  the company's own address, telephone, email and website
+import type { CollectionEntry } from "astro:content";
+import { useTranslations, type Locale } from "../../i18n";
+import { linkTo, telHref } from "../../lib/links";
+import { photo } from "../../lib/media";
+import SectionHeading from "../SectionHeading.astro";
+import CtaLink from "../CtaLink.astro";
+import Photo from "../Photo.astro";
+
+export type Extra = CollectionEntry<"companies">["data"]["extras"][number];
 
 interface Props {
+  locale: Locale;
   extra: Extra;
-  labels: CompanyPageLabels;
-  tone: 'plain' | 'alt';
+  /** Alternate sections sit on the deeper surface. */
+  tone: "plain" | "alt";
 }
 
-const { extra, labels, tone } = Astro.props;
+const { locale, extra, tone } = Astro.props;
+const copy = useTranslations(locale).companies.page;
 const titleId = `${extra.id}-title`;
-const single = extra.kind === 'lists' && extra.lists.length === 1;
+const single = extra.kind === "lists" && extra.lists.length === 1;
 ---
 
-<section id={extra.id} class:list={['extra', extra.kind, tone]} aria-labelledby={titleId}>
+<section id={extra.id} class:list={["extra", extra.kind, tone]} aria-labelledby={titleId}>
   <div class="wrap">
-    {extra.kind === 'lists' && (
-      <div class:list={['lists-grid', { single }]}>
-        <div class="reveal">
-          <SectionHeading eyebrow={extra.eyebrow} title={extra.title} lede={extra.lede} id={titleId} />
+    {
+      extra.kind === "lists" && (
+        <div class:list={["lists-grid", { single }]}>
+          <div data-enter>
+            <SectionHeading id={titleId} label={extra.label} title={extra.title} lede={extra.lede} />
+          </div>
+          <div class="lists">
+            {extra.lists.map((list, i) => (
+              <div class="list" data-enter style={`--i: ${i + 1}`}>
+                <h3 class="x-title">{list.title}</h3>
+                <ul role="list">
+                  {list.items.map((item) => (
+                    <li>{item}</li>
+                  ))}
+                </ul>
+                {list.note && <p class="note">{list.note}</p>}
+              </div>
+            ))}
+          </div>
         </div>
-        <div class="lists">
-          {extra.lists.map((list) => (
-            <div class="list reveal">
-              <h3>{list.title}</h3>
-              <ul role="list">
-                {list.items.map((item) => <li>{item}</li>)}
-              </ul>
-              {list.note && <p class="note">{list.note}</p>}
-            </div>
-          ))}
-        </div>
-      </div>
-    )}
+      )
+    }
 
-    {extra.kind === 'features' && (
-      <>
-        <div class="feat-head reveal">
-          <SectionHeading eyebrow={extra.eyebrow} title={extra.title} lede={extra.lede} id={titleId} />
-          {extra.action && (
-            <CtaLink href={extra.action.href} external={extra.action.external}>{extra.action.label}</CtaLink>
-          )}
-        </div>
-        <ul class:list={['feat-grid', { 'no-photos': !extra.items.some((i) => i.photo) }]} role="list">
-          {extra.items.map((item) => (
-            <li class="feat reveal">
-              {item.photo && (
-                <figure class="feat-photo">
-                  <Photo photo={item.photo} sizes="(min-width: 64rem) 30vw, (min-width: 48rem) 50vw, 100vw" />
-                </figure>
-              )}
-              <h3>{item.title}</h3>
-              <p>{item.text}</p>
-            </li>
-          ))}
-        </ul>
-      </>
-    )}
+    {
+      extra.kind === "features" && (
+        <>
+          <div class="feat-head" data-enter>
+            <SectionHeading id={titleId} label={extra.label} title={extra.title} lede={extra.lede} />
+            {extra.action && (
+              <CtaLink href={linkTo(locale, extra.action.href)} external={extra.action.external || undefined}>
+                {extra.action.label}
+              </CtaLink>
+            )}
+          </div>
+          <ul class:list={["feat-grid", { "no-photos": !extra.items.some((item) => item.photo) }]} role="list">
+            {extra.items.map((item, i) => (
+              <li class="feat" data-enter style={`--i: ${i % 3}`}>
+                {item.photo && (
+                  <figure class="feat-photo">
+                    <Photo
+                      src={photo(item.photo)}
+                      alt={item.photoAlt ?? ""}
+                      sizes="(min-width: 64rem) 30vw, (min-width: 48rem) 50vw, 100vw"
+                    />
+                  </figure>
+                )}
+                <h3 class="x-title">{item.title}</h3>
+                <p>{item.text}</p>
+              </li>
+            ))}
+          </ul>
+        </>
+      )
+    }
 
-    {extra.kind === 'contact' && (
-      <div class="contact-grid">
-        <div class="reveal">
-          <SectionHeading eyebrow={extra.eyebrow} title={extra.title} lede={extra.lede} id={titleId} />
-        </div>
-        <div class="reveal">
-          <dl class="details">
+    {
+      extra.kind === "contact" && (
+        <div class="contact-grid">
+          <div data-enter>
+            <SectionHeading id={titleId} label={extra.label} title={extra.title} lede={extra.lede} />
+          </div>
+          <dl class="details" data-enter style="--i: 1">
             <div>
-              <dt>{labels.address}</dt>
+              <dt>{copy.address}</dt>
               <dd>{extra.address}</dd>
             </div>
             <div>
-              <dt>{labels.telephone}</dt>
-              <dd><a href={extra.phoneHref}><bdi dir="ltr">{extra.phone}</bdi></a></dd>
+              <dt>{copy.telephone}</dt>
+              <dd>
+                <a href={telHref(extra.phone)}>
+                  <bdi dir="ltr">{extra.phone}</bdi>
+                </a>
+              </dd>
             </div>
             <div>
-              <dt>{labels.email}</dt>
-              <dd><a href={`mailto:${extra.email}`}>{extra.email}</a></dd>
+              <dt>{copy.email}</dt>
+              <dd>
+                <a href={`mailto:${extra.email}`}>{extra.email}</a>
+              </dd>
             </div>
             {extra.website && (
               <div>
-                <dt>{labels.website}</dt>
-                <dd><a href={extra.website.href} target="_blank" rel="noopener noreferrer">{extra.website.label}</a></dd>
+                <dt>{copy.website}</dt>
+                <dd>
+                  <a href={extra.website.href} target="_blank" rel="noopener noreferrer">
+                    {extra.website.label}
+                  </a>
+                </dd>
               </div>
             )}
           </dl>
         </div>
-      </div>
-    )}
+      )
+    }
   </div>
 </section>
 
 <style>
   .extra {
     padding-block: var(--section-space);
-    border-top: 1px solid var(--color-rule);
+    border-top: var(--border-hairline);
+    scroll-margin-top: var(--header-height);
   }
-
   .alt {
-    background: var(--color-page-alt);
+    background: var(--color-surface);
   }
-
-  h3 {
+  .x-title {
     font-size: clamp(1.25rem, 1.8vw, 1.5rem);
     line-height: 1.25;
     letter-spacing: -0.01em;
   }
-
-  :global(html[dir='rtl']) h3 {
+  :global(html[dir="rtl"]) .x-title {
     line-height: 1.45;
   }
 
-  /* --- lists --- */
+  /* lists */
   .lists-grid {
     display: grid;
     gap: 3rem;
   }
-
   .lists {
     display: grid;
     gap: 2.5rem;
   }
-
   .list ul {
     margin-top: 1rem;
-    border-bottom: 1px solid var(--color-rule);
+    border-bottom: var(--border-hairline);
   }
-
   .list li {
     padding-block: 0.8rem;
-    border-top: 1px solid var(--color-rule);
+    border-top: var(--border-hairline);
     font-size: 0.9375rem;
   }
-
   .note {
     margin-top: 1rem;
     font-size: var(--text-caption);
     color: var(--color-gold-ink);
   }
-
   @media (min-width: 48rem) {
+    /* Up to three lists side by side beside the heading. */
     .lists {
-      grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
       gap: 2.5rem 2rem;
     }
-
     /* A single list flows into two columns of rows. */
     .single .list ul {
       columns: 2;
       column-gap: 2rem;
       border-bottom: 0;
     }
-
     .single .list li {
       break-inside: avoid;
     }
   }
-
   @media (min-width: 64rem) {
     .lists-grid {
       grid-template-columns: 4fr 8fr;
@@ -170,100 +190,86 @@ const single = extra.kind === 'lists' && extra.lists.length === 1;
     }
   }
 
-  /* --- features --- */
+  /* features */
   .feat-head {
     display: grid;
     justify-items: start;
     gap: 2rem;
   }
-
   .feat-grid {
     display: grid;
     gap: 2.5rem 2rem;
     margin-top: clamp(2.5rem, 5vw, 4rem);
   }
-
   .feat {
     display: grid;
     align-content: start;
     gap: 0.75rem;
   }
-
   .no-photos .feat {
     padding-top: 1.5rem;
-    border-top: 1px solid var(--color-rule-strong);
+    border-top: var(--border-strong);
   }
-
   .feat-photo {
     aspect-ratio: 16 / 10;
     margin-bottom: 0.75rem;
     overflow: hidden;
-    background: var(--color-page-alt);
+    background: var(--color-surface);
   }
-
   .feat p {
     font-size: 0.9375rem;
     color: var(--color-muted);
   }
-
   @media (min-width: 48rem) {
     .feat-grid {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
   }
-
   @media (min-width: 64rem) {
     .feat-head {
       grid-template-columns: 1fr auto;
       align-items: end;
     }
-
     .feat-grid:not(.no-photos) {
       grid-template-columns: repeat(3, minmax(0, 1fr));
     }
   }
 
-  /* --- contact --- */
+  /* contact */
   .contact-grid {
     display: grid;
     gap: 2.5rem;
   }
-
   .details > div {
     display: grid;
     gap: 0.25rem;
     padding-block: 1.1rem;
-    border-top: 1px solid var(--color-rule);
+    border-top: var(--border-hairline);
   }
-
   .details > div:last-child {
-    border-bottom: 1px solid var(--color-rule);
+    border-bottom: var(--border-hairline);
   }
-
   .details dt {
     font-size: var(--text-caption);
     color: var(--color-muted);
   }
-
   .details dd {
     font-family: var(--font-display);
     font-size: clamp(1.0625rem, 1.6vw, 1.3125rem);
     line-height: 1.4;
+    overflow-wrap: anywhere;
   }
-
+  /* Keeps the left-to-right phone number in one piece in Arabic. */
   .details bdi {
     display: inline-block;
   }
-
   .details a {
     border-bottom: 1px solid var(--color-gold);
-    transition: color 0.3s ease;
+    transition: color var(--transition-colour);
   }
-
   .details a:hover {
     color: var(--color-gold-ink);
   }
-
   @media (min-width: 64rem) {
     .contact-grid {
       grid-template-columns: 5fr 7fr;

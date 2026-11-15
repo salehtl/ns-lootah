@@ -1,5 +1,5 @@
 {
-  description = "nslootah.com dev environment";
+  description = "Client site dev environment";
 
   inputs.nixpkgs.url = "github:nixos/nixpkgs/nixos-26.05";
 
@@ -15,11 +15,9 @@
     {
       devShells = forSystems (pkgs: {
         default = pkgs.mkShell {
-          packages = [
-            pkgs.bun
-            # `bun run` starts Astro's CLI under its `node` shebang.
-            pkgs.nodejs_22
-          ];
+          # Bun only, no Node: `bun --bun run` runs Astro on Bun's runtime.
+          # If an integration ever needs real Node, add pkgs.nodejs_22 here.
+          packages = [ pkgs.bun ];
         };
       });
     };

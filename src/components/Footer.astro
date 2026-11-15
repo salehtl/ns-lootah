@@ -1,46 +1,48 @@
 ---
-/** Black site footer: brand, the six companies, Group links, contact, legal. */
-import type { Lang } from '../i18n/types';
-import { t } from '../i18n/translations';
-import { getLocalizedPath } from '../i18n/utils';
-import { companies } from '../data/companies';
-import LanguageSwitcher from './LanguageSwitcher.astro';
+// Black site footer: the Group's mark, its companies, Group links, contact,
+// the legal line and the language switch.
+import { locales, localizePath, useTranslations, type Locale } from "../i18n";
+import { getCompanies } from "../lib/companies";
+import { logo } from "../lib/media";
+import { telHref } from "../lib/links";
 
 interface Props {
-  lang: Lang;
-  currentPath: string;
+  locale: Locale;
+  /** This page in the other languages, each linked by its own name ("العربية", "English"). */
+  translations: { code: Locale; href: URL }[];
 }
 
-const { lang, currentPath } = Astro.props;
-const strings = t(lang);
+const { locale, translations } = Astro.props;
+const t = useTranslations(locale);
+const companies = await getCompanies(locale);
+const mark = logo("ns-lootah-group-horizontal-white");
 const year = new Date().getFullYear();
-
 const groupLinks = [
-  { label: strings.nav.aboutGroup, href: getLocalizedPath('/about', lang) },
-  { label: strings.nav.news, href: getLocalizedPath('/news', lang) },
-  { label: strings.nav.careers, href: getLocalizedPath('/careers', lang) },
-  { label: strings.nav.contact, href: getLocalizedPath('/contact', lang) },
+  { label: t.footer.aboutGroup, href: localizePath(locale, "/about/") },
+  { label: t.nav.news, href: localizePath(locale, "/news/") },
+  { label: t.nav.careers, href: localizePath(locale, "/careers/") },
+  { label: t.nav.contact, href: localizePath(locale, "/contact/") },
 ];
 ---
 
-<footer class="ftr" transition:name="site-footer" transition:animate="none">
+<footer class="ftr">
   <div class="wrap ftr-top">
     <div class="ftr-brand">
-      <a href={getLocalizedPath('/', lang)} aria-label={`${strings.site.name} — ${strings.nav.home}`}>
-        <img src="/images/logos/ns-lootah-group-horizontal-white.svg" width="317" height="100" alt="" loading="lazy" />
+      <a href={localizePath(locale)} aria-label={t.nav.home}>
+        <img src={mark.src} width={mark.width} height={mark.height} alt="" loading="lazy" />
       </a>
-      <p>{strings.footer.tagline}</p>
+      <p>{t.footer.tagline}</p>
     </div>
 
-    <nav class="ftr-nav" aria-label={strings.nav.footerNavigation}>
+    <nav class="ftr-nav" aria-label={t.footer.label}>
       <div>
-        <h2 class="ftr-h">{strings.footer.companies}</h2>
+        <h2 class="ftr-h">{t.footer.companies}</h2>
         <ul role="list">
-          {companies[lang].map((c) => <li><a href={getLocalizedPath(c.path, lang)}>{c.name}</a></li>)}
+          {companies.map((c) => <li><a href={c.href}>{c.data.name}</a></li>)}
         </ul>
       </div>
       <div>
-        <h2 class="ftr-h">{strings.footer.group}</h2>
+        <h2 class="ftr-h">{t.footer.group}</h2>
         <ul role="list">
           {groupLinks.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
         </ul>
@@ -48,18 +50,24 @@ const groupLinks = [
     </nav>
 
     <div class="ftr-contact">
-      <h2 class="ftr-h">{strings.footer.contact}</h2>
+      <h2 class="ftr-h">{t.footer.contact}</h2>
       <address>
-        <p>{strings.site.address}</p>
-        <p><a href={strings.site.phoneHref}><bdi dir="ltr">{strings.site.phone}</bdi></a></p>
-        <p><a href={`mailto:${strings.site.email}`}>{strings.site.email}</a></p>
+        <p>{t.firm.address}</p>
+        <p><a href={telHref(t.firm.phone)}><bdi dir="ltr">{t.firm.phone}</bdi></a></p>
+        <p><a href={`mailto:${t.firm.email}`}>{t.firm.email}</a></p>
       </address>
     </div>
   </div>
 
   <div class="wrap ftr-bottom">
-    <p>© {year} {strings.site.legalName}. {strings.footer.rights}</p>
-    <LanguageSwitcher lang={lang} currentPath={currentPath} />
+    <p>© {year} {t.firm.legalName}. {t.footer.rights}</p>
+    {
+      translations.map(({ code, href }) => (
+        <a class="lang" href={href.pathname} lang={code} hreflang={code}>
+          {locales[code].name}
+        </a>
+      ))
+    }
   </div>
 </footer>
 
@@ -70,84 +78,62 @@ const groupLinks = [
     color: var(--color-on-dark);
     font-size: var(--text-small);
   }
-
   .ftr-top {
     display: grid;
     gap: 3rem;
   }
-
   .ftr-brand {
     display: grid;
     gap: 1.25rem;
     align-content: start;
   }
-
   .ftr-brand img {
     width: auto;
     height: 2.75rem;
   }
-
   .ftr-brand p {
     max-width: 32ch;
     color: var(--color-on-dark-muted);
   }
-
   .ftr-nav {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 2rem;
   }
-
   .ftr-h {
     margin-bottom: 1rem;
     font-family: var(--font-body);
     font-size: var(--text-label);
-    font-weight: 500;
+    font-weight: var(--font-weight-medium);
     line-height: 1.4;
     letter-spacing: 0.18em;
     text-transform: uppercase;
     color: var(--color-gold-glow);
   }
-
-  :global(html[dir='rtl']) .ftr-h {
+  :global(html[dir="rtl"]) .ftr-h {
     font-size: var(--text-small);
-    font-weight: 700;
+    font-weight: var(--font-weight-bold);
     text-transform: none;
   }
-
   .ftr ul {
     display: grid;
     gap: 0.6rem;
   }
-
   .ftr a {
     color: var(--color-on-dark-muted);
-    transition: color 0.3s ease;
   }
-
   .ftr a:hover {
     color: var(--color-on-dark);
   }
-
-  .ftr-bottom :global(.lang-switcher) {
-    color: var(--color-on-dark-muted);
-  }
-
-  .ftr-bottom :global(.lang-switcher:hover) {
-    color: var(--color-on-dark);
-  }
-
   .ftr address {
     display: grid;
     gap: 0.6rem;
     font-style: normal;
     color: var(--color-on-dark-muted);
   }
-
   .ftr :focus-visible {
     outline-color: var(--color-gold-glow);
   }
-
   .ftr-bottom {
     display: flex;
     flex-wrap: wrap;
@@ -161,11 +147,18 @@ const groupLinks = [
     font-size: var(--text-caption);
     color: var(--color-on-dark-muted);
   }
-
   .ftr-bottom p {
     max-width: none;
   }
-
+  .lang:lang(ar) {
+    font-family: var(--font-arabic);
+    font-size: 0.9375rem;
+  }
+  .lang:lang(en) {
+    font-family: var(--font-sans);
+    font-size: 0.8125rem;
+    letter-spacing: 0.04em;
+  }
   @media (min-width: 64rem) {
     .ftr-top {
       grid-template-columns: 1.1fr 1.6fr 1fr;

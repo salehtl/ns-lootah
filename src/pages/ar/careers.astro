@@ -1,21 +1,5 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import CareersPage from '../../components/careers/CareersPage.astro';
-import { careers } from '../../data/pages/careers';
-import { breadcrumbJsonLd } from '../../data/pages/seo';
-import { t } from '../../i18n/translations';
-
-const lang = 'ar' as const;
-const currentPath = '/ar/careers';
-const strings = t(lang);
-const page = careers[lang];
-
-const jsonLd = breadcrumbJsonLd([
-  { name: strings.nav.home, path: '/ar/' },
-  { name: strings.nav.careers, path: currentPath },
-]);
+import CareersPage from "../../views/CareersPage.astro";
 ---
 
-<BaseLayout title={page.meta.title} description={page.meta.description} lang={lang} currentPath={currentPath} jsonLd={jsonLd}>
-  <CareersPage lang={lang} />
-</BaseLayout>
+<CareersPage locale="ar" />

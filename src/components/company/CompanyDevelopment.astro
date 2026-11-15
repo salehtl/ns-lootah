@@ -1,0 +1,83 @@
+---
+// Where the company is heading: a large statement ending in gold, then the
+// story (the company's Markdown body, passed in the slot) beside a photograph.
+import type { AccentTitle } from "../../lib/links";
+import { photo } from "../../lib/media";
+import Photo from "../Photo.astro";
+
+interface Props {
+  label: string;
+  statement: AccentTitle;
+  /** Photo key and alt text. */
+  photo?: string;
+  photoAlt?: string;
+}
+
+const { label, statement, photo: photoKey, photoAlt = "" } = Astro.props;
+const image = photoKey ? photo(photoKey) : undefined;
+---
+
+<section class="dev" aria-labelledby="dev-title">
+  <div class="wrap">
+    <h2 id="dev-title" class="eyebrow" data-enter>{label}</h2>
+    <p class="statement" data-enter style="--i: 1">
+      {statement.lead} <span class="gi">{statement.accent}</span>
+    </p>
+    <div class:list={["dev-grid", { "has-photo": image }]}>
+      <div class="dev-body" data-enter>
+        <slot />
+      </div>
+      {
+        image && (
+          <figure class="dev-photo" data-enter style="--i: 1">
+            <Photo src={image} alt={photoAlt} sizes="(min-width: 64rem) 44vw, 100vw" />
+          </figure>
+        )
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .dev {
+    padding-block: var(--section-space);
+    background: var(--color-surface);
+  }
+  .statement {
+    max-width: 30ch;
+    margin-top: 1.75rem;
+    font-family: var(--font-display);
+    font-weight: var(--weight-display);
+    font-size: clamp(1.75rem, 3.4vw, 3rem);
+    line-height: 1.22;
+    letter-spacing: -0.01em;
+  }
+  :global(html[dir="rtl"]) .statement {
+    max-width: 34ch;
+    font-size: clamp(1.625rem, 3vw, 2.625rem);
+    line-height: 1.55;
+  }
+  .dev-grid {
+    display: grid;
+    gap: 2.5rem;
+    margin-top: clamp(2.5rem, 5vw, 4rem);
+  }
+  .dev-body {
+    display: grid;
+    align-content: start;
+    gap: 1.25rem;
+    font-size: var(--text-lede);
+    color: var(--color-text);
+  }
+  .dev-photo {
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+  }
+  @media (min-width: 64rem) {
+    .dev-grid.has-photo {
+      grid-template-columns: 5fr 6fr;
+      gap: 5rem;
+      align-items: start;
+    }
+  }
+</style>

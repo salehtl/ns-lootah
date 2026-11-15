@@ -1,39 +1,26 @@
-# dependencies
-node_modules
+# direnv
+.direnv
 
-# output
-dist
-out
-*.tgz
-
-# coverage
-coverage
-*.lcov
-
-# logs
-logs
-*.log
-report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
+# nix
+result
+result-*
 
 # dotenv
 .env
-.env.development.local
-.env.test.local
-.env.production.local
-.env.local
-
-# caches
-.eslintcache
-.cache
-*.tsbuildinfo
-.astro
-
-# editors
-.idea
-.vscode
+.env.*
 
 # OS
 .DS_Store
 
-# direnv
-.direnv
+# dependencies
+node_modules
+
+# astro
+dist
+.astro
+
+# logs
+*.log
+
+.dev.vars
+.wrangler/
