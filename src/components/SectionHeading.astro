@@ -1,0 +1,52 @@
+---
+/**
+ * Eyebrow, heading ending in the gold accent, optional lede.
+ * Use for every section opener so headings share one rhythm.
+ */
+import type { AccentTitle } from '../data/types';
+
+interface Props {
+  title: AccentTitle;
+  eyebrow?: string;
+  lede?: string;
+  level?: 'h1' | 'h2' | 'h3';
+  id?: string;
+  /** 'lg' for section openers, 'md' for sub-sections. */
+  size?: 'lg' | 'md';
+}
+
+const { title, eyebrow, lede, level = 'h2', id, size = 'lg' } = Astro.props;
+const Tag = level;
+---
+
+<div class:list={['sh', size]}>
+  {eyebrow && <p class="eyebrow">{eyebrow}</p>}
+  <Tag id={id} class="sh-title">
+    {title.lead}{title.accent && <> <span class="gi">{title.accent}</span></>}
+  </Tag>
+  {lede && <p class="sh-lede">{lede}</p>}
+</div>
+
+<style>
+  .sh {
+    display: grid;
+    gap: 1.25rem;
+  }
+
+  .sh-title {
+    font-size: var(--text-h2);
+    letter-spacing: -0.02em;
+  }
+
+  .md .sh-title {
+    font-size: var(--text-h3);
+    letter-spacing: -0.01em;
+  }
+
+  .sh-lede {
+    max-width: 52ch;
+    margin-top: 0.5rem;
+    font-size: var(--text-lede);
+    color: var(--color-muted);
+  }
+</style>

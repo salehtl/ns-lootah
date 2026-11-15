@@ -1,0 +1,149 @@
+---
+/**
+ * Closing contact section: the profile's glass dome as a pale print, a large
+ * "Contact us" and the Group's telephone, email and office.
+ */
+import type { Lang } from '../i18n/types';
+import type { AccentTitle } from '../data/types';
+import { t } from '../i18n/translations';
+import { getLocalizedPath } from '../i18n/utils';
+import { group } from '../data/group';
+import Photo from './Photo.astro';
+
+interface Props {
+  lang: Lang;
+  title?: AccentTitle;
+  lede?: string;
+}
+
+const { lang } = Astro.props;
+const strings = t(lang);
+const title = Astro.props.title ?? { lead: strings.common.contactTitle, accent: strings.common.contactAccent };
+const lede = Astro.props.lede ?? strings.common.contactLede;
+---
+
+<section class="contact" aria-labelledby="contact-band-title">
+  <div class="contact-bg">
+    <Photo photo={group[lang].imagery.dome} sizes="100vw" decorative />
+  </div>
+  <div class="wrap contact-in">
+    <h2 id="contact-band-title" class="contact-title reveal">
+      {title.lead} <span class="gi">{title.accent}</span>
+    </h2>
+    <p class="contact-lede reveal">{lede}</p>
+    <div class="contact-row reveal">
+      <a href={strings.site.phoneHref}>
+        <span>{strings.common.telephone}</span>
+        <bdi dir="ltr">{strings.site.phone}</bdi>
+      </a>
+      <a href={`mailto:${strings.site.email}`}>
+        <span>{strings.common.email}</span>
+        {strings.site.email}
+      </a>
+      <a href={getLocalizedPath('/contact', lang)}>
+        <span>{strings.common.office}</span>
+        {strings.site.address}
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .contact {
+    position: relative;
+    isolation: isolate;
+    display: grid;
+    align-items: end;
+    min-height: min(52rem, 85svh);
+    padding-block: 8rem 4rem;
+    overflow: hidden;
+  }
+
+  .contact-bg {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+  }
+
+  .contact-bg :global(.photo) {
+    filter: grayscale(1);
+  }
+
+  .contact-bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(to bottom, var(--color-page), transparent 30%, transparent 45%, var(--color-page) 85%),
+      linear-gradient(var(--color-wash), var(--color-wash));
+  }
+
+  .contact-title {
+    font-size: clamp(3.25rem, 10vw, 8.5rem);
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+  }
+
+  :global(html[dir='rtl']) .contact-title {
+    line-height: 1.2;
+  }
+
+  .contact-lede {
+    max-width: 40ch;
+    margin-top: 1.5rem;
+    font-size: var(--text-lede);
+    color: var(--color-muted);
+  }
+
+  .contact-row {
+    display: grid;
+    margin-top: 3rem;
+    border-top: 1px solid var(--color-rule);
+  }
+
+  .contact-row a {
+    display: grid;
+    gap: 0.25rem;
+    padding-block: 1.25rem;
+    border-bottom: 1px solid var(--color-rule);
+    font-family: var(--font-display);
+    font-size: clamp(1.125rem, 1.8vw, 1.375rem);
+    transition: color 0.3s ease;
+  }
+
+  .contact-row a:hover {
+    color: var(--color-gold-ink);
+  }
+
+  /* The LTR phone number keeps to the reading start edge in Arabic too. */
+  .contact-row bdi {
+    justify-self: start;
+  }
+
+  .contact-row span {
+    font-family: var(--font-body);
+    font-size: var(--text-label);
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+  }
+
+  :global(html[dir='rtl']) .contact-row span {
+    font-size: var(--text-small);
+    text-transform: none;
+  }
+
+  @media (min-width: 64rem) {
+    .contact-row {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0 2rem;
+      border-top: 0;
+    }
+
+    .contact-row a {
+      border-top: 1px solid var(--color-rule);
+      border-bottom: 0;
+    }
+  }
+</style>

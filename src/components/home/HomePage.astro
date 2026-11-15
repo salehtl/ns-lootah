@@ -1,0 +1,58 @@
+---
+/** The homepage, shared by /en/ and /ar/. */
+import type { Lang } from '../../i18n/types';
+import { t } from '../../i18n/translations';
+import { getLocalizedPath } from '../../i18n/utils';
+import { home } from '../../data/home';
+import { companies } from '../../data/companies';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ContactBand from '../ContactBand.astro';
+import HomeHero from './HomeHero.astro';
+import HomeIntro from './HomeIntro.astro';
+import HomeChapters from './HomeChapters.astro';
+import HomeLegacy from './HomeLegacy.astro';
+import HomeValues from './HomeValues.astro';
+import HomeUpdates from './HomeUpdates.astro';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const strings = t(lang);
+const copy = home[lang];
+const site = Astro.site?.origin ?? 'https://nslootah.com';
+const currentPath = getLocalizedPath('/', lang);
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: strings.site.name,
+  legalName: strings.site.legalName,
+  url: `${site}${currentPath}`,
+  logo: `${site}/images/logos/ns-lootah-group-bronze.svg`,
+  email: strings.site.email,
+  telephone: strings.site.phone.replace(/\s/g, ''),
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: strings.site.address,
+    addressLocality: lang === 'ar' ? 'دبي' : 'Dubai',
+    addressCountry: 'AE',
+  },
+  subOrganization: companies[lang].map((c) => ({
+    '@type': 'Organization',
+    name: c.legalName,
+    url: `${site}${getLocalizedPath(c.path, lang)}`,
+  })),
+};
+---
+
+<BaseLayout title={copy.metaTitle} description={copy.metaDescription} lang={lang} currentPath={currentPath} jsonLd={jsonLd}>
+  <HomeHero lang={lang} />
+  <HomeIntro lang={lang} />
+  <HomeChapters lang={lang} />
+  <HomeLegacy lang={lang} />
+  <HomeValues lang={lang} />
+  <HomeUpdates lang={lang} />
+  <ContactBand lang={lang} />
+</BaseLayout>

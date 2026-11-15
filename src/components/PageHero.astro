@@ -1,0 +1,282 @@
+---
+/**
+ * The opening section of every interior page. It reserves room for the
+ * fixed header and holds the page's single <h1>.
+ *  - wash:  photo full-bleed under a page-coloured wash (pale print), text over it
+ *  - panel: text column + full-height photo panel bleeding off the far edge,
+ *           the homepage chapter layout — for company pages
+ *  - plain: no photo, generous whitespace
+ * Slot: actions under the lede (CtaLinks).
+ */
+import type { AccentTitle, LogoAsset, Photo as PhotoData } from '../data/types';
+import Photo from './Photo.astro';
+
+interface Crumb {
+  label: string;
+  href?: string;
+}
+
+interface Props {
+  title: AccentTitle;
+  eyebrow?: string;
+  lede?: string;
+  image?: PhotoData;
+  variant?: 'wash' | 'panel' | 'plain';
+  logo?: LogoAsset & { alt: string };
+  crumbs?: Crumb[];
+  crumbsLabel?: string;
+}
+
+const { title, eyebrow, lede, image, variant = 'plain', logo, crumbs, crumbsLabel = 'Breadcrumb' } = Astro.props;
+---
+
+<section class:list={['ph', variant]} aria-labelledby="page-title">
+  {variant === 'wash' && image && (
+    <div class="ph-bg">
+      <Photo photo={image} sizes="100vw" priority decorative />
+    </div>
+  )}
+  {variant === 'panel' && image && (
+    <figure class="ph-media">
+      <Photo photo={image} sizes="(min-width: 64rem) 54vw, 100vw" priority />
+    </figure>
+  )}
+  <div class="wrap ph-in">
+    <div class="ph-body">
+      {crumbs && crumbs.length > 0 && (
+        <nav class="crumbs" aria-label={crumbsLabel}>
+          <ol role="list">
+            {crumbs.map((c) => (
+              <li>{c.href ? <a href={c.href}>{c.label}</a> : <span aria-current="page">{c.label}</span>}</li>
+            ))}
+          </ol>
+        </nav>
+      )}
+      {logo && <img class="ph-logo" src={logo.src} width={logo.width} height={logo.height} alt={logo.alt} />}
+      {eyebrow && <p class="eyebrow">{eyebrow}</p>}
+      <h1 id="page-title" class="ph-title">
+        {title.lead}{title.accent && <> <span class="gi">{title.accent}</span></>}
+      </h1>
+      {lede && <p class="ph-lede">{lede}</p>}
+      {Astro.slots.has('default') && <div class="ph-actions"><slot /></div>}
+    </div>
+  </div>
+</section>
+
+<style>
+  .ph {
+    position: relative;
+    isolation: isolate;
+    display: grid;
+    overflow: hidden;
+    padding-block: calc(var(--header-height) + clamp(3.5rem, 9vw, 7rem)) clamp(3.5rem, 7vw, 5.5rem);
+  }
+
+  .ph-body {
+    display: grid;
+    justify-items: start;
+    gap: 1.25rem;
+    max-width: 46rem;
+  }
+
+  .crumbs ol {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 0.6rem;
+    font-size: var(--text-caption);
+    color: var(--color-muted);
+  }
+
+  .crumbs li + li::before {
+    content: '/';
+    margin-inline-end: 0.6rem;
+    color: var(--color-rule);
+  }
+
+  .crumbs a {
+    transition: color 0.3s ease;
+  }
+
+  .crumbs a:hover {
+    color: var(--color-gold-ink);
+  }
+
+  .ph-logo {
+    width: auto;
+    height: 3.25rem;
+    max-width: 13rem;
+    margin-block: 0.75rem 0.5rem;
+    object-fit: contain;
+    object-position: left center;
+  }
+
+  :global(html[dir='rtl']) .ph-logo {
+    object-position: right center;
+  }
+
+  .ph-title {
+    font-size: var(--text-h1);
+    letter-spacing: -0.025em;
+  }
+
+  .ph-lede {
+    max-width: 40rem;
+    margin-top: 0.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--color-rule);
+    font-size: var(--text-lede);
+    color: var(--color-muted);
+  }
+
+  .ph-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem 1rem;
+    margin-top: 1rem;
+  }
+
+  /* --- wash --- */
+  .wash {
+    align-items: end;
+    min-height: min(52rem, 82svh);
+  }
+
+  .ph-bg {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+  }
+
+  .ph-bg :global(.photo) {
+    filter: grayscale(1);
+  }
+
+  .ph-bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at calc(50% - 20% * var(--dir)) 60%, rgba(245, 245, 244, 0.65), transparent 70%),
+      linear-gradient(to bottom, transparent 55%, var(--color-page)),
+      linear-gradient(var(--color-wash), var(--color-wash));
+  }
+
+  /* --- panel --- */
+  .panel {
+    padding-top: var(--header-height);
+  }
+
+  .ph-media {
+    /* The unveil opens from the panel's inner edge, which flips in Arabic. */
+    --unveil-l: 14%;
+    --unveil-r: 0%;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+  }
+
+  .panel .ph-in {
+    padding-block: 2.5rem 4rem;
+  }
+
+  @media (min-width: 64rem) {
+    .panel {
+      align-items: center;
+      min-height: 100svh;
+      padding-block: calc(var(--header-height) + 3rem) 4rem;
+    }
+
+    .panel .ph-in {
+      padding-block: 0;
+    }
+
+    .panel .ph-body {
+      max-width: 29rem;
+    }
+
+    .ph-media {
+      position: absolute;
+      top: calc(var(--header-height) + clamp(1rem, 3vh, 2rem));
+      bottom: clamp(2rem, 6vh, 4rem);
+      inset-inline-start: max(
+        46%,
+        calc(var(--gutter) + 33rem),
+        calc((100% - var(--max-width)) / 2 + var(--gutter) + 33rem)
+      );
+      inset-inline-end: 0;
+      z-index: -1;
+      aspect-ratio: auto;
+    }
+  }
+
+  /* --- plain --- */
+  .plain {
+    border-bottom: 1px solid var(--color-rule);
+  }
+
+  /* --- motion --- */
+  @media (prefers-reduced-motion: no-preference) {
+    .ph-body > * {
+      animation: ph-rise 0.8s var(--ease-out) both;
+    }
+
+    .ph-body > :nth-child(2) {
+      animation-delay: 0.06s;
+    }
+
+    .ph-body > :nth-child(3) {
+      animation-delay: 0.12s;
+    }
+
+    .ph-body > :nth-child(4) {
+      animation-delay: 0.18s;
+    }
+
+    .ph-body > :nth-child(n + 5) {
+      animation-delay: 0.24s;
+    }
+
+    .ph-bg {
+      animation: ph-settle 1.4s var(--ease-out) both;
+    }
+
+    .ph-media {
+      animation: ph-unveil 1.1s var(--ease-out) 0.1s both;
+    }
+  }
+
+  @keyframes ph-rise {
+    from {
+      opacity: 0;
+      transform: translateY(0.875rem);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  @keyframes ph-settle {
+    from {
+      opacity: 0;
+      transform: scale(1.05);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  @keyframes ph-unveil {
+    from {
+      clip-path: inset(6% var(--unveil-r) 6% var(--unveil-l));
+    }
+    to {
+      clip-path: inset(0);
+    }
+  }
+
+  :global(html[dir='rtl']) .ph-media {
+    --unveil-l: 0%;
+    --unveil-r: 14%;
+  }
+</style>

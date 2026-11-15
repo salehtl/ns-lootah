@@ -1,4 +1,10 @@
 ---
+/**
+ * Fixed site header. Frosted off-white with a hairline; where scroll-driven
+ * animations are supported it starts transparent over the page's hero and
+ * settles to frosted as you scroll. Every page opens with a hero that
+ * reserves var(--header-height) for it.
+ */
 import type { Lang } from '../i18n/types';
 import { t } from '../i18n/translations';
 import { getLocalizedPath } from '../i18n/utils';
@@ -11,185 +17,193 @@ interface Props {
 
 const { lang, currentPath } = Astro.props;
 const strings = t(lang);
+const home = getLocalizedPath('/', lang);
 
 const navLinks = [
   { label: strings.nav.about, href: getLocalizedPath('/about', lang) },
-  { label: strings.nav.nslTrading, href: getLocalizedPath('/nsl-trading', lang) },
-  { label: strings.nav.projectUpgraded, href: getLocalizedPath('/project-upgraded', lang) },
+  { label: strings.nav.companies, href: `${home}#companies` },
   { label: strings.nav.news, href: getLocalizedPath('/news', lang) },
   { label: strings.nav.careers, href: getLocalizedPath('/careers', lang) },
   { label: strings.nav.contact, href: getLocalizedPath('/contact', lang) },
 ];
+
+const isCurrent = (href: string) => !href.includes('#') && currentPath.startsWith(href);
 ---
 
-<header class="header" transition:name="site-header" transition:animate="none">
-  <div class="header-inner">
-    <a href={getLocalizedPath('/', lang)} class="logo" aria-label={strings.site.name}>
-      <img src="/images/logos/ns-lootah-group-horizontal-bronze.svg" alt={strings.alt.logo} width="317" height="100" />
+<header class="hdr" transition:name="site-header" transition:animate="none">
+  <div class="hdr-in">
+    <a class="brand" href={home} aria-label={`${strings.site.name} — ${strings.nav.home}`}>
+      <img src="/images/logos/ns-lootah-group-horizontal-bronze.svg" width="317" height="100" alt="" />
     </a>
 
-    <nav aria-label={lang === 'en' ? 'Main navigation' : 'التنقل الرئيسي'}>
-      <details class="mobile-menu">
+    <nav class="nav" aria-label={strings.nav.mainNavigation}>
+      <ul class="nav-desk" role="list">
+        {navLinks.map((l) => (
+          <li><a href={l.href} aria-current={isCurrent(l.href) ? 'page' : undefined}>{l.label}</a></li>
+        ))}
+        <li><LanguageSwitcher lang={lang} currentPath={currentPath} /></li>
+      </ul>
+
+      <details class="nav-mob">
         <summary aria-label={strings.nav.openMenu}>
-          <svg class="icon-menu" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-            <line x1="3" y1="6" x2="21" y2="6" />
-            <line x1="3" y1="12" x2="21" y2="12" />
-            <line x1="3" y1="18" x2="21" y2="18" />
-          </svg>
-          <svg class="icon-close" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-            <line x1="6" y1="6" x2="18" y2="18" />
-            <line x1="6" y1="18" x2="18" y2="6" />
-          </svg>
+          <svg class="i-open" width="22" height="22" viewBox="0 0 22 22" aria-hidden="true"><path d="M3 7h16M3 15h16" /></svg>
+          <svg class="i-close" width="22" height="22" viewBox="0 0 22 22" aria-hidden="true"><path d="M5 5l12 12M17 5 5 17" /></svg>
         </summary>
-        <ul class="nav-list">
-          {navLinks.map((link) => (
-            <li>
-              <a
-                href={link.href}
-                class:list={['nav-link', { active: currentPath.startsWith(link.href) }]}
-              >
-                {link.label}
-              </a>
-            </li>
+        <ul role="list">
+          {navLinks.map((l) => (
+            <li><a href={l.href} aria-current={isCurrent(l.href) ? 'page' : undefined}>{l.label}</a></li>
           ))}
-          <li class="lang-switch-mobile">
-            <LanguageSwitcher lang={lang} currentPath={currentPath} />
-          </li>
+          <li class="mob-lang"><LanguageSwitcher lang={lang} currentPath={currentPath} /></li>
         </ul>
       </details>
-
-      <ul class="nav-list-desktop">
-        {navLinks.map((link) => (
-          <li>
-            <a
-              href={link.href}
-              class:list={['nav-link', { active: currentPath.startsWith(link.href) }]}
-            >
-              {link.label}
-            </a>
-          </li>
-        ))}
-        <li>
-          <LanguageSwitcher lang={lang} currentPath={currentPath} />
-        </li>
-      </ul>
     </nav>
   </div>
 </header>
 
 <style>
-  .header {
-    position: sticky;
+  .hdr {
+    position: fixed;
+    inset-inline: 0;
     top: 0;
-    z-index: 50;
-    background-color: #000000;
-    border-bottom: none;
+    z-index: 60;
+    background: var(--color-glass);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--color-rule);
   }
 
-  .header-inner {
+  /* Transparent over the hero, frosted once the page moves. Longhands only:
+     the CSS minifier breaks the animation shorthand with a timeline. */
+  @supports (animation-timeline: scroll()) {
+    .hdr {
+      animation-name: hdr-solid;
+      animation-timing-function: linear;
+      animation-fill-mode: both;
+      animation-timeline: scroll(root);
+      animation-range: 0 40vh;
+    }
+  }
+
+  .hdr-in {
     display: flex;
     align-items: center;
     justify-content: space-between;
     max-width: var(--max-width);
-    margin: 0 auto;
-    padding: var(--space-4) var(--content-padding);
+    height: var(--header-height);
+    margin-inline: auto;
+    padding-inline: var(--gutter);
   }
 
-  .logo {
-    display: flex;
-    align-items: center;
-    text-decoration: none;
-  }
-
-  .logo img {
-    height: 50px;
+  .brand img {
     width: auto;
+    height: 2.4rem;
   }
 
-  /* Desktop nav */
-  .nav-list-desktop {
+  .nav-desk {
     display: none;
-    list-style: none;
     align-items: center;
-    gap: var(--space-6);
+    gap: 2.25rem;
   }
 
-  .nav-link {
-    font-size: var(--text-small);
-    color: rgba(255, 255, 255, 0.8);
-    text-decoration: none;
+  .nav a {
+    font-size: 0.8125rem;
+    letter-spacing: 0.04em;
     transition: color 0.3s ease;
   }
 
-  html[dir="rtl"] .nav-link {
-    font-size: var(--text-body);
+  :global(html[dir='rtl']) .nav a {
+    font-size: 0.9375rem;
   }
 
-  .nav-link:hover,
-  .nav-link.active {
-    color: var(--color-gold);
+  .nav a:hover,
+  .nav a[aria-current='page'],
+  .nav :global(.lang-switcher:hover) {
+    color: var(--color-gold-ink);
   }
 
-  /* Mobile menu */
-  .mobile-menu {
-    display: block;
+  .nav-desk a[aria-current='page'] {
+    text-decoration: underline;
+    text-decoration-color: var(--color-gold);
+    text-underline-offset: 0.5em;
+    text-decoration-thickness: 1px;
   }
 
-  .mobile-menu summary {
-    display: flex;
-    align-items: center;
+  .nav-mob summary {
+    display: grid;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    margin-inline-end: -0.6rem;
+    list-style: none;
     cursor: pointer;
-    list-style: none;
-    color: rgba(255, 255, 255, 0.8);
   }
 
-  .mobile-menu summary::-webkit-details-marker {
+  .nav-mob summary::-webkit-details-marker {
     display: none;
   }
 
-  .mobile-menu summary::marker {
-    display: none;
-    content: '';
+  .nav-mob svg {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.25;
   }
 
-  .icon-close {
-    display: none;
-  }
-
-  .mobile-menu[open] .icon-menu {
+  .i-close,
+  .nav-mob[open] .i-open {
     display: none;
   }
 
-  .mobile-menu[open] .icon-close {
+  .nav-mob[open] .i-close {
     display: block;
   }
 
-  .mobile-menu .nav-list {
+  .nav-mob ul {
     position: absolute;
+    inset-inline: 0;
     top: 100%;
-    left: 0;
-    right: 0;
-    list-style: none;
-    background-color: #000000;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    padding: var(--space-6) var(--content-padding);
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-6);
+    display: grid;
+    max-height: calc(100svh - var(--header-height));
+    overflow-y: auto;
+    padding: 0.5rem var(--gutter) 2rem;
+    background: var(--color-page);
+    border-bottom: 1px solid var(--color-rule);
   }
 
-  .lang-switch-mobile {
-    padding-top: var(--space-4);
-    border-top: 1px solid var(--color-border);
+  .nav-mob li:not(.mob-lang) a {
+    display: block;
+    padding: 0.85rem 0;
+    border-bottom: 1px solid var(--color-rule);
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    letter-spacing: 0;
   }
 
-  @media (min-width: 48rem) {
-    .mobile-menu {
-      display: none;
+  .mob-lang {
+    padding-top: 1.5rem;
+  }
+
+  @media (min-width: 64rem) {
+    .nav-desk {
+      display: flex;
     }
 
-    .nav-list-desktop {
-      display: flex;
+    .nav-mob {
+      display: none;
+    }
+  }
+
+  @keyframes hdr-solid {
+    from {
+      background-color: rgba(245, 245, 244, 0);
+      border-bottom-color: transparent;
+      -webkit-backdrop-filter: blur(0);
+      backdrop-filter: blur(0);
+    }
+    to {
+      background-color: var(--color-glass);
+      border-bottom-color: var(--color-rule);
+      -webkit-backdrop-filter: blur(12px);
+      backdrop-filter: blur(12px);
     }
   }
 </style>

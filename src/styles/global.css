@@ -1,45 +1,69 @@
 /* ============================================
-   Global CSS — Base Reset, Properties, Typography
+   Global CSS — tokens, fonts, reset, base typography and the few
+   site-wide primitives (.wrap, .eyebrow, .gi, .reveal).
+
+   Design language: the 2026 Company Profile. A cool off-white page,
+   black ink and hairlines, the group monogram's amber gold, Lora for
+   display and DM Sans for text. Arabic pairs Almarai (display) with
+   IBM Plex Sans Arabic (text).
    ============================================ */
 
-/* --- CSS Custom Properties --- */
+/* --- Tokens --- */
 :root {
-  /* Colors */
-  --color-white: #FFFFFF;
-  --color-bg: #F6F2EF;
-  --color-bg-alt: #F0EBE6;
-  --color-bg-footer: #f7dede;
-  --color-border: #e8e0d8;
-  --color-mid-gray: #646464;
-  --color-charcoal: #333333;
-  --color-near-black: #282828;
-  --color-gold: #cfb777;
-  --color-gold-dark: #8b7442;
-  --color-gold-light: #e0d5b8;
+  /* Surfaces */
+  --color-page: #f5f5f4;
+  --color-page-alt: #ebebe8;
+  --color-paper: #ffffff;
+  --color-black: #000000;
+  --color-glass: rgba(245, 245, 244, 0.92);
+  --color-wash: rgba(245, 245, 244, 0.8);
 
-  /* Typography */
-  --font-display: 'Lora', Georgia, 'Times New Roman', serif;
-  --font-body: 'Lora', Georgia, 'Times New Roman', serif;
-  --font-rtl: 'Noto Naskh Arabic', 'IBM Plex Sans Arabic', system-ui, serif;
-  --font-rtl-body: 'IBM Plex Sans Arabic', system-ui, -apple-system, sans-serif;
+  /* Ink */
+  --color-ink: #0a0a0a;
+  --color-text: #2e2e2e;
+  --color-muted: #66665f; /* 5.3:1 on page, 4.8:1 on page-alt */
+  --color-on-dark: #f5f5f4;
+  --color-on-dark-muted: #a6a6a0;
 
-  /* Type Scale (fluid) */
-  --text-display: clamp(3rem, 6vw, 5.625rem);
-  --text-h1: clamp(2.25rem, 4vw, 3.75rem);
-  --text-h2: clamp(1.75rem, 3vw, 2.8125rem);
-  --text-h3: clamp(1.25rem, 1.5vw, 1.5rem);
-  --text-body: clamp(1rem, 1.1vw, 1.125rem);
+  /* Lines */
+  --color-rule: #d7d7d2;
+  --color-rule-strong: #0a0a0a;
+  --color-rule-dark: rgba(245, 245, 244, 0.18);
+
+  /* Gold, from the group monogram */
+  --color-gold: #af6a03; /* display sizes on light; any size on black */
+  --color-gold-ink: #8c5502; /* small text and hovers on light (5.6:1 on page) */
+  --color-gold-glow: #d9a441; /* small text and hovers on black */
+
+  /* Type */
+  --font-serif: 'Lora', Georgia, 'Times New Roman', serif;
+  --font-sans: 'DM Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-ar-display: 'Almarai', 'IBM Plex Sans Arabic', system-ui, sans-serif;
+  --font-ar-body: 'IBM Plex Sans Arabic', system-ui, -apple-system, sans-serif;
+
+  /* Language-aware roles: components use these, never a family directly. */
+  --font-display: var(--font-serif);
+  --font-body: var(--font-sans);
+  --weight-display: 400;
+  --leading-display: 1.04;
+  --leading-body: 1.65;
+  --style-accent: italic;
+
+  /* Type scale */
+  --text-hero: clamp(3rem, 8vw, 7rem);
+  --text-h1: clamp(2.75rem, 6vw, 5.25rem);
+  --text-h2: clamp(2.25rem, 4.6vw, 4rem);
+  --text-h3: clamp(1.5rem, 2.4vw, 2.125rem);
+  --text-lede: clamp(1.0625rem, 1.3vw, 1.1875rem);
+  --text-body: 1rem;
   --text-small: 0.875rem;
   --text-caption: 0.8125rem;
-  --text-button: 1.0625rem;
-
-  /* Tracking */
-  --tracking-display: -0.01em;
-  --tracking-body: 0;
+  --text-label: 0.6875rem;
 
   /* Spacing (4px base) */
   --space-1: 0.25rem;
   --space-2: 0.5rem;
+  --space-3: 0.75rem;
   --space-4: 1rem;
   --space-6: 1.5rem;
   --space-8: 2rem;
@@ -48,24 +72,32 @@
   --space-20: 5rem;
   --space-24: 6rem;
   --space-32: 8rem;
+  --section-space: clamp(5rem, 11vw, 9rem);
 
   /* Layout */
   --max-width: 80rem;
-  --max-width-wide: 94.375rem;
-  --max-width-narrow: 52.625rem;
-  --content-padding: var(--space-6);
+  --gutter: clamp(1rem, 4vw, 3rem);
+  --header-height: 4.5rem;
 
-  /* Shadows */
-  --shadow-card: 0px 15px 15px -10px rgba(0, 0, 0, 0.05);
-  --shadow-button-hover: 0px 15px 25px -7px rgba(0, 0, 0, 0.1);
+  /* Direction: 1 in LTR, -1 in RTL — for mirroring arrows and offsets. */
+  --dir: 1;
 
-  /* Borders */
-  --radius-sm: 2px;
-  --radius-md: 4px;
-  --radius-lg: 8px;
+  /* Motion */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
 }
 
-/* --- Font Faces --- */
+html[dir='rtl'] {
+  --dir: -1;
+  --font-display: var(--font-ar-display);
+  --font-body: var(--font-ar-body);
+  --weight-display: 700;
+  --leading-display: 1.3;
+  --leading-body: 1.85;
+  --style-accent: normal; /* Arabic has no true italic */
+}
+
+/* --- Font faces --- */
 @font-face {
   font-family: 'Lora';
   src: url('/fonts/lora-variable.woff2') format('woff2');
@@ -80,6 +112,58 @@
   font-weight: 400 700;
   font-style: italic;
   font-display: swap;
+}
+
+@font-face {
+  font-family: 'DM Sans';
+  src: url('/fonts/dm-sans-regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'DM Sans';
+  src: url('/fonts/dm-sans-medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Almarai';
+  src: url('/fonts/almarai-arabic-400.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0600-06FF, U+0750-077F, U+0870-088E, U+0890-0891, U+0897-08E1, U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC;
+}
+
+@font-face {
+  font-family: 'Almarai';
+  src: url('/fonts/almarai-latin-400.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Almarai';
+  src: url('/fonts/almarai-arabic-700.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0600-06FF, U+0750-077F, U+0870-088E, U+0890-0891, U+0897-08E1, U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC;
+}
+
+@font-face {
+  font-family: 'Almarai';
+  src: url('/fonts/almarai-latin-700.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
 @font-face {
@@ -98,23 +182,7 @@
   font-display: swap;
 }
 
-@font-face {
-  font-family: 'Noto Naskh Arabic';
-  src: url('/fonts/noto-naskh-arabic-regular.woff2') format('woff2');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Noto Naskh Arabic';
-  src: url('/fonts/noto-naskh-arabic-bold.woff2') format('woff2');
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
-
-/* --- Modern CSS Reset --- */
+/* --- Reset --- */
 *,
 *::before,
 *::after {
@@ -128,24 +196,19 @@ html {
   -moz-text-size-adjust: 100%;
   text-size-adjust: 100%;
   scroll-behavior: smooth;
+  scroll-padding-top: var(--header-height);
 }
 
 body {
   min-height: 100dvh;
-  line-height: 1.8;
+  background-color: var(--color-page);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
-  background-color: var(--color-bg);
-  color: var(--color-charcoal);
-  font-family: var(--font-body);
-  font-size: var(--text-body);
-  letter-spacing: var(--tracking-body);
-}
-
-/* RTL body font override */
-html[dir="rtl"] body {
-  font-family: var(--font-rtl-body);
 }
 
 img,
@@ -178,61 +241,90 @@ h6 {
   overflow-wrap: break-word;
 }
 
-/* --- Base Typography --- */
+ul[role='list'],
+ol[role='list'] {
+  list-style: none;
+}
+
+/* --- Base typography --- */
 h1,
 h2,
-h3 {
+h3,
+h4 {
   font-family: var(--font-display);
-  color: var(--color-near-black);
-  line-height: 1.15;
-  letter-spacing: var(--tracking-display);
+  font-weight: var(--weight-display);
+  line-height: var(--leading-display);
+  letter-spacing: -0.015em;
+  color: var(--color-ink);
 }
-
-h1 {
-  font-weight: 700;
-}
-
-h2,
-h3 {
-  font-weight: 400;
-}
-
-html[dir="rtl"] h1,
-html[dir="rtl"] h2,
-html[dir="rtl"] h3 {
-  font-family: var(--font-rtl);
-  letter-spacing: 0;
-}
-
-h1 { font-size: var(--text-h1); }
-h2 { font-size: var(--text-h2); }
-h3 { font-size: var(--text-h3); }
 
 p {
   max-width: 65ch;
 }
 
-html[dir="rtl"] p {
-  max-width: 55ch;
-}
-
 a {
-  color: var(--color-near-black);
+  color: inherit;
   text-decoration: none;
   transition: color 0.3s ease;
 }
 
-a:hover {
+:focus-visible {
+  outline: 2px solid var(--color-gold-ink);
+  outline-offset: 3px;
+}
+
+/* Arabic joins letters: tracking of any kind breaks the script. */
+html[dir='rtl'] *,
+html[dir='rtl'] *::before,
+html[dir='rtl'] *::after {
+  letter-spacing: normal !important;
+}
+
+/* --- Primitives --- */
+
+/* Content column: 80rem, centred, with a fluid gutter. */
+.wrap {
+  width: 100%;
+  max-width: var(--max-width);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+/* The profile's signature: a display line that ends in gold italic. */
+.gi {
+  font-style: var(--style-accent);
   color: var(--color-gold);
 }
 
-/* --- Focus Indicators --- */
-:focus-visible {
-  outline: 2px solid var(--color-gold);
-  outline-offset: 2px;
+/* Optimised photos (components/Photo.astro): the <picture> steps aside so
+   the <img> sizes against whatever box the component puts it in. */
+.photo-frame {
+  display: contents;
 }
 
-/* --- Utility Classes --- */
+.photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Small uppercase label above a heading. */
+.eyebrow {
+  font-family: var(--font-body);
+  font-size: var(--text-label);
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-gold-ink);
+}
+
+html[dir='rtl'] .eyebrow {
+  font-size: var(--text-small);
+  font-weight: 700;
+  text-transform: none;
+}
+
 .visually-hidden {
   position: absolute;
   width: 1px;
@@ -245,42 +337,45 @@ a:hover {
   border-width: 0;
 }
 
-/* --- Reduced Motion --- */
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
-}
+/* --- Motion --- */
 
-/* --- Scroll-driven Fade-in (Progressive Enhancement) --- */
-@keyframes fadeUp {
+/* Scroll-driven reveal. Progressive: without support (or with reduced
+   motion) content is simply visible. Longhand properties only — the
+   LightningCSS minifier folds animation-timeline into the shorthand,
+   which browsers reject. */
+@keyframes reveal-up {
   from {
     opacity: 0;
     transform: translateY(1rem);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: none;
   }
 }
 
-@supports (animation-timeline: view()) {
-  .fade-in {
-    animation-name: fadeUp;
-    animation-timing-function: ease;
-    animation-fill-mode: both;
-    animation-timeline: view();
-    animation-range: entry 0% entry 30%;
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .reveal {
+      animation-name: reveal-up;
+      animation-timing-function: var(--ease-out);
+      animation-fill-mode: both;
+      animation-timeline: view();
+      animation-range: entry 5% entry 45%;
+    }
   }
 }
 
-@media (max-width: 48rem) {
-  :root {
-    --content-padding: var(--space-4);
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }

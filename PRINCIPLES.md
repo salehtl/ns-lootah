@@ -67,41 +67,33 @@ Target: **Lighthouse 100** across all categories.
 
 ## 6. Aesthetics
 
-Luxe minimalism: warm, refined, heritage-meets-modernity. Generous whitespace, subtle shadows, serif/sans-serif pairing.
+Distilled from the 2026 Company Profile: editorial, light and image-led. Heritage carried by type and photography rather than ornament. Generous whitespace, hairline rules instead of cards and shadows.
 
 ### Color Palette
-- **Accent**: Champagne gold (`#cfb777`) — decorative accents, hover highlights, active states on dark backgrounds.
-- **Interactive**: Dark gold/brown (`#8b7442`) — buttons, interactive link accents (passes WCAG AA on white).
-- **Background**: Warm off-white (`#F6F2EF`) primary, rose-beige (`#f7dede`) for alternating sections and footer.
-- **Content areas**: White (`#FFFFFF`).
-- **Text**: Charcoal (`#333333`) for body, near-black (`#282828`) for headings.
-- **Muted text**: Mid-gray (`#646464`) for captions, footer text.
+- **Page**: cool off-white (`#F5F5F4`); alternate sections on `#EBEBE8`.
+- **Ink**: near-black (`#0A0A0A`) for headings and text; muted (`#66665F`) for secondary text.
+- **Rules**: soft hairlines (`#D7D7D2`).
+- **Gold** (from the group monogram): `#AF6A03` for display-size accents on light; `#8C5502` for small text, hovers and buttons on light (5.6:1); `#D9A441` on black.
+- **Footer**: black (`#000000`) with light text.
 
 ### Typography
-- **English headings**: Lora (serif) — self-hosted variable font, weights 400–700.
-- **English body**: Lora (serif) — same variable file; italic served from a second variable file.
-- **Arabic headings**: Noto Naskh Arabic (serif) — complements Lora's editorial feel.
-- **Arabic body**: IBM Plex Sans Arabic — clean sans counterpart for long-form Arabic text.
-- H1: bold (700), H2/H3: regular (400). Body line-height 1.8.
+- **English**: Lora for display (regular weight, gold italic accent on the last word or phrase), DM Sans for text.
+- **Arabic**: Almarai for display, IBM Plex Sans Arabic for text. No letter-spacing; the accent is gold, not italic.
+- Large display sizes, tight leading in English, relaxed leading in Arabic. Body line-height ~1.65 (EN) / ~1.85 (AR).
 
 ### Layout
-- Generous whitespace, card-based sections with subtle shadows.
-- Section rhythm: alternating white and warm beige backgrounds.
-- 1280px standard / 1510px wide / 842px narrow containers. 4px spacing scale. Mobile-first.
-- Light header with warm beige border. Light warm footer.
+- 1280px content column, fluid gutter, 4px spacing scale. Mobile-first.
+- Every page opens with a hero under a fixed, frosted header.
+- Company photography as full-height panels bleeding off the page edge; architectural photography as pale, washed prints behind type.
+- Sections divided by hairlines; numbered, ruled lists for values, milestones and portfolio items.
 
 ### Buttons & Interactive Elements
-- Primary buttons: dark gold (`#8b7442`) fill, white text, minimal border-radius (4px).
-- Hover: elevated shadow (`0px 15px 25px -7px rgba(0,0,0,0.1)`).
-- Focus: 2px gold outline with offset.
-
-### Shadows & Borders
-- Cards: subtle shadow (`0px 15px 15px -10px rgba(0,0,0,0.05)`), no visible borders.
-- Minimal border-radius (4px for UI elements, 8px for images).
+- Gold hairline outline with a trailing arrow; fills dark gold on hover. Text links underlined in gold.
+- Focus: 2px dark-gold outline with offset.
 
 ### Motion
-- Subtle only. Gentle fade-ins on scroll, smooth hover transitions (0.3s ease).
-- All transitions respect `prefers-reduced-motion`.
+- Subtle only: load-in rises on heroes, scroll-driven reveals and photo unveils (progressive enhancement), 0.3s ease hovers.
+- All motion respects `prefers-reduced-motion`.
 - No parallax, no carousels.
 
 ### Contrast
@@ -121,7 +113,7 @@ Luxe minimalism: warm, refined, heritage-meets-modernity. Generous whitespace, s
 
 ## 8. Technical Standards
 
-- **Framework**: Astro 5 (static site generation).
+- **Framework**: Astro 7 (static site generation).
 - **Package manager**: Bun.
 - **Styling**: Scoped styles or CSS modules. No global style leaks.
 - **TypeScript**: Strict mode. No `any` in production.

@@ -1,186 +1,175 @@
 ---
+/** Black site footer: brand, the six companies, Group links, contact, legal. */
 import type { Lang } from '../i18n/types';
 import { t } from '../i18n/translations';
 import { getLocalizedPath } from '../i18n/utils';
+import { companies } from '../data/companies';
 import LanguageSwitcher from './LanguageSwitcher.astro';
 
 interface Props {
   lang: Lang;
+  currentPath: string;
 }
 
-const { lang } = Astro.props;
+const { lang, currentPath } = Astro.props;
 const strings = t(lang);
-const currentYear = new Date().getFullYear();
+const year = new Date().getFullYear();
 
-const quickLinks = [
-  { label: strings.nav.home, href: getLocalizedPath('/', lang) },
-  { label: strings.nav.about, href: getLocalizedPath('/about', lang) },
-  { label: strings.nav.nslTrading, href: getLocalizedPath('/nsl-trading', lang) },
-  { label: strings.nav.projectUpgraded, href: getLocalizedPath('/project-upgraded', lang) },
+const groupLinks = [
+  { label: strings.nav.aboutGroup, href: getLocalizedPath('/about', lang) },
   { label: strings.nav.news, href: getLocalizedPath('/news', lang) },
   { label: strings.nav.careers, href: getLocalizedPath('/careers', lang) },
-  { label: strings.nav.realFresh, href: getLocalizedPath('/real-fresh', lang) },
-  { label: strings.nav.souoMoto, href: getLocalizedPath('/souo-moto', lang) },
+  { label: strings.nav.contact, href: getLocalizedPath('/contact', lang) },
 ];
 ---
 
-<footer class="footer" transition:name="site-footer" transition:animate="none">
-  <div class="footer-inner">
-    <div class="footer-top">
-      <div class="footer-about">
-        <a href={getLocalizedPath('/', lang)} class="footer-logo" aria-label={strings.site.name}>
-          <img src="/images/logos/ns-lootah-group-bronze.svg" alt={strings.alt.logo} width="200" height="254" loading="lazy" />
-        </a>
-        <p class="footer-about-text">{strings.footer.aboutText}</p>
-      </div>
-
-      <div class="footer-links">
-        <h3 class="footer-heading">{strings.footer.quickLinks}</h3>
-        <nav aria-label={lang === 'en' ? 'Footer navigation' : 'تنقل التذييل'}>
-          <ul>
-            {quickLinks.map((link) => (
-              <li><a href={link.href} {...(link.href.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}>{link.label}</a></li>
-            ))}
-          </ul>
-        </nav>
-      </div>
-
-      <div class="footer-contact">
-        <h3 class="footer-heading">{strings.footer.contactUs}</h3>
-        <address class="footer-address">
-          <p>{strings.site.address}</p>
-          <p><a href={`tel:${strings.site.phone.replace(/\s/g, '')}`}>{strings.site.phone}</a></p>
-          <p><a href={`mailto:${strings.site.email}`}>{strings.site.email}</a></p>
-        </address>
-      </div>
+<footer class="ftr" transition:name="site-footer" transition:animate="none">
+  <div class="wrap ftr-top">
+    <div class="ftr-brand">
+      <a href={getLocalizedPath('/', lang)} aria-label={`${strings.site.name} — ${strings.nav.home}`}>
+        <img src="/images/logos/ns-lootah-group-horizontal-white.svg" width="317" height="100" alt="" loading="lazy" />
+      </a>
+      <p>{strings.footer.tagline}</p>
     </div>
 
-    <div class="footer-divider"></div>
-
-    <div class="footer-bottom">
-      <p class="footer-legal">
-        &copy; {currentYear} {strings.site.name}. {strings.footer.rights}
-      </p>
-      <div class="footer-lang">
-        <LanguageSwitcher lang={lang} currentPath={getLocalizedPath('/', lang)} />
+    <nav class="ftr-nav" aria-label={strings.nav.footerNavigation}>
+      <div>
+        <h2 class="ftr-h">{strings.footer.companies}</h2>
+        <ul role="list">
+          {companies[lang].map((c) => <li><a href={getLocalizedPath(c.path, lang)}>{c.name}</a></li>)}
+        </ul>
       </div>
+      <div>
+        <h2 class="ftr-h">{strings.footer.group}</h2>
+        <ul role="list">
+          {groupLinks.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
+        </ul>
+      </div>
+    </nav>
+
+    <div class="ftr-contact">
+      <h2 class="ftr-h">{strings.footer.contact}</h2>
+      <address>
+        <p>{strings.site.address}</p>
+        <p><a href={strings.site.phoneHref}><bdi dir="ltr">{strings.site.phone}</bdi></a></p>
+        <p><a href={`mailto:${strings.site.email}`}>{strings.site.email}</a></p>
+      </address>
     </div>
+  </div>
+
+  <div class="wrap ftr-bottom">
+    <p>© {year} {strings.site.legalName}. {strings.footer.rights}</p>
+    <LanguageSwitcher lang={lang} currentPath={currentPath} />
   </div>
 </footer>
 
 <style>
-  .footer {
-    background-color: #000000;
-    margin-top: var(--space-32);
+  .ftr {
+    padding-block: clamp(3.5rem, 7vw, 5rem) 2rem;
+    background: var(--color-black);
+    color: var(--color-on-dark);
+    font-size: var(--text-small);
   }
 
-  .footer-inner {
-    max-width: var(--max-width);
-    margin: 0 auto;
-    padding: var(--space-16) var(--content-padding) var(--space-8);
-  }
-
-  .footer-top {
+  .ftr-top {
     display: grid;
-    gap: var(--space-12);
+    gap: 3rem;
   }
 
-  .footer-logo {
-    display: inline-block;
-    text-decoration: none;
+  .ftr-brand {
+    display: grid;
+    gap: 1.25rem;
+    align-content: start;
   }
 
-  .footer-logo img {
-    display: block;
-    width: 160px;
-    max-width: 100%;
-    height: auto;
+  .ftr-brand img {
+    width: auto;
+    height: 2.75rem;
   }
 
-  .footer-about-text {
-    color: rgba(255, 255, 255, 0.7);
+  .ftr-brand p {
+    max-width: 32ch;
+    color: var(--color-on-dark-muted);
+  }
+
+  .ftr-nav {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 2rem;
+  }
+
+  .ftr-h {
+    margin-bottom: 1rem;
+    font-family: var(--font-body);
+    font-size: var(--text-label);
+    font-weight: 500;
+    line-height: 1.4;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-gold-glow);
+  }
+
+  :global(html[dir='rtl']) .ftr-h {
     font-size: var(--text-small);
-    margin-top: var(--space-4);
-    line-height: 1.7;
+    font-weight: 700;
+    text-transform: none;
   }
 
-  .footer-heading {
-    font-size: var(--text-small);
-    font-weight: 600;
-    color: var(--color-white);
-    margin-bottom: var(--space-4);
+  .ftr ul {
+    display: grid;
+    gap: 0.6rem;
   }
 
-  .footer-links ul {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-2);
-  }
-
-  .footer-links a {
-    font-size: var(--text-small);
-    color: rgba(255, 255, 255, 0.7);
-    text-decoration: none;
+  .ftr a {
+    color: var(--color-on-dark-muted);
     transition: color 0.3s ease;
   }
 
-  .footer-links a:hover {
-    color: var(--color-gold);
+  .ftr a:hover {
+    color: var(--color-on-dark);
   }
 
-  .footer-address {
+  .ftr-bottom :global(.lang-switcher) {
+    color: var(--color-on-dark-muted);
+  }
+
+  .ftr-bottom :global(.lang-switcher:hover) {
+    color: var(--color-on-dark);
+  }
+
+  .ftr address {
+    display: grid;
+    gap: 0.6rem;
     font-style: normal;
+    color: var(--color-on-dark-muted);
+  }
+
+  .ftr :focus-visible {
+    outline-color: var(--color-gold-glow);
+  }
+
+  .ftr-bottom {
     display: flex;
-    flex-direction: column;
-    gap: var(--space-2);
-  }
-
-  .footer-address p {
-    font-size: var(--text-small);
-    color: rgba(255, 255, 255, 0.7);
-  }
-
-  .footer-address a {
-    color: rgba(255, 255, 255, 0.7);
-    text-decoration: none;
-    transition: color 0.3s ease;
-  }
-
-  .footer-address a:hover {
-    color: var(--color-gold);
-  }
-
-  .footer-divider {
-    height: 1px;
-    background-color: rgba(255, 255, 255, 0.15);
-    margin: var(--space-8) 0;
-  }
-
-  .footer-bottom {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
     flex-wrap: wrap;
-    gap: var(--space-4);
-  }
-
-  .footer-legal {
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 3.5rem;
+    padding-top: 1.5rem;
+    /* A hairline across the content column only, not the gutters. */
+    background: linear-gradient(var(--color-rule-dark), var(--color-rule-dark)) top center / calc(100% - 2 * var(--gutter)) 1px no-repeat;
     font-size: var(--text-caption);
-    color: rgba(255, 255, 255, 0.5);
+    color: var(--color-on-dark-muted);
   }
 
-  .footer-lang :global(.lang-switcher) {
-    color: rgba(255, 255, 255, 0.7);
+  .ftr-bottom p {
+    max-width: none;
   }
 
-  .footer-lang :global(.lang-switcher:hover) {
-    color: var(--color-gold);
-  }
-
-  @media (min-width: 48rem) {
-    .footer-top {
-      grid-template-columns: 2fr 1fr 1fr;
+  @media (min-width: 64rem) {
+    .ftr-top {
+      grid-template-columns: 1.1fr 1.6fr 1fr;
+      gap: 4rem;
     }
   }
 </style>

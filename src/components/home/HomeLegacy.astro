@@ -1,0 +1,180 @@
+---
+/** Legacy and leadership: the story in brief, the chairman's portrait, the timeline. */
+import type { Lang } from '../../i18n/types';
+import { getLocalizedPath } from '../../i18n/utils';
+import { group } from '../../data/group';
+import { home } from '../../data/home';
+import SectionHeading from '../SectionHeading.astro';
+import CtaLink from '../CtaLink.astro';
+import Photo from '../Photo.astro';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const { legacy, milestones, chairman } = group[lang];
+---
+
+<section class="legacy" aria-labelledby="home-legacy-title">
+  <div class="wrap legacy-grid">
+    <div class="legacy-copy reveal">
+      <SectionHeading id="home-legacy-title" eyebrow={legacy.eyebrow} title={legacy.title} />
+      <p>{legacy.intro} {legacy.founder}</p>
+      <p>{legacy.today}</p>
+      <div class="legacy-more">
+        <CtaLink href={getLocalizedPath('/about', lang)} variant="text">{home[lang].legacy.more}</CtaLink>
+      </div>
+    </div>
+    <figure class="portrait reveal">
+      <div class="portrait-img">
+        <Photo photo={chairman.portrait} sizes="(min-width: 64rem) 22rem, 90vw" />
+      </div>
+      <figcaption>
+        <span class="p-name">{chairman.name}</span>
+        <span class="p-role">{chairman.role}</span>
+      </figcaption>
+    </figure>
+  </div>
+  <ol class="wrap timeline" role="list">
+    {milestones.map((m) => (
+      <li class="reveal">
+        <span class="t-year">{m.year}</span>
+        <span class="t-title">{m.title}</span>
+        <span class="t-text">{m.text}</span>
+      </li>
+    ))}
+  </ol>
+</section>
+
+<style>
+  .legacy {
+    padding-block: var(--section-space);
+    border-top: 1px solid var(--color-rule);
+    background: var(--color-page-alt);
+  }
+
+  .legacy-grid {
+    display: grid;
+    gap: 3rem;
+  }
+
+  .legacy-copy > p {
+    max-width: 58ch;
+    margin-top: 1.25rem;
+    color: var(--color-muted);
+  }
+
+  .legacy-copy > p:first-of-type {
+    margin-top: 2rem;
+  }
+
+  .legacy-more {
+    margin-top: 2rem;
+  }
+
+  .portrait {
+    max-width: 22rem;
+  }
+
+  .portrait-img {
+    aspect-ratio: 536 / 800;
+    overflow: hidden;
+    border-radius: 0.75rem;
+  }
+
+  .portrait-img :global(.photo) {
+    filter: grayscale(0.15);
+  }
+
+  .portrait figcaption {
+    display: grid;
+    gap: 0.25rem;
+    margin-top: 1rem;
+  }
+
+  .p-name {
+    font-family: var(--font-display);
+    font-style: var(--style-accent);
+    font-size: 1.125rem;
+  }
+
+  .p-role {
+    font-size: var(--text-label);
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-gold-ink);
+  }
+
+  :global(html[dir='rtl']) .p-role {
+    font-size: var(--text-small);
+  }
+
+  @media (min-width: 64rem) {
+    .legacy-grid {
+      grid-template-columns: 1fr auto;
+      gap: 6rem;
+      align-items: end;
+    }
+  }
+
+  .timeline {
+    display: grid;
+    gap: 0 2rem;
+    margin-top: clamp(4rem, 8vw, 6rem);
+  }
+
+  .timeline li {
+    position: relative;
+    display: grid;
+    align-content: start;
+    gap: 0.35rem;
+    padding-block: 1.75rem 1.5rem;
+    border-top: 1px solid var(--color-rule);
+  }
+
+  .timeline li::before {
+    content: '';
+    position: absolute;
+    top: -4px;
+    inset-inline-start: 0;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--color-gold);
+  }
+
+  .t-year {
+    margin-bottom: 0.75rem;
+    font-family: var(--font-display);
+    font-size: 2.25rem;
+    line-height: 1.1;
+    color: var(--color-gold);
+  }
+
+  .t-title {
+    font-weight: 500;
+  }
+
+  :global(html[dir='rtl']) .t-title {
+    font-weight: 700;
+  }
+
+  .t-text {
+    font-size: var(--text-small);
+    color: var(--color-muted);
+  }
+
+  @media (min-width: 48rem) {
+    .timeline {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 64rem) {
+    .timeline {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+</style>

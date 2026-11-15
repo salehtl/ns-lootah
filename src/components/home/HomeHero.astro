@@ -1,0 +1,253 @@
+---
+/** Homepage cover: the towers as a pale print, the monogram and "Six companies. One standard." */
+import type { Lang } from '../../i18n/types';
+import { home } from '../../data/home';
+import { group } from '../../data/group';
+import Photo from '../Photo.astro';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const copy = home[lang].hero;
+---
+
+<section class="hero" aria-labelledby="home-title">
+  <div class="hero-bg">
+    <Photo photo={group[lang].imagery.towers} sizes="100vw" priority decorative />
+  </div>
+  <div class="wrap hero-in">
+    <img class="hero-mark" src="/images/logos/ns-lootah-group-bronze.svg" width="332" height="422" alt={copy.markAlt} fetchpriority="high" />
+    <div>
+      <h1 id="home-title" class="hero-title">
+        <span class="l"><span>{copy.lines[0]}</span></span>
+        <span class="l"><span class="gi">{copy.lines[1]}</span></span>
+      </h1>
+      <p class="hero-sub">{copy.sub}</p>
+    </div>
+  </div>
+  <a class="cue" href="#home-intro">
+    <span>{copy.cue}</span>
+    <span class="cue-line" aria-hidden="true"></span>
+  </a>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    isolation: isolate;
+    display: grid;
+    align-items: center;
+    min-height: 100svh;
+    padding-block: calc(var(--header-height) + 3rem) 7rem;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+  }
+
+  .hero-bg :global(.photo) {
+    filter: grayscale(1);
+  }
+
+  /* A page-coloured wash: a pale architectural print, light enough for black type. */
+  .hero-bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at calc(50% - 20% * var(--dir)) 50%, rgba(245, 245, 244, 0.6), transparent 70%),
+      linear-gradient(to bottom, transparent 55%, var(--color-page)),
+      linear-gradient(var(--color-wash), var(--color-wash));
+  }
+
+  .hero-in {
+    display: grid;
+    gap: 2.5rem;
+    align-items: center;
+  }
+
+  .hero-mark {
+    width: clamp(7.5rem, 18vw, 15rem);
+    height: auto;
+  }
+
+  .hero-title {
+    font-size: var(--text-hero);
+    line-height: 0.98;
+    letter-spacing: -0.025em;
+  }
+
+  :global(html[dir='rtl']) .hero-title {
+    line-height: 1.25;
+  }
+
+  .hero-title .l {
+    display: block;
+    overflow: hidden;
+    padding-bottom: 0.12em;
+    margin-bottom: -0.12em;
+  }
+
+  .hero-title .l > span {
+    display: inline-block;
+  }
+
+  .hero-sub {
+    max-width: 36rem;
+    margin-top: 1.75rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--color-rule);
+    font-size: 1.0625rem;
+    color: var(--color-muted);
+  }
+
+  @media (min-width: 64rem) {
+    .hero-in {
+      grid-template-columns: auto 1fr;
+      gap: clamp(3rem, 7vw, 7rem);
+    }
+  }
+
+  .cue {
+    position: absolute;
+    bottom: 2rem;
+    inset-inline-start: var(--gutter);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    color: var(--color-muted);
+    font-size: var(--text-label);
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    transition: color 0.3s ease;
+  }
+
+  :global(html[dir='rtl']) .cue {
+    font-size: var(--text-small);
+  }
+
+  .cue:hover {
+    color: var(--color-ink);
+  }
+
+  .cue-line {
+    position: relative;
+    width: 4rem;
+    transform: scaleX(var(--dir)); /* sweep in reading direction */
+    height: 1px;
+    overflow: hidden;
+    background: var(--color-rule);
+  }
+
+  .cue-line::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--color-gold-ink);
+    transform: scaleX(0);
+    transform-origin: left;
+  }
+
+  @media (min-width: 80rem) {
+    .cue {
+      inset-inline-start: calc((100% - var(--max-width)) / 2 + var(--gutter));
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .hero-bg {
+      animation: hero-settle 1.6s var(--ease-out) both;
+    }
+
+    .hero-mark {
+      animation: hero-mark 1s var(--ease-out) 0.1s both;
+    }
+
+    .hero-title .l > span {
+      animation: hero-rise 0.9s var(--ease-out) 0.25s both;
+    }
+
+    .hero-title .l:nth-child(2) > span {
+      animation-delay: 0.33s;
+    }
+
+    .hero-sub {
+      animation: hero-fade 0.8s var(--ease-out) 0.55s both;
+    }
+
+    .cue {
+      animation: hero-fade 0.8s var(--ease-out) 0.8s both;
+    }
+
+    .cue-line::after {
+      animation: hero-sweep 2.4s var(--ease-in-out) 1.4s infinite;
+    }
+  }
+
+  @keyframes hero-settle {
+    from {
+      opacity: 0;
+      transform: scale(1.08);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  @keyframes hero-mark {
+    from {
+      opacity: 0;
+      transform: scale(0.94);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  @keyframes hero-rise {
+    from {
+      transform: translateY(105%);
+    }
+    to {
+      transform: none;
+    }
+  }
+
+  @keyframes hero-fade {
+    from {
+      opacity: 0;
+      transform: translateY(1rem);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  @keyframes hero-sweep {
+    0% {
+      transform: scaleX(0);
+      transform-origin: left;
+    }
+    45% {
+      transform: scaleX(1);
+      transform-origin: left;
+    }
+    55% {
+      transform: scaleX(1);
+      transform-origin: right;
+    }
+    100% {
+      transform: scaleX(0);
+      transform-origin: right;
+    }
+  }
+</style>
