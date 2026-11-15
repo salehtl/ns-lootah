@@ -88,23 +88,33 @@ line height, Almarai Bold for headings. Directional arrows are mirrored; photogr
 
 ## Deploy
 
-Today: Cloudflare Pages (project `ns-lootah`) builds every push, `master` to production and other branches to
-preview URLs (`<branch>.ns-lootah.pages.dev`, not indexed). Pages serves the static site, `_headers` and
-`_redirects`, but not the Worker, so the contact form and the CMS sign-in only work once the site moves to Workers.
+Cloudflare Workers Builds builds and deploys the Worker `nslootah` (build command `bun run build`, deploy command
+`bunx wrangler deploy`, build variable `BUN_VERSION`). Pages are served as static assets; only `/api/*` runs the
+Worker (the contact form and the CMS sign-in).
 
-Target (the template's setup, see the `site-deploy` skill): Cloudflare Workers Builds on `master`, build command
-`bun run build`, deploy command `bunx wrangler deploy`, build variable `BUN_VERSION` set to the flake's Bun. Pages
-are served as static assets; only `/api/*` runs the Worker. Secrets, set with `wrangler secret put` after the first
-deploy that includes the Worker:
+Before launch:
 
-- `CONTACT_TO`: where contact enquiries go.
+- Workers Builds builds the `website-refactor` branch and serves it at **https://preview.nslootah.com**, a Custom
+  Domain on the Worker. Builds of any branch but `master` are previews (`src/site.config.ts`): canonical and share
+  URLs point at the preview, every page is `noindex` and `robots.txt` disallows everything.
+- nslootah.com still serves the old site from Cloudflare Pages (project `ns-lootah`, `master`). Pages also builds
+  this branch at `website-refactor.ns-lootah.pages.dev`, static only: no contact form or CMS there.
+
+At launch: merge into `master`, switch the Worker's build branch to `master`, move the Custom Domain from
+`preview.nslootah.com` to `nslootah.com` (and add the `www` redirect, see the `site-deploy` skill), move the Access
+application's domains to `nslootah.com/admin` and `nslootah.com/api/cms`, then retire the Pages project.
+
+Worker secrets (Settings → Variables and Secrets, or `wrangler secret put <NAME> --name nslootah`):
+
+- `CONTACT_TO`: where contact enquiries go (contact@nslootah.com). Sent from `website@nslootah.com`, on
+  nslootah.com's Email Sending setup.
 - `CMS_GITHUB_TOKEN`: a fine-grained GitHub token for this repo only, with Contents read and write.
 
 ## Editing the copy (CMS)
 
 The Group edits the words at `/admin`, in [Sveltia CMS](https://sveltiacms.app), with the languages side by side:
-page copy, the companies and the news. Publishing commits to `master`, so the site redeploys within a minute or
-two. Editors don't need a GitHub account: `/admin` and `/api/cms` sit behind a Cloudflare Access application
+page copy, the companies and the news. Publishing commits to the branch the site was built from (`website-refactor` on the
+preview, `master` after launch), so the site redeploys within a minute or two. Editors don't need a GitHub account: `/admin` and `/api/cms` sit behind a Cloudflare Access application
 (email one-time code), and `worker/cms-auth.ts` checks the Access token and hands the CMS the `CMS_GITHUB_TOKEN`
 secret.
 

@@ -2,8 +2,10 @@
 // English copy files in src/content/copy/en/ and the companies and news
 // schemas below (keep them in step with src/content.config.ts). Run with
 // `bun run cms` after adding, removing or renaming a key. (JSON is valid YAML.)
+// `bun run build` runs it first too, so each deployment's CMS signs in on its own
+// origin and commits to the branch it was built from (see src/site.config.ts).
 import { readdirSync, readFileSync, writeFileSync } from "node:fs";
-import { branch, productionUrl, repo } from "../src/site.config.ts";
+import { editBranch, repo, siteUrl } from "../src/site.config.ts";
 import { defaultLocale, localeCodes } from "../src/i18n/locales.ts";
 
 const COPY = "src/content/copy";
@@ -150,10 +152,10 @@ const config = {
   backend: {
     name: "github",
     repo,
-    branch,
+    branch: editBranch,
     // Sign-in goes through the site's own Worker (worker/index.ts), behind
     // Cloudflare Access, instead of GitHub's sign-in.
-    base_url: productionUrl,
+    base_url: siteUrl,
     auth_endpoint: "api/cms/auth",
     commit_messages: {
       update: "Edit {{collection}} “{{slug}}” in the CMS",
@@ -161,8 +163,8 @@ const config = {
       delete: "Delete {{collection}} “{{slug}}” in the CMS",
     },
   },
-  site_url: productionUrl,
-  display_url: productionUrl,
+  site_url: siteUrl,
+  display_url: siteUrl,
   media_folder: "public/media",
   public_folder: "/media",
   i18n: { structure: "multiple_folders", locales: localeCodes, default_locale: defaultLocale },

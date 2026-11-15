@@ -1,21 +1,32 @@
 // The few per-client settings that code and scripts share. astro.config.mjs,
-// scripts/cms-config.ts and the robots.txt route read them from here.
+// scripts/cms-config.ts, the robots.txt route and Base.astro read them from here.
 // (The Worker's settings live in wrangler.jsonc vars.)
 
 /** The production origin, no trailing slash. */
 export const productionUrl = "https://nslootah.com";
 
+/** Where the Worker serves builds of any other branch (the site before launch). */
+export const previewUrl = "https://preview.nslootah.com";
+
 /** The GitHub repository the CMS commits to, as "owner/name". */
 export const repo = "salehtl/ns-lootah";
 
-/** The branch that deploys to production, and that the CMS commits to. */
+/** The branch that deploys to production. */
 export const branch = "master";
 
-// Cloudflare preview builds (any other branch) point canonical, hreflang and
-// share URLs at the preview deployment itself, so a shared preview link
-// unfurls with its own share card. Pages sets CF_PAGES_*; production is unchanged.
+// Which build this is. Cloudflare sets these during builds: Workers Builds the
+// WORKERS_CI_* variables, Pages the CF_PAGES_* ones. A local build is production.
 const env = globalThis.process?.env ?? {};
-const previewUrl = env.CF_PAGES === "1" && env.CF_PAGES_BRANCH !== branch ? env.CF_PAGES_URL : undefined;
+const builtBranch = env.WORKERS_CI_BRANCH || env.CF_PAGES_BRANCH || branch;
+const pagesPreviewUrl = env.CF_PAGES === "1" && builtBranch !== branch ? env.CF_PAGES_URL : undefined;
 
-/** The origin this build is served from. Canonical URLs, sitemap and share tags use it. */
-export const siteUrl = previewUrl || productionUrl;
+/** True for a build of any branch but production: kept out of search engines. */
+export const isPreview = builtBranch !== branch;
+
+/** The origin this build is served from. Canonical URLs, sitemap and share tags use it,
+ *  so a shared preview link unfurls with its own share card. */
+export const siteUrl = isPreview ? pagesPreviewUrl || previewUrl : productionUrl;
+
+/** The branch the CMS commits to: the one this build came from, so edits made on the
+ *  preview land on the preview's branch and redeploy it. */
+export const editBranch = builtBranch;

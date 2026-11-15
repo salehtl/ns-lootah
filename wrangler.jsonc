@@ -2,17 +2,18 @@
 // assets; a small Worker (worker/index.ts) only handles POST /api/contact and
 // the CMS sign-in at /api/cms/*.
 // Workers Builds: build command `bun run build`, deploy command `bunx wrangler deploy`,
-// production branch master, build variable BUN_VERSION pinned (see README, "Deploy").
-// The contact recipient is the CONTACT_TO secret (`wrangler secret put CONTACT_TO`),
-// so it is not stored in the repo. Set it after the first deploy that includes the Worker.
+// build variable BUN_VERSION pinned (see README, "Deploy"). Until launch it builds the
+// website-refactor branch and serves it at preview.nslootah.com (a Custom Domain set on
+// the Worker in the dashboard, not here); nslootah.com stays on the old site.
+// The contact recipient is the CONTACT_TO secret, so it is not stored in the repo.
 {
   "name": "nslootah",
   "main": "./worker/index.ts",
   // A little in the past: local workerd rejects dates newer than itself.
   "compatibility_date": "2026-10-30",
   "upload_source_maps": true,
-  // The <name>.<account>.workers.dev URL. Turn off once the custom domain is live.
-  "workers_dev": true,
+  // No <name>.<account>.workers.dev URL: the site is served on its Custom Domain only.
+  "workers_dev": false,
   // No public per-version preview links.
   "preview_urls": false,
   "assets": {
@@ -22,25 +23,26 @@
     // Only /api/* runs the Worker; everything else is served straight from assets.
     "run_worker_first": ["/api/*"]
   },
-  // Cloudflare Email Sending. CONTACT_FROM must be on a domain onboarded to Email Sending.
+  // Cloudflare Email Sending. CONTACT_FROM is on nslootah.com, onboarded to Email Sending.
   "send_email": [{ "name": "EMAIL" }],
-  // At most 5 contact submissions per minute per IP, per Cloudflare location.
+  // At most 5 contact submissions per minute per IP, per Cloudflare location. The
+  // namespace is per account: other sites on this account must use their own id.
   "ratelimits": [
     {
       "name": "CONTACT_LIMIT",
-      "namespace_id": "4201",
+      "namespace_id": "4202",
       "simple": { "limit": 5, "period": 60 }
     }
   ],
   "vars": {
     "SITE_NAME": "N S Lootah Group",
     "CONTACT_FROM": "website@nslootah.com",
-    // CMS sign-in (worker/cms-auth.ts). /admin and /api/cms sit behind a Cloudflare
-    // Access application (email one-time code); the Worker checks Access's signed
-    // token against these before handing the CMS its GitHub token, the
-    // CMS_GITHUB_TOKEN secret. Fill both in when the Access app exists.
-    "ACCESS_TEAM_DOMAIN": "<team>.cloudflareaccess.com",
-    "ACCESS_AUD": "<access-application-aud-tag>"
+    // CMS sign-in (worker/cms-auth.ts). /admin and /api/cms sit behind the Cloudflare
+    // Access application "N S Lootah Group site editor" (email one-time code); the Worker
+    // checks Access's signed token against these before handing the CMS its GitHub
+    // token, the CMS_GITHUB_TOKEN secret. At launch, move the app's domains to nslootah.com.
+    "ACCESS_TEAM_DOMAIN": "grey-pigeon.cloudflareaccess.com",
+    "ACCESS_AUD": "7bef8bd40e3ede2e5c8457fefa83880fc5e68fd5439dd314337c63730f30376d"
   },
   "observability": { "enabled": true }
 }

@@ -11,6 +11,7 @@ import {
   useTranslations,
   type Locale,
 } from "../i18n";
+import { isPreview } from "../site.config";
 
 interface Props {
   /** The page's own title; " · N S Lootah Group" is added. The home page leaves it out. */
@@ -72,6 +73,7 @@ const rtl = locales[lang].dir === "rtl";
       )
     }
     <meta name="description" content={description} />
+    {isPreview && alternates && <meta name="robots" content="noindex" />}
     <link rel="canonical" href={canonical} />
     <link rel="sitemap" href="/sitemap-index.xml" />
     {
