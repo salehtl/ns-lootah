@@ -6,10 +6,51 @@
     <meta name="robots" content="noindex" />
     <title>Edit the site · N S Lootah Group</title>
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <style>
+      .cms-notice {
+        display: grid;
+        place-content: center;
+        gap: 1rem;
+        min-height: 100dvh;
+        margin: 0;
+        padding: 1.5rem;
+        background: #f5f5f4;
+        color: #0a0a0a;
+        font: 16px/1.6 system-ui, -apple-system, "Segoe UI", sans-serif;
+        text-align: center;
+      }
+      .cms-notice[hidden] {
+        display: none;
+      }
+      .cms-notice h1 {
+        margin: 0;
+        font-size: 1.25rem;
+        font-weight: 600;
+      }
+      .cms-notice p {
+        max-width: 34rem;
+        margin: 0;
+        color: #66665f;
+      }
+      .cms-notice button {
+        justify-self: center;
+        padding: 0.7rem 1.4rem;
+        border: 0;
+        background: #0a0a0a;
+        color: #f5f5f4;
+        font: inherit;
+        cursor: pointer;
+      }
+    </style>
   </head>
   <body>
     <!-- Sveltia CMS (https://sveltiacms.app). It reads ./config.yml, which scripts/cms-config.ts generates.
          This page sits behind Cloudflare Access; see "Editing the copy" in the README. -->
+    <main id="cms-notice" class="cms-notice" hidden>
+      <h1>The editor couldn't open</h1>
+      <p id="cms-notice-text">Your sign-in couldn't be confirmed. Reload the page to try again.</p>
+      <button type="button" onclick="location.reload()">Reload</button>
+    </main>
     <script>
       window.CMS_MANUAL_INIT = true;
     </script>
@@ -17,17 +58,25 @@
     <script>
       // The editor has already signed in with Cloudflare Access to reach this page, so fetch the
       // CMS's GitHub token from the Worker (worker/cms-auth.ts) and store it where Sveltia looks
-      // for a signed-in user. Sveltia then starts signed in and skips its own sign-in screen.
-      // If this fails, Sveltia shows that screen, and its "Sign In with GitHub" button still works.
+      // for a signed-in user. Sveltia then starts signed in and never shows its own sign-in screen.
+      // If the Worker can't hand over a token, the CMS doesn't start: the editor gets a plain
+      // message and a reload button instead of a GitHub sign-in they have no account for.
       (async () => {
+        let message = "";
         try {
           const response = await fetch("/api/cms/token", { cache: "no-store", credentials: "same-origin" });
-          if (response.ok) {
-            const { token } = await response.json();
-            if (token) localStorage.setItem("sveltia-cms.user", JSON.stringify({ backendName: "github", token }));
+          const body = await response.json().catch(() => ({}));
+          if (response.ok && body.token) {
+            localStorage.setItem("sveltia-cms.user", JSON.stringify({ backendName: "github", token: body.token }));
+            window.CMS.init();
+            return;
           }
+          message = body.error || "";
         } catch {}
-        window.CMS.init();
+        // Never leave an old token behind for Sveltia to try.
+        localStorage.removeItem("sveltia-cms.user");
+        if (message) document.getElementById("cms-notice-text").textContent = message;
+        document.getElementById("cms-notice").hidden = false;
       })();
     </script>
   </body>
